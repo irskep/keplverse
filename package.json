@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "jumbogrove": "file:../../libraries/jumbogrove",
+    "style.css": "^1.0.0"
+  },
+  "devDependencies": {}
+}

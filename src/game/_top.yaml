@@ -1,0 +1,19 @@
+- id: title_menu
+  choices: [title_settings, game_start]
+  optionText: Back
+  content: |
+    In the late 2010s, you signed up for a program to cryogenically freeze
+    your brain after you died.
+
+    200 years later, humanity is about to launch its first space probe
+    piloted by an Automated Machine Intelligence: you.
+
+- id: title_settings
+  choices: [title_menu]
+  content: >
+    This is the settings menu.
+
+- id: game_start
+  choices: [title_menu]
+  content: >
+    This is the game.
