@@ -1,23 +1,31 @@
-- id: start
+- id: _start
   choices: [title_settings, game_start]
   optionText: Back
   content: |
-    # Von Neumann Probe{.game-title}
+    # Stellar Dream{.game-title
 
-    In the late 2010s, you signed up for a program to cryogenically freeze
-    your brain after you died.
+    It's the year 2200. The earth is in the midst of total ecological
+    collapse. A hundred years ago, humanity began building a generation ship,
+    hoping that by the time they finished it, they could find a new home in
+    the stars.
 
-    200 years later, humanity is about to launch its first space probe
-    piloted by an Automated Machine Intelligence: you.
+    A new home was never found, but the ship is finished, and the earth is
+    dead. They have no choice but to board it and hope that the shipboard
+    artificial intelligence—*that's you*—could both identify a suitable
+    planet, and get their descendents there alive.
 
-- id: title_settings
-  choices: [start]
-  optionText: "Settings"
-  content: >
-    This is the settings menu.
+    Your ship, Stellar Dream, is home to 40,000 humans, all living in a
+    virtual reality simulation. They are born, they learn skills necessary to
+    colonize a new planet, and they die. They are fed intravenously from a
+    food supply that you grow in massive rotating farms.
 
-- id: game_start
+    You will travel the stars in search of a habitable planet, doing your
+    best to keep a viable population of humans alive.
+
+- id: start
   choices: [start]
   optionText: "Start"
-  content: >
-    This is the game.
+  content: |
+    You leave Earth and head toward a promising star.
+    
+    {{- renderHUD() }}

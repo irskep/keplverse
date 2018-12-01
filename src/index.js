@@ -2,181 +2,95 @@ import _ from "lodash";
 import __ from "./normalize.css";
 import ___ from "./style.scss";
 import { StarSystem } from "./stellardream";
-console.log('ss: ', StarSystem);
-console.log(new StarSystem(1234));
 import {jumbogrove} from "jumbogrove"; 
-console.log(jumbogrove);
-
-import top from './game/_top.yaml';
+import top from "./game/_top.yaml";
+import renderHUD from "./renderHUD";
 
 /*
-High level goals of the player:
-- Ferry humans to a new home
-- Defeat a rival AMI in combat
-- Build another AMI and choose who to continue as
-- Discover an alien species
-- Build an android body
+You are the AI on a generation ship.
+The humans all live in a VR paradise that you control (no social breakdowns, etc)
+Different star systems have resources that you can collect
 */
+
+/*
+Encounter ideas:
+- Disease (Fungal infections of pods)
+  - Sterilization
+  - Male- or female-only illness
+  - Child-only illness
+  - Adult-only illness
+- Space bug parasites
+- Food-supply-eating bugs/fungi
+- Fires
+- Computer glitches
+  - Lose the ability to train people in certain skills
+*/
+
+console.log(new StarSystem(Date.now()));
 
 const SITUATIONS = top;
 
-const FORMATTERS = {
-  starType: (val) => {
-    if (val < 0.5) return 'White Dwarf';
-    if (val <= 1.0) return 'Pretty Yellow Sun';
-  }
-}
-
 const INITIAL_STATE = {
-  hullIntegrity: 100,
+  resources: {
+    numProbes: 40,
+    seedStore: 10000,
+    foodSupply: 10000,
+    metal: 10000,
+    robots: 1000,
+    geneticDiversity: 100,
+  },
+  sensors: {
+    gravity: 100,
+    temperature: 100,
+    water: 100,
+    resources: 100,
+    atmosphere: 100,
+  },
+  // Estimation of a genetically viable population for multigenerational
+  // interstellar voyaging: Review and data for project Hyperion
+  // https://www.sciencedirect.com/science/article/pii/S0094576513004669
+  // (answer: 23,000 adults, 17,000 children)
+  // But this is a videogame about sacrifices, so let's add some risk by
+  // putting it at half that (11,000 adults, 8,000 children)
+  genderBalance: 0.5,
+  humans: {
+    // [sperm-producing, womb-having, neither]
+    biologists: 100,
+    geologists: 100,
+    mechanics: 1000,
+    normals: 10000,
+    military: 10000,
+    technologists: 1000,
+    children: 8000,
+  },
 };
 
-function renderDebugString(obj, objName, keys, indent) {
-  const result = [objName, '('];
-  indent = (indent ? indent : '') + '  ';
-  let hasList = false;
-  keys = ['debugKey'].concat(keys);
-
-  for (const k of keys) {
-    const val = obj[k];
-    if (_.isArray(val)) {
-      hasList = true;
-      result.push('\n' + indent);
-      break;
-    }
-  }
-
-  for (const k of keys) {
-    result.push(k)
-    result.push('=')
-    const val = obj[k];
-    if (_.isArray(val)) {
-      result.push('\n');
-      result.push(renderArray(val, indent + '  '));
-    } else if (val.hasOwnProperty('debugString')) {
-      result.push(val.debugString())
-    } else if (FORMATTERS[k]) {
-      result.push(FORMATTERS[k](val));
-    } else {
-      result.push(val);
-    }
-
-    result.push(hasList ? '\n' + indent : ', ')
-  }
-  result.pop();
-  result.push(')');
-  return result.join('');
+let total = 0;
+for (let k of Object.keys(INITIAL_STATE.humans)) {
+  total += INITIAL_STATE.humans[k];
 }
-
-function renderArray(arr, indent) {
-  const result = [];
-  for (const item of arr) {
-    result.push(indent + '- ');
-    result.push(item.debugString(indent + '  '));
-    result.push('\n');
-  }
-  result.pop();
-  return result.join('');
-}
-
-class AsteroidBelt {
-  constructor(systemKey, index) {
-    self.debugKey = `AsteroidBelt/${index}`;
-    self.key = `${systemKey}/AsteroidBelt/${index}`;
-  }
-
-  debugString() {
-    return `AsteroidBelt`;
-  }
-}
-
-class Moon {
-  constructor(planetKey, index) {
-    self.debugKey = `Moon/${index}`;
-    self.key = `${planetKey}/Moon/${index}`
-    self.planetaryBodySize = Math.random();
-    self.waterAbundance = Math.random();
-    self.resourceAbundance = Math.random();
-    self.atmosphere = Math.random();
-  }
-
-  debugString(indent) {
-    return renderDebugString(
-      self, 'Moon', [
-        'planetaryBodySize',
-        'waterAbundance',
-        'resourceAbundance',
-        'atmosphere',
-      ], indent);
-  }
-}
-
-class Planet {
-  constructor(systemKey, index) {
-    self.debugKey = `Planet/${index}`;
-    self.key = `${systemKey}/Planet/${index}`
-
-    self.moons = [];
-    while (Math.random() > 0.5) {
-      self.moons.push(new Moon(self.key, self.moons.length));
-    }
-    self.planetaryBodySize = Math.random();
-    self.waterAbundance = Math.random();
-    self.resourceAbundance = Math.random();
-    self.atmosphere = Math.random();
-  }
-
-  debugString(indent) {
-    return renderDebugString(
-      self, 'Planet', [
-        'planetaryBodySize',
-        'waterAbundance',
-        'resourceAbundance',
-        'atmosphere',
-        'moons',
-      ], indent);
-  }
-}
-
-class System {
-  constructor() {
-    self.key = "System";
-    self.debugKey = "System";
-    self.starType = Math.random();
-    self.orbitalObjects = [];
-    while (Math.random() > 0.3) {
-      const kind = Math.random();
-      if (kind < 0.1) {
-        self.orbitalObjects.push(new AsteroidBelt(self.key, self.orbitalObjects.length));
-      } else {
-        self.orbitalObjects.push(new Planet(self.key, self.orbitalObjects.length));
-      }
-    }
-  }
-
-  debugString() {
-    return renderDebugString(
-      self, 'System', [
-        'starType',
-        'orbitalObjects',
-      ]);
-  }
-}
-
-console.log(new System().debugString());
+console.log("Total humans:", total);
 
 jumbogrove('#main > .JumboGrove', {
   id: 'von-neumann-probe',
   showAside: false,
   globalState: INITIAL_STATE,
+  init: function(model, ui) {
+    ui.nunjucks.addFilter('yesNo', function(val) {
+      if (val) { return "yes"; } else { return "no"; }
+    });
+    ui.templateHelperFunctions.renderHUD = () => renderHUD(model.globalState);
+  },
   willEnter: (model, ui, situation, nextID) => {
     if (nextID == 'start') {
       model.globalState = INITIAL_STATE;
     }
     return true;
   },
-  situations: SITUATIONS.map((s) => {
-    s.clear = true;
-    return s;
-  })
+  situations: SITUATIONS
+    .filter((s) => s)
+    .map((s) => {
+      s.clear = true;
+      return s;
+    })
 })

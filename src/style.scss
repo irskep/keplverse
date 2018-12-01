@@ -1,5 +1,11 @@
 /* mixins */
 
+@mixin clear-floats {
+  display: block;
+  content: "";
+  clear: both;
+}
+
 @mixin mono-font {
   font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 }
@@ -54,7 +60,7 @@ body {
 
   background-color: var(--bg);
   color: var(--fg);
-  font-size: 5vw;
+  font-size: 4vw;
   line-height: 1.4;
 
   font-family: Iowan, "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
@@ -62,7 +68,7 @@ body {
 
 @media (min-width: 600px) {
   body {
-    font-size: 24px;
+    font-size: 18px;
   }
 }
 
@@ -82,19 +88,19 @@ body {
   top: 0;
   right: 0;
   left: 0;
-  bottom: 33vh;
+  // bottom: 33vh;
 }
 
-#debug {
-  padding: 1rem;
-  position: fixed;
-  top: auto;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 33vh;
-  background-color: gray;
-}
+// #debug {
+//   padding: 1rem;
+//   position: fixed;
+//   top: auto;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   height: 33vh;
+//   background-color: gray;
+// }
 
 /* JG */
 
@@ -140,4 +146,38 @@ body {
 
 .small-font {
   @include small-font;
+}
+
+/* hud */
+
+.hud::after, .hud-item::after {
+  @include clear-floats;
+}
+
+.hud-category {
+  float: left;
+  width: 33%;
+
+  @media(max-width: 600px) {
+    width: 50%;
+    margin: auto;
+
+    &.m-humans {
+      margin-top: 1rem;
+      clear: both;
+    }
+  }
+}
+
+.hud-item-key {
+  text-align: right;
+  width: 70%;
+  padding-right: 1rem;
+  display: block;
+  float: left;
+}
+
+.hud-item-value {
+  text-align: left;
+  display: block;
 }
