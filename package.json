@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "parcel --port 1235 index.html",
-    "build": "parcel build index.html",
-    "deploy": "parcel build index.html && gh-pages -d dist"
+    "build": "parcel build index.html --public-url .",
+    "deploy": "parcel build index.html --public-url . && gh-pages -d dist"
   },
   "dependencies": {
     "jumbogrove": "^0.3.1",
