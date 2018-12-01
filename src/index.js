@@ -1,6 +1,9 @@
 import _ from "lodash";
 import __ from "./normalize.css";
 import ___ from "./style.scss";
+import { StarSystem } from "./stellardream";
+console.log('ss: ', StarSystem);
+console.log(new StarSystem(1234));
 import {jumbogrove} from "jumbogrove"; 
 console.log(jumbogrove);
 
@@ -8,9 +11,9 @@ import top from './game/_top.yaml';
 
 /*
 High level goals of the player:
+- Ferry humans to a new home
 - Defeat a rival AMI in combat
 - Build another AMI and choose who to continue as
-- Ferry humans to a new home
 - Discover an alien species
 - Build an android body
 */
