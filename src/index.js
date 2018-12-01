@@ -51,17 +51,15 @@ const INITIAL_STATE = {
   // https://www.sciencedirect.com/science/article/pii/S0094576513004669
   // (answer: 23,000 adults, 17,000 children)
   // But this is a videogame about sacrifices, so let's add some risk by
-  // putting it at half that (11,000 adults, 8,000 children)
-  genderBalance: 0.5,
+  // putting it at half that. Muahaha
   humans: {
-    // [sperm-producing, womb-having, neither]
-    biologists: 100,
-    geologists: 100,
-    mechanics: 1000,
-    normals: 10000,
-    military: 10000,
-    technologists: 1000,
-    children: 8000,
+    total: 20000,
+    fractionChild: 0.4,
+    fractionMale: 0.45,
+    fractionFemale: 0.45,
+    maleFertility: 0.95,
+    femaleFertility: 0.95,
+    educationQuality: 100,
   },
 };
 
