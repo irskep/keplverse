@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "parcel --port 1235 index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "deploy": "parcel build index.html && gh-pages -d dist"
   },
   "dependencies": {
     "jumbogrove": "^0.3.1",
@@ -12,6 +13,7 @@
     "autoprefixer": "^9.3.1",
     "eslint": "^5.9.0",
     "eslint-config-google": "^0.11.0",
+    "gh-pages": "^2.0.1",
     "parcel-bundler": "^1.10.3",
     "postcss-import": "^12.0.1",
     "sass": "^1.14.3"
