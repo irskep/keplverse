@@ -5,6 +5,7 @@ import { StarSystem } from "./stellardream";
 import {jumbogrove} from "jumbogrove"; 
 import top from "./game/_top.yaml";
 import renderHUD from "./renderHUD";
+import fmt from "./fmt";
 
 /*
 You are the AI on a generation ship.
@@ -54,11 +55,11 @@ const INITIAL_STATE = {
   // putting it at half that. Muahaha
   humans: {
     total: 20000,
-    fractionChild: 0.4,
-    fractionMale: 0.45,
-    fractionFemale: 0.45,
-    maleFertility: 0.95,
-    femaleFertility: 0.95,
+    fractionChild: 40,
+    fractionMale: 45,
+    fractionFemale: 45,
+    maleFertility: 95,
+    femaleFertility: 95,
     educationQuality: 100,
   },
 };
@@ -78,6 +79,11 @@ jumbogrove('#main > .JumboGrove', {
       if (val) { return "yes"; } else { return "no"; }
     });
     ui.templateHelperFunctions.renderHUD = () => renderHUD(model.globalState);
+    ui.templateHelperFunctions.val = (keyPath) => {
+      const parts = keyPath.split(".");
+      const last = parts[parts.length - 1];
+      return fmt[last](_.get(model.globalState, keyPath));
+    }
   },
   willEnter: (model, ui, situation, nextID) => {
     if (nextID == 'start') {
