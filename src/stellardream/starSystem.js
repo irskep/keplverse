@@ -176,6 +176,7 @@ export function addPlanets(starSystem, getRandom) {
 var StarSystem = /** @class */ (function () {
     // metallicity: number;
     function StarSystem(seed) {
+        var _a;
         this.seed = seed;
         var alea = new Alea(seed);
         this.stars = [new Star(alea)];
@@ -206,6 +207,7 @@ var StarSystem = /** @class */ (function () {
         }
         this.planets = [];
         addPlanets(this, alea);
+        _a = computeHabitableZone(this.stars[0].starType, this.stars[0].luminosity), this.habitableZoneMin = _a[0], this.habitableZoneMax = _a[1];
     }
     Object.defineProperty(StarSystem.prototype, "metallicity", {
         get: function () {

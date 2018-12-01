@@ -1,8 +1,8 @@
-- id: _start
-  choices: [title_settings, game_start]
+- id: start
+  choices: ['#from_start']
   optionText: Back
   content: |
-    # Stellar Dream{.game-title
+    # Stellar Dream{.game-title}
 
     It's the year 2200. The earth is in the midst of total ecological
     collapse. A hundred years ago, humanity began building a generation ship,
@@ -22,10 +22,35 @@
     You will travel the stars in search of a habitable planet, doing your
     best to keep a viable population of humans alive.
 
-- id: start
-  choices: [start]
-  optionText: "Start"
+- id: star_system
+  choices: ['#from_star_system', '#transit']
+  tags: ['star_system', 'from_start']
+  optionText: "Continue"
+  newStarSystem: true
   content: |
-    You leave Earth and head toward a promising star.
-    
     {{- renderHUD() }}
+
+    # Star System {{ starSystemSeed }}
+
+    ## Stars
+
+    {% for star in starSystem.stars %}
+        {{- renderStar(star) -}}
+    {% endfor %}
+
+    {% if starSystem.planets.length -%}
+    ## Planets
+
+    {% for planet in starSystem.planets %}
+        {{- renderPlanet(starSystem, planet, loop.index) -}}
+    {% endfor %}
+    {%- else %}
+    This star system has no planets.
+    {%- endif %}
+
+- id: transit_uneventful
+  tags: [transit]
+  optionText: 'Travel to a new system'
+  choices: ['#star_system']
+  content: |
+    You fly through the dark night of space for hundreds of years.

@@ -3,9 +3,13 @@ import __ from "./normalize.css";
 import ___ from "./style.scss";
 import { StarSystem } from "./stellardream";
 import {jumbogrove} from "jumbogrove"; 
+import indefiniteArticle from "./indefinite-article";
 import top from "./game/_top.yaml";
 import renderHUD from "./renderHUD";
+import renderStar from "./renderStar";
+import renderPlanet from "./renderPlanet";
 import fmt from "./fmt";
+import { rule } from "postcss";
 
 /*
 You are the AI on a generation ship.
@@ -64,12 +68,6 @@ const INITIAL_STATE = {
   },
 };
 
-let total = 0;
-for (let k of Object.keys(INITIAL_STATE.humans)) {
-  total += INITIAL_STATE.humans[k];
-}
-console.log("Total humans:", total);
-
 jumbogrove('#main > .JumboGrove', {
   id: 'von-neumann-probe',
   showAside: false,
@@ -79,11 +77,16 @@ jumbogrove('#main > .JumboGrove', {
       if (val) { return "yes"; } else { return "no"; }
     });
     ui.templateHelperFunctions.renderHUD = () => renderHUD(model.globalState);
+    ui.templateHelperFunctions.renderStar = renderStar;
+    ui.templateHelperFunctions.renderPlanet = renderPlanet;
+    ui.templateHelperFunctions.aAn = (phrase) => {
+      return indefiniteArticle(phrase) + " " + phrase;
+    };
     ui.templateHelperFunctions.val = (keyPath) => {
       const parts = keyPath.split(".");
       const last = parts[parts.length - 1];
       return fmt[last](_.get(model.globalState, keyPath));
-    }
+    };
   },
   willEnter: (model, ui, situation, nextID) => {
     if (nextID == 'start') {
@@ -95,6 +98,13 @@ jumbogrove('#main > .JumboGrove', {
     .filter((s) => s)
     .map((s) => {
       s.clear = true;
+      if (s.newStarSystem) {
+        s.willEnter = (model, ui, fromSituation) => {
+          model.globalState.starSystemSeed = Date.now();
+          model.globalState.starSystem = new StarSystem(model.globalState.starSystemSeed);
+          return true;
+        }
+      }
       return s;
     })
 })

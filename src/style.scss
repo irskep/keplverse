@@ -81,16 +81,6 @@ body {
 
 /* LAYOUT */
 
-
-#main {
-  position: fixed;
-  overflow: auto;
-  top: 0;
-  right: 0;
-  left: 0;
-  // bottom: 33vh;
-}
-
 // #debug {
 //   padding: 1rem;
 //   position: fixed;
@@ -115,6 +105,10 @@ body {
   li {
     @include button-stack-inner;
   }
+}
+
+section.JGHTMLItem {
+  margin-bottom: 2rem;
 }
 
 /* SEMANTIC */
@@ -186,4 +180,44 @@ body {
 .hud-item-value {
   text-align: left;
   display: block;
+}
+
+/* stars, planets, etc */
+
+.star {
+  @include mono-font;
+  vertical-align: middle;
+}
+
+.star:last-child {
+  margin-bottom: 1rem;
+}
+
+.star-circle {
+  margin-right: 0.5rem;
+  text-align: center;
+  color: black;
+  display: inline-block;
+}
+
+@mixin planet($r, $c) {
+  width: $r;
+  height: $r;
+  border-radius: $r/2;
+  background-color: $c;
+
+  top: -$r/2;
+  // margin-left: -$r/2;
+}
+
+.planet-circle.m-terran {
+  @include planet(30px, gray);
+}
+
+.planet-circle.m-neptunian {
+  @include planet(40px, blue);
+}
+
+.planet-circle.m-jovian {
+  @include planet(80px, burlywood);
 }

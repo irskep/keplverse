@@ -62,5 +62,5 @@ export default function renderHUD(data) {
       ${renderHumans(data.humans)}
     </div>
   </div>
-  `.replace(/\n/g, "").replace(/\s\s+/g, "").trim();
+  `.replace(/\n/g, "").replace(/\s\s+/g, " ").trim();
 }
