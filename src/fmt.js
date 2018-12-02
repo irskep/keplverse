@@ -5,7 +5,7 @@ function pct(n) {
 function identity(x) { return x; }
 
 export default {
-  numProbes: identity,
+  probes: identity,
   seedStore: identity,
   foodSupply: identity,
   metal: identity,

@@ -104,6 +104,14 @@ body {
 
   li {
     @include button-stack-inner;
+
+    .m-disabled-link {
+      opacity: 0.5;
+
+      &.m-selected::before {
+        content: "✔";
+      }
+    }
   }
 }
 
@@ -208,6 +216,18 @@ section.JGHTMLItem {
 
   top: -$r/2;
   // margin-left: -$r/2;
+}
+
+.planet.m-cold.m-terran .planet-label {
+  color: #aaaaff;
+}
+
+.planet.m-hot.m-terran .planet-label {
+  color: #ffaaaa;
+}
+
+.planet.m-habitable.m-terran .planet-label {
+  color: #88ff88;
 }
 
 .planet-circle.m-terran {

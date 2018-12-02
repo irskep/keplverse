@@ -1,6 +1,7 @@
 import _ from "lodash";
 import __ from "./normalize.css";
 import ___ from "./style.scss";
+import Chance from 'chance';
 import { StarSystem } from "./stellardream";
 import {jumbogrove} from "jumbogrove"; 
 import indefiniteArticle from "./indefinite-article";
@@ -8,6 +9,7 @@ import top from "./game/_top.yaml";
 import renderHUD from "./renderHUD";
 import renderStar from "./renderStar";
 import renderPlanet from "./renderPlanet";
+import {numbers} from "./renderPlanet";
 import fmt from "./fmt";
 import { rule } from "postcss";
 
@@ -37,7 +39,7 @@ const SITUATIONS = top;
 
 const INITIAL_STATE = {
   resources: {
-    numProbes: 40,
+    probes: 40,
     seedStore: 10000,
     foodSupply: 10000,
     metal: 10000,
@@ -67,6 +69,40 @@ const INITIAL_STATE = {
     educationQuality: 100,
   },
 };
+
+function isRockyHabitablePlanet(starSystem, planet) {
+  if (starSystem.stars[0].starType == 'M') return false; // tidally locked
+  if (planet.planetType != 'Terran') return false;
+  return planet.distance >= starSystem.habitableZoneMin && planet.distance <= starSystem.habitableZoneMax;
+}
+
+function hasRockyHabitablePlanets(starSystem) {
+  if (starSystem.stars[0].starType == 'M') return false; // tidally locked
+  for (let p of starSystem.planets) {
+    if (isRockyHabitablePlanet(starSystem, p)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const surveySituations = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19].map((i) => {
+  return {
+    id: `survey-${i}`,
+    tags: ['from_star_system'],
+    choices: ['#star_system'],
+    getCanSee: (model, hostSituation) => {
+      if (model.globalState.starSystem.planets.length <= i) return false;
+      return isRockyHabitablePlanet(model.globalState.starSystem, model.globalState.starSystem.planets[i]);
+    },
+    optionText: (model, hostSituation) => {
+      return `Survey ${model.globalState.starSystemName} ${numbers[i]}`
+    },
+    content: `
+      You find nothing.
+    `,
+  };
+});
 
 jumbogrove('#main > .JumboGrove', {
   id: 'von-neumann-probe',
@@ -98,13 +134,23 @@ jumbogrove('#main > .JumboGrove', {
     .filter((s) => s)
     .map((s) => {
       s.clear = true;
-      if (s.newStarSystem) {
-        s.willEnter = (model, ui, fromSituation) => {
-          model.globalState.starSystemSeed = Date.now();
-          model.globalState.starSystem = new StarSystem(model.globalState.starSystemSeed);
-          return true;
+      s.willEnter = (model, ui, fromSituation) => {
+        if (model.globalState.starSystem && !s.newStarSystem) return true;
+        let seed = Date.now();
+        model.globalState.starSystem = new StarSystem(seed);
+
+        while (!hasRockyHabitablePlanets(model.globalState.starSystem)) {
+          seed += 1;
+          model.globalState.starSystem = new StarSystem(seed);
         }
+
+        model.globalState.starSystemSeed = model.globalState.starSystem.seed; 
+        model.globalState.starSystemChance = new Chance(model.globalState.starSystem.seed);
+        model.globalState.starSystemName = model.globalState.starSystemChance.capitalize(
+          model.globalState.starSystemChance.word({syllables: 4}));
+        return true;
       }
       return s;
     })
-})
+    .concat(surveySituations),
+});

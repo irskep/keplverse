@@ -172,6 +172,9 @@ export function addPlanets(starSystem, getRandom) {
     //     starSystem.planets.push(new Planet(
     //         PlanetType.Placeholder, starSystem.stars[0], s));
     // }
+    starSystem.planets.sort(function (a, b) {
+        return a.distance - b.distance;
+    });
 }
 var StarSystem = /** @class */ (function () {
     // metallicity: number;

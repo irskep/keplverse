@@ -22,15 +22,22 @@
     You will travel the stars in search of a habitable planet, doing your
     best to keep a viable population of humans alive.
 
+    ## Important information
+
+    * Because you have a good telescope, all star systems you visit will have
+      at least one rocky planet in the habitable zone that is not tidally
+      locked.
+    * This game is unfinished. All you can do right now is look at the star
+      system generator.
+
 - id: star_system
   choices: ['#from_star_system', '#transit']
   tags: ['star_system', 'from_start']
   optionText: "Continue"
-  newStarSystem: true
   content: |
     {{- renderHUD() }}
 
-    # Star System {{ starSystemSeed }}
+    # {{ starSystemName }}
 
     ## Stars
 
@@ -52,5 +59,6 @@
   tags: [transit]
   optionText: 'Travel to a new system'
   choices: ['#star_system']
+  newStarSystem: true
   content: |
     You fly through the dark night of space for hundreds of years.

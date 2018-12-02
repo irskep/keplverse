@@ -20,6 +20,7 @@ const numbers = [
   'XIX',
   'XX',
 ];
+export { numbers };
 
 const TYPE_DESCRIPTIONS = {
   Terran: `
@@ -53,17 +54,21 @@ export default function renderPlanet(starSystem, planet, i) {
   const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
 
   let habDesc = "";
+  let habClass = ""
   if (isCold) {
     habDesc = "This planet is too far from the sun to have an atmosphere.";
+    habClass = "m-cold";
   } else if (isHot) {
     habDesc = "This planet is too close to the sun. If it ever had an atmosphere, it has burned off.";
+    habClass = "m-hot";
   } else {
     habDesc = "This planet is in the habitable zone and could plausibly have an atmosphere.";
+    habClass = "m-habitable";
   }
 
   return `
   <div
-    class="planet m-${planet.planetType.toLowerCase()} ${isHabitable ? 'm-habitable' : 'm-inhabitable'}"
+    class="planet m-${planet.planetType.toLowerCase()} ${habClass}"
     title='${JSON.stringify(planet, null, 2)}'>
     <h4 class="planet-label">${numbers[i - 1]}: ${planet.planetType}</h4>
     <div class="planet-circle m-${planet.planetType.toLowerCase()}"></div>
