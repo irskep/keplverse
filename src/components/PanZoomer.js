@@ -26,9 +26,11 @@ export default class PanZoomer extends React.Component {
   onMouseMove(e) {
     if (!this.state.isDragging) return;
 
+    const {x, y} = this.state.mouseDownCenter;
+
     this.setState({
-      centerX: this.state.mouseDownCenter.x + (e.screenX - this.state.mouseDownPoint.x),
-      centerY: this.state.mouseDownCenter.y + (e.screenY - this.state.mouseDownPoint.y),
+      centerX: x + (e.screenX - this.state.mouseDownPoint.x) / this.state.scale,
+      centerY: y + (e.screenY - this.state.mouseDownPoint.y) / this.state.scale,
     });
   }
 
@@ -55,17 +57,18 @@ export default class PanZoomer extends React.Component {
     const {centerX, centerY, scale} = this.state;
     return (
       <div
-          style={Object.assign({borderColor: this.state.isDragging ? 'red' : 'white'}, this.props.style)}
+          style={this.props.style}
           className={this.props.className || 'PanZoomer'}
           onMouseDown={this.onMouseDown.bind(this)}
           onMouseMove={this.onMouseMove.bind(this)}
           onMouseUp={this.onMouseUp.bind(this)}
+          onMouseLeave={this.onMouseUp.bind(this)}
           onWheel={this.onMouseWheel.bind(this)}
           ref={this.elRef}>
         <div
           className="PanZoomer__Centerer"
           style={{
-            transform: `translate(${centerX}px, ${centerY}px) scale(${scale})`,
+            transform: `scale(${scale}) translate(${centerX}px, ${centerY}px)`,
           }}>
           {this.props.children}
         </div>

@@ -21,17 +21,19 @@ const brightnesses = {
 };
 
 const sizes = {
-  Terran: 30,
-  Neptunian: 40,
-  Jovian: 80,
+  Terran: 5,
+  Neptunian: 20,
+  Jovian: 40,
 };
 
 export default class PlanetSphere extends React.Component {
   // props: { planet, style }
   render() {
     const {planet} = this.props;
-    const wPx = sizes[planet.planetType] + 'px';
-    const rPx = (sizes[planet.planetType] / 2) + 'px';
+
+    const size = sizes[planet.planetType]
+    const wPx = size + 'px';
+    const rPx = (size / 2) + 'px';
 
     return (
       <div
