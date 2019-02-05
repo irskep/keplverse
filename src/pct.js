@@ -1,0 +1,1 @@
+export default function pct(n) { return (n * 100) + '%'; }
