@@ -81,63 +81,6 @@ body {
 
 /* LAYOUT */
 
-// #debug {
-//   padding: 1rem;
-//   position: fixed;
-//   top: auto;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   height: 33vh;
-//   background-color: gray;
-// }
-
-/* JG */
-
-.JGChoiceItem {
-  ul {
-    list-style-type: none;
-    padding: 0;
-
-    @include button-stack-outer;
-  }
-
-  li {
-    @include button-stack-inner;
-
-    .m-disabled-link {
-      opacity: 0.5;
-
-      &.m-selected::before {
-        content: "✔";
-      }
-    }
-  }
-}
-
-section.JGHTMLItem {
-  margin-bottom: 2rem;
-}
-
-/* SEMANTIC */
-
-.scene-actions {
-  @include button-stack-outer;
-
-  button {
-    @include button-stack-inner;
-  }
-}
-
-.game-title {
-  @include mono-font;
-  font-size: 2rem;
-  margin: 1rem 0 0 0;
-  text-align: center;
-  border-bottom: 1px solid var(--fg);         
-  background-color: var(--bg);
-}
-
 .text-container {
   padding: 0 1rem 1rem 1rem;
 }
@@ -150,47 +93,11 @@ section.JGHTMLItem {
   @include small-font;
 }
 
-/* hud */
-
-.hud::after, .hud-item::after {
-  @include clear-floats;
-}
-
-.hud-category {
-  float: left;
-  width: 33%;
-
-  @media(max-width: 600px) {
-    width: 50%;
-    margin: auto;
-
-    &.m-humans {
-      margin-top: 1rem;
-      clear: both;
-    }
-  }
-}
-
-.hud-category-title {
-  width: 70%;
-  padding-right: 1rem;
-  text-align: right;
-}
-
-.hud-item-key {
-  text-align: right;
-  width: 70%;
-  padding-right: 1rem;
-  display: block;
-  float: left;
-}
-
-.hud-item-value {
-  text-align: left;
-  display: block;
-}
-
 /* stars, planets, etc */
+
+.orbit {
+  border: 1px solid gray;
+}
 
 .star {
   @include mono-font;

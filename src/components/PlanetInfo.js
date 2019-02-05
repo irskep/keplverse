@@ -1,5 +1,4 @@
 import React from 'react';
-import spheroidGradient from './spheroidGradient';
 
 const numbers = [
   'I',
@@ -46,7 +45,7 @@ const TYPE_DESCRIPTIONS = {
 
 const tidalLockingDesc = `
   However, though it is the correct temperature, it is so close to its star that
-  it is <em>tidally locked</em>; it doesn't rotate, so one side is blasted with heat and
+  it is tidally locked; it doesn't rotate, so one side is blasted with heat and
   the other is always in freezing darkness.`;
 
 const hues = {
@@ -95,15 +94,6 @@ export default class Planet extends React.Component {
           className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
           title={`${JSON.stringify(planet, null, 2)}`}>
         <h4 className="planet-label">{numbers[i]}: {planet.planetType}</h4>
-        <div
-          className={`planet-circle m-${planet.planetType.toLowerCase()}`}
-          style={{ background: spheroidGradient(
-            this.props.alea,
-            hues[planet.planetType],
-            saturations[planet.planetType],
-            brightnesses[planet.planetType],
-            0.5),
-           }}/>
         <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
         <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
         {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}

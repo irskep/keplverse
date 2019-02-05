@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@ajainarayanan/react-pan-zoom@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ajainarayanan/react-pan-zoom/-/react-pan-zoom-0.0.3.tgz#c10a7fc6b07d793278f119554bd819846a77c9bd"
+  integrity sha512-JDNOB/LJ/UeXQK1lHPpZQlvpEJIdkCMWztMW9Ygnd7ailz5W1wM4Ynk7D1md5RqjnKtd1YILXctrvOzFWkLWYQ==
+
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"

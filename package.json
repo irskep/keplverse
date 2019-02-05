@@ -5,6 +5,7 @@
     "deploy": "parcel build index.html --public-url . && gh-pages -d dist"
   },
   "dependencies": {
+    "@ajainarayanan/react-pan-zoom": "^0.0.3",
     "alea": "^1.0.0",
     "chance": "^1.0.17",
     "react-key-handler": "^1.2.0-beta.3",
