@@ -72,13 +72,6 @@ body {
   }
 }
 
-@media (min-width: 768px) {
-  #main {
-    max-width: 768px;
-    margin: auto;
-  }
-}
-
 /* LAYOUT */
 
 .text-container {
@@ -142,9 +135,6 @@ body {
   height: $r;
   border-radius: $r/2;
   background-color: $c;
-
-  top: -$r/2;
-  // margin-left: -$r/2;
 }
 
 .planet.m-cold.m-terran .planet-label {
@@ -177,4 +167,23 @@ body {
     @include planet(80px, burlywood);
   }
 
+}
+
+/* PanZoomer */
+
+.PanZoomer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 768px;
+  border: 1px solid white;
+}
+
+.PanZoomer__Centerer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  overflow: visible;
 }
