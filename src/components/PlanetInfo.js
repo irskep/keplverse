@@ -1,28 +1,5 @@
 import React from 'react';
-
-const numbers = [
-  'I',
-  'II',
-  'III',
-  'IV',
-  'V',
-  'VI',
-  'VII',
-  'VIII',
-  'IX',
-  'X',
-  'XI',
-  'XII',
-  'XIII',
-  'XIV',
-  'XV',
-  'XVI',
-  'XVII',
-  'XVIII',
-  'XIX',
-  'XX',
-];
-export { numbers };
+import romanNumerals from '../romanNumerals';
 
 const TYPE_DESCRIPTIONS = {
   Terran: `
@@ -67,9 +44,9 @@ const brightnesses = {
 };
 
 export default class Planet extends React.Component {
-  // props: { starSystem, planet, i }
+  // props: { starSystem, planet, i, starName }
   render() {
-    const {starSystem, planet, i} = this.props;
+    const {starSystem, planet, i, starName} = this.props;
     const isCold = planet.distance > starSystem.habitableZoneMax;
     const isHot = planet.distance < starSystem.habitableZoneMin;
     const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
@@ -92,8 +69,8 @@ export default class Planet extends React.Component {
     return (
       <div
           className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
-          title={`${JSON.stringify(planet, null, 2)}`}>
-        <h4 className="planet-label">{numbers[i]}: {planet.planetType}</h4>
+          title={`${JSON.stringify(starName, null, 2)}`}>
+        <h4 className="planet-label">{starName} {romanNumerals[i]}: {planet.planetType}</h4>
         <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
         <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
         {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}

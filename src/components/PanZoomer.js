@@ -48,8 +48,12 @@ export default class PanZoomer extends React.Component {
     let moveAmount = e.deltaY;
     if (moveAmount < -4) moveAmount = -4;
     if (moveAmount > 4) moveAmount = 4;
+    this.zoomBy(-moveAmount);
+  }
+
+  zoomBy(delta) {
     this.setState({
-      scale: Math.max(0.1, this.state.scale + -moveAmount * this.state.scale / 20),
+      scale: Math.max(0.1, this.state.scale + delta * this.state.scale / 20),
     });
   }
 
@@ -71,6 +75,17 @@ export default class PanZoomer extends React.Component {
             transform: `scale(${scale}) translate(${centerX}px, ${centerY}px)`,
           }}>
           {this.props.children}
+        </div>
+        <div className="PanZoomer__Help">
+          Drag and scroll to pan and zoom
+        </div>
+        <div className="PanZoomer__ZoomControls">
+          <div className="PanZoomer__ZoomControls__ZoomIn" onClick={this.zoomBy.bind(this, 12)}>
+          ➕
+          </div>
+          <div className="PanZoomer__ZoomControls__ZoomOut" onClick={this.zoomBy.bind(this, -12)}>
+          ➖
+          </div>
         </div>
       </div>
     )

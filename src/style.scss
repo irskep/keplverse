@@ -26,6 +26,7 @@ html {
   --fg: #def;
   --clickable: #a8e;
   --orbit: gray;
+  --orbit-active: white;
 }
 
 body {
@@ -41,7 +42,7 @@ body {
 
 @media (min-width: 600px) {
   body {
-    font-size: 18px;
+    font-size: 14px;
   }
 }
 
@@ -83,10 +84,75 @@ body {
   }
 }
 
+.SidebarUI {
+  display: flex;
+}
+
+.SidebarUI__Sidebar {
+  width: 20rem;
+}
+
+.BodyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.StarInfo {
+  @include mono-font;
+}
+
+/* PanZoomer */
+
+.PanZoomer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 768px;
+}
+
+.PanZoomer__Centerer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  overflow: visible;
+}
+
+.PanZoomer__Help {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  color: white;
+  opacity: 0.5;
+}
+
+.PanZoomer__ZoomControls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: white;
+  font-size: 24px;
+
+  & > * {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
 /* stars, planets, etc */
 
 .orbit {
   border: 1px solid var(--orbit);
+
+  &.m-active {
+    border: 1px solid var(--orbit-active);
+  }
 }
 
 .star {
@@ -150,23 +216,4 @@ body {
     @include planet(80px, burlywood);
   }
 
-}
-
-/* PanZoomer */
-
-.PanZoomer {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  height: 768px;
-  border: 1px solid white;
-}
-
-.PanZoomer__Centerer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  overflow: visible;
 }

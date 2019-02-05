@@ -9,7 +9,7 @@ export default class StarSystem extends React.Component {
   // props: { starSystem scaleFactor, onHoverPlanet, onHoverStar }
 
   render() {
-    const { starSystem, scaleFactor } = this.props;
+    const { starSystem, scaleFactor, activePlanetIndex } = this.props;
 
     const alea = new Alea(starSystem.seed);
 
@@ -50,7 +50,7 @@ export default class StarSystem extends React.Component {
         {starSystem.planets.map((p, i) => {
           const wPx = (p.distance * scaleFactor * 2) + 'px';
           const rPx = (p.distance * scaleFactor ) + 'px';
-          return (<div className="orbit"
+          return (<div className={`orbit ${activePlanetIndex === i ? 'm-active' : ''}`}
             key={i}
             style={{
               width: wPx,
@@ -79,7 +79,7 @@ export default class StarSystem extends React.Component {
             key={i}
             dataPlanetIndex={i}
             planet={p}
-            onClick={this.props.onHoverPlanet.bind(this, p)}
+            onClick={this.props.onHoverPlanet.bind(this, p, i)}
             alea={alea}
             style={{
               position: 'absolute',
