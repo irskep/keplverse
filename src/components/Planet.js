@@ -1,4 +1,5 @@
 import React from 'react';
+import spheroidGradient from './spheroidGradient';
 
 const numbers = [
   'I',
@@ -48,6 +49,24 @@ const tidalLockingDesc = `
   it is <em>tidally locked</em>; it doesn't rotate, so one side is blasted with heat and
   the other is always in freezing darkness.`;
 
+const hues = {
+  Terran: [60, 270],
+  Neptunian: [180, 270],
+  Jovian: [10, 60],
+};
+
+const saturations = {
+  Terran: [0.05, 0.7],
+  Neptunian: [0.05, 0.65],
+  Jovian: [0.10, 0.4],
+};
+
+const brightnesses = {
+  Terran: [0.4, 0.9],
+  Neptunian: [0.4, 0.9],
+  Jovian: [0.4, 0.9],
+};
+
 export default class Planet extends React.Component {
   // props: { starSystem, planet, i }
   render() {
@@ -58,15 +77,17 @@ export default class Planet extends React.Component {
 
     let habDesc = "";
     let habClass = ""
-    if (isCold) {
-      habDesc = "This planet is too far from the sun to have an atmosphere.";
-      habClass = "m-cold";
-    } else if (isHot) {
-      habDesc = "This planet is too close to the sun. If it ever had an atmosphere, it has burned off.";
-      habClass = "m-hot";
-    } else {
-      habDesc = "This planet is in the habitable zone and could plausibly have an atmosphere.";
-      habClass = "m-habitable";
+    if (planet.planetType == 'Terran') {
+      if (isCold) {
+        habDesc = "This planet is too far from the sun to have an atmosphere.";
+        habClass = "m-cold";
+      } else if (isHot) {
+        habDesc = "This planet is too close to the sun. If it ever had an atmosphere, it has burned off.";
+        habClass = "m-hot";
+      } else {
+        habDesc = "This planet is in the habitable zone and could plausibly have an atmosphere.";
+        habClass = "m-habitable";
+      }
     }
 
     return (
@@ -74,10 +95,18 @@ export default class Planet extends React.Component {
           className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
           title={`${JSON.stringify(planet, null, 2)}`}>
         <h4 className="planet-label">{numbers[i]}: {planet.planetType}</h4>
-        <div className={`planet-circle m-${planet.planetType.toLowerCase()}`}></div>
+        <div
+          className={`planet-circle m-${planet.planetType.toLowerCase()}`}
+          style={{ background: spheroidGradient(
+            this.props.alea,
+            hues[planet.planetType],
+            saturations[planet.planetType],
+            brightnesses[planet.planetType],
+            0.5),
+           }}/>
         <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
         <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
-        <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>
+        {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}
       </div>
     );
   }

@@ -5,6 +5,7 @@
     "deploy": "parcel build index.html --public-url . && gh-pages -d dist"
   },
   "dependencies": {
+    "alea": "^1.0.0",
     "chance": "^1.0.17",
     "react-key-handler": "^1.2.0-beta.3",
     "stellardream": "^0.1.1",

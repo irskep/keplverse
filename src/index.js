@@ -24,7 +24,7 @@ class Meta extends React.Component {
     } else {
       let h = window.location.hash;
       if (h[0] == "#") {
-        this.state = JSON.parse(h.substring(1));
+        this.state = JSON.parse(window.decodeURIComponent(h).substring(1));
       } else {
         this.state = JSON.parse(h);
       }

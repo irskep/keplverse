@@ -17,7 +17,12 @@ export default class System extends React.Component {
         {starSystem.stars.map((s, i) => <Star key={i} star={s} />)}
 
         {starSystem.planets.map((p, i) => (
-          <Planet key={i} i={i} starSystem={this.props.kss.starSystem} planet={p} />))}
+          <Planet
+            key={i}
+            i={i}
+            starSystem={this.props.kss.starSystem}
+            planet={p}
+            alea={this.props.kss.alea} />))}
         
         {starSystem.planets.length == 0 && <div className="EmptyState">This star system has no planets.</div>}
       </div>
