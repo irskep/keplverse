@@ -46,6 +46,15 @@ class Meta extends React.Component {
   render() {
     return (
       <div className="Meta">
+        <h1>The Keplverse</h1>
+        <h3>A procedural star system generator</h3>
+
+        <p>
+          <span className="Meta__Next m-clickable" onClick={this.go.bind(this, 1)}>Next (n)</span>
+          {" "}
+          <span className="Meta__Previous m-clickable" onClick={this.go.bind(this, -1)}>Previous (p)</span>
+        </p>
+
         <KeyHandler
           keyEventName={KEYPRESS}
           keyValue="n"

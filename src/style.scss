@@ -93,6 +93,22 @@ body {
   @include small-font;
 }
 
+.m-clickable {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* display */
+
+.StarSystemContainer {
+  width: 768px;
+  height: 768px;
+  border: 1px solid white;
+  overflow: hidden;
+}
+
 /* stars, planets, etc */
 
 .orbit {
