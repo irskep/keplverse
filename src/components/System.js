@@ -16,16 +16,12 @@ export default class System extends React.Component {
     this.state = {zoomIndex: ZOOMS.length - 3};
   }
 
-  zoomIn() {
-    this.setState({
-      zoomIndex: Math.min(ZOOMS.length - 1, this.state.zoomIndex + 1),
-    });
+  onHoverPlanet(p) {
+    console.log(p);
   }
 
-  zoomOut() {
-    this.setState({
-      zoomIndex: Math.max(0, this.state.zoomIndex - 1),
-    });
+  onHoverStar(s) {
+    console.log(s);
   }
 
   // props: { kss }
@@ -34,20 +30,22 @@ export default class System extends React.Component {
     const seedStr = "" + this.props.kss.seed;
     const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
     const b = seedStr.substring(Math.floor(seedStr.length / 2));
-    const scaleFactor = 1000;
+    const scaleFactor = 800;
 
     return (
       <div className="System">
-        <h2>{this.props.kss.name}</h2>
-        <p>Galactic coordinates: {a},{b}</p>
+        <p>
+          Auto name: {this.props.kss.name}
+          <br />
+          Galactic coordinates: {a},{b}
+        </p>
 
-        <div className="ZoomControls">
-          <span className="ZoomControls__ZoomIn m-clickable" onClick={this.zoomIn.bind(this)}>Zoom in</span>
-          {" "}
-          <span className="ZoomControls__ZoomIn m-clickable" onClick={this.zoomOut.bind(this)}>Zoom out</span>
-        </div>
         <PanZoomer initialZoom={ZOOMS[this.state.zoomIndex]}>
-          <StarSystem starSystem={starSystem} scaleFactor={scaleFactor} />
+          <StarSystem
+            starSystem={starSystem}
+            scaleFactor={scaleFactor}
+            onHoverStar={this.onHoverStar.bind(this)}
+            onHoverPlanet={this.onHoverPlanet.bind(this)} />
         </PanZoomer>
       </div>
     );

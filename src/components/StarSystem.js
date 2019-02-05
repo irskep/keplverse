@@ -1,14 +1,22 @@
 import React from 'react';
 import Alea from 'alea';
 import _ from 'lodash';
+import pct from '../pct';
 import Star from './Star';
 import PlanetSphere from './PlanetSphere';
 
 export default class StarSystem extends React.Component {
+  // props: { starSystem scaleFactor, onHoverPlanet, onHoverStar }
+
   render() {
-    const { starSystem, seed, scaleFactor } = this.props;
+    const { starSystem, scaleFactor } = this.props;
 
     const alea = new Alea(starSystem.seed);
+
+    const hzMin = starSystem.habitableZoneMin;
+    const hzMax = starSystem.habitableZoneMax;
+    const hzWPx = hzMax * scaleFactor * 2;
+    const hzRPx = hzWPx / 2;
 
     return (
       <div
@@ -18,6 +26,26 @@ export default class StarSystem extends React.Component {
             // height: sizePx + 'px',
             // border: '1px solid white',
             }}>
+
+        <div
+          className="StarSystem__HabitableZone"
+          style={{
+            width: hzWPx + 'px',
+            height: hzWPx + 'px',
+            borderRadius: hzRPx + 'px',
+            position: 'absolute',
+            top: `-${hzRPx}px`,
+            left: `-${hzRPx}px`,
+            background: `
+              radial-gradient(
+                ellipse at center,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) ${pct(hzMin / hzMax)},
+                rgba(0, 255, 0, 10%) ${pct(hzMin / hzMax + 0.00001)},
+                rgba(0, 255, 0, 10%) 100%)
+              `.replace(/\n/g, ''),
+          }}>
+        </div>
 
         {starSystem.planets.map((p, i) => {
           const wPx = (p.distance * scaleFactor * 2) + 'px';
@@ -37,22 +65,28 @@ export default class StarSystem extends React.Component {
         {starSystem.stars.map((s, i) => (
           <Star
             key={i}
+            dataStarIndex={i}
             star={s}
-            minSize={10}
+            minSize={5}
+            offset={i}
+            onClick={this.props.onHoverStar.bind(this, s)}
             style={{position: 'absolute', top: 0, left: 0}}
             />))}
 
-        {starSystem.planets.map((p, i) => (
-          <PlanetSphere
+        {starSystem.planets.map((p, i) => {
+          const angle = Math.PI * alea();
+          return (<PlanetSphere
             key={i}
+            dataPlanetIndex={i}
             planet={p}
+            onClick={this.props.onHoverPlanet.bind(this, p)}
             alea={alea}
             style={{
               position: 'absolute',
-              top: 0,
-              left: (p.distance * scaleFactor) + 'px',
-            }}
-            />))}
+              left: (Math.cos(angle) * p.distance * scaleFactor) + 'px',
+              top: (Math.sin(angle) * p.distance * scaleFactor) + 'px',
+            }} />);
+        })}
 
         {/* {starSystem.planets.map((p, i) => (
           <PlanetInfo

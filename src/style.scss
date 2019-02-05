@@ -14,34 +14,6 @@
   font-size: 0.9rem;
 }
 
-@mixin button-stack-outer {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  margin: -1rem;
-}
-
-@mixin button-stack-inner {
-  color: var(--clickable);
-  border: 1px solid var(--fg);
-  background-color: var(--bg);
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 1.5rem;
-
-  margin: 0.5rem;
-  flex: 1 1 40%;
-  text-align: center;
-
-  & > * {
-    text-decoration: none;
-    color: var(--clickable);
-    @include mono-font;
-  }
-}
-
 /* hi */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -53,6 +25,7 @@ html {
   --bg: #334;
   --fg: #def;
   --clickable: #a8e;
+  --orbit: gray;
 }
 
 body {
@@ -86,6 +59,23 @@ body {
   @include small-font;
 }
 
+.Header {
+  border-bottom: 1px solid var(--fg);
+  height: 4rem;
+  line-height: 4rem;
+}
+
+.Header h1 {
+  font-size: 18px;
+  margin: 0.2em 0;
+}
+
+.Header nav {
+  position: absolute;
+  top: 0;
+  right: 1rem;;
+}
+
 .m-clickable {
   cursor: pointer;
   &:hover {
@@ -93,19 +83,10 @@ body {
   }
 }
 
-/* display */
-
-.StarSystemContainer {
-  width: 768px;
-  height: 768px;
-  border: 1px solid white;
-  overflow: hidden;
-}
-
 /* stars, planets, etc */
 
 .orbit {
-  border: 1px solid gray;
+  border: 1px solid var(--orbit);
 }
 
 .star {
@@ -118,6 +99,7 @@ body {
 }
 
 .star-circle {
+  cursor: pointer;
   margin-right: 0.5rem;
   text-align: center;
   color: black;
@@ -126,7 +108,7 @@ body {
   box-sizing: content-box;
 
   &:hover {
-    border: 1px solid white;
+    border: 1px solid var(--fg);
   }
 }
 
@@ -150,6 +132,7 @@ body {
 }
 
 .planet-circle {
+  cursor: pointer;
 
   &:hover {
     border: 1px solid white;

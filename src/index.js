@@ -39,21 +39,24 @@ class Meta extends React.Component {
   }
 
   go(delta) {
-    this.setState({seed: this.state.seed + delta});
-      window.location.hash = JSON.stringify(this.state);
+    const newState = {seed: this.state.seed + delta};
+    this.setState(newState);
+    window.location.hash = JSON.stringify(Object.assign({}, this.state, newState));
   }
 
   render() {
     return (
       <div className="Meta">
-        <h1>The Keplverse</h1>
-        <h3>A procedural star system generator</h3>
+        <header className="Header">
+          <h1>The Keplverse: A procedural star system generator</h1>
 
-        <p>
-          <span className="Meta__Next m-clickable" onClick={this.go.bind(this, 1)}>Next (n)</span>
-          {" "}
-          <span className="Meta__Previous m-clickable" onClick={this.go.bind(this, -1)}>Previous (p)</span>
-        </p>
+          <nav>
+            <span className="Meta__Next m-clickable" onClick={this.go.bind(this, 1)}>Next (n)</span>
+            {" "}
+            <span className="Meta__Previous m-clickable" onClick={this.go.bind(this, -1)}>Previous (p)</span>
+          </nav>
+          <div style={{clear: 'both'}} />
+        </header>
 
         <KeyHandler
           keyEventName={KEYPRESS}

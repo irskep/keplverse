@@ -27,7 +27,7 @@ const sizes = {
 };
 
 export default class PlanetSphere extends React.Component {
-  // props: { planet, style }
+  // props: { planet, style, onClick }
   render() {
     const {planet} = this.props;
 
@@ -38,6 +38,7 @@ export default class PlanetSphere extends React.Component {
     return (
       <div
         className={`planet-circle m-${planet.planetType.toLowerCase()}`}
+        onClick={this.props.onClick}
         style={Object.assign({
           background: spheroidGradient(
             this.props.alea,

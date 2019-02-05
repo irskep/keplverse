@@ -1,22 +1,25 @@
 import React from 'react';
 
 export default class Star extends React.Component {
-  // props: { star, minSize }
+  // props: { star, minSize, onClick, offset }
   render() {
-    const { star, minSize } = this.props;
+    const { star, minSize, offset } = this.props;
     const minStarSize = 0.08;
     const w = minSize / minStarSize * star.radius;
-    const rPx = (w / 2) + 'px';
+    const rPx = (w / 2);
     const wPx = w + 'px';
     const hPx = Math.max(w, 18) + "px";
+    const offsetPx = offset * 20;
     const style = this.props.style || {};
+
     return (
       <div
         className="star m-big-star"
+        onClick={this.props.onClick}
         style={Object.assign({
             lineHeight: hPx,
             height: hPx,
-            transform: `translate(-${rPx}, -${rPx})`,
+            transform: `translate(-${rPx + offsetPx}px, -${rPx + offsetPx}px)`,
           }, style)}>
         <div className="star-circle"
             style={{
@@ -36,10 +39,10 @@ export default class Star extends React.Component {
               boxShadow: `0 0 20px 0 ${star.color}`,
               width: wPx,
               height: wPx,
-              borderRadius: rPx,
+              borderRadius: rPx + 'px',
             }}
             title={JSON.stringify(star, null, 2)}>
-          {star.starType}
+          {/* {star.starType} */}
         </div>
       </div>);
   }
