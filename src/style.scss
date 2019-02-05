@@ -129,6 +129,12 @@ body {
   text-align: center;
   color: black;
   display: inline-block;
+  
+  box-sizing: content-box;
+
+  &:hover {
+    border: 1px solid white;
+  }
 }
 
 @mixin planet($r, $c) {
@@ -153,14 +159,22 @@ body {
   color: #88ff88;
 }
 
-.planet-circle.m-terran {
-  @include planet(30px, gray);
-}
+.planet-circle {
 
-.planet-circle.m-neptunian {
-  @include planet(40px, blue);
-}
+  &:hover {
+    border: 1px solid white;
+  }
 
-.planet-circle.m-jovian {
-  @include planet(80px, burlywood);
+  .m-terran {
+    @include planet(30px, gray);
+  }
+
+  .m-neptunian {
+    @include planet(40px, blue);
+  }
+
+  .m-jovian {
+    @include planet(80px, burlywood);
+  }
+
 }
