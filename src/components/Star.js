@@ -14,6 +14,19 @@ export default class Star extends React.Component {
         <div className="star-circle"
             style={{
               backgroundColor: star.color,
+              background: `
+                radial-gradient(
+                  circle at center,
+                  rgba(255,255,255,0.8) 0%,
+                  rgba(255,255,255,0) 80%),
+                radial-gradient(
+                  ellipse at center,
+                  rgba(0,0,0,0) 0%,
+                  rgba(0,0,0,0) 62%,
+                  rgba(0,0,0,1) 100%),
+                ${star.color}
+              `,
+              boxShadow: `0 0 20px 0 ${star.color}`,
               width: wPx,
               height: wPx,
               borderRadius: rPx
