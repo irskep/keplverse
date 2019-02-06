@@ -67,6 +67,7 @@ export default class SystemFinder extends React.Component {
     const {isSearching} = this.state;
     return (
       <div className="SystemFinder">
+        <h2>System Finder</h2>
         <div className="CheckboxRow">
           {STAR_TYPES.map((st) => (
             <label key={st}>

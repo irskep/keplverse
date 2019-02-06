@@ -78,6 +78,7 @@ body {
 }
 
 .m-clickable {
+  color: var(--clickable);
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -100,6 +101,17 @@ body {
 
 .StarInfo {
   @include mono-font;
+}
+
+.SystemFinder {
+  border: 1px solid var(--fg);
+  margin-top: 1rem;
+  padding: 1rem;
+
+  h2 {
+    font-size: 18px;
+    margin-top: 0;
+  }
 }
 
 /* PanZoomer */
