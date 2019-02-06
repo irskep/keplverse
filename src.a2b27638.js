@@ -54378,7 +54378,7 @@ function (_React$Component) {
       var isSearching = this.state.isSearching;
       return _react.default.createElement("div", {
         className: "SystemFinder"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement("h2", null, "System Finder"), _react.default.createElement("div", {
         className: "CheckboxRow"
       }, STAR_TYPES.map(function (st) {
         return _react.default.createElement("label", {
@@ -54571,7 +54571,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53194" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58308" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

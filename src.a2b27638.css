@@ -402,6 +402,7 @@ body {
   right: 1rem;
 }
 .m-clickable {
+  color: var(--clickable);
   cursor: pointer;
 }
 .m-clickable:hover {
@@ -420,6 +421,15 @@ body {
 }
 .StarInfo {
   font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+.SystemFinder {
+  border: 1px solid var(--fg);
+  margin-top: 1rem;
+  padding: 1rem;
+}
+.SystemFinder h2 {
+  font-size: 18px;
+  margin-top: 0;
 }
 /* PanZoomer */
 .PanZoomer {
