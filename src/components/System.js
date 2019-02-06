@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import PanZoomer from './PanZoomer';
 import StarSystem from './StarSystem';
+import StarInfo from './StarInfo';
 import PlanetInfo from './PlanetInfo';
 import romanNumerals from '../romanNumerals';
 
@@ -20,19 +21,20 @@ export default class System extends React.Component {
       activeStar: null,
       activePlanet: null,
       activePlanetIndex: null,
+      activeStarIndex: null,
     };
   }
 
   onHoverPlanet(p, i) {
-    this.setState({activePlanet: p, activeStar: null, activePlanetIndex: i});
+    this.setState({activePlanet: p, activeStar: null, activePlanetIndex: i, activeStarIndex: null});
   }
 
-  onHoverStar(s) {
-    this.setState({activePlanet: null, activeStar: s, activePlanetIndex: null});
+  onHoverStar(s, i) {
+    this.setState({activePlanet: null, activeStar: s, activePlanetIndex: null, activeStarIndex: i});
   }
 
   resetSelection() {
-    this.setState({activePlanet: null, activeStar: null, activePlanetIndex: null});
+    this.setState({activePlanet: null, activeStar: null, activePlanetIndex: null, activeStarIndex: null});
   }
 
   // props: { kss }
@@ -43,7 +45,7 @@ export default class System extends React.Component {
     const b = seedStr.substring(Math.floor(seedStr.length / 2));
     const scaleFactor = 800;
 
-    const {activeStar, activePlanet, activePlanetIndex} = this.state;
+    const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = this.state;
 
     return (
       <div className="System">
@@ -59,7 +61,8 @@ export default class System extends React.Component {
               <div className="EmptyState">
                 <ul className="BodyList">
                   {starSystem.stars.map((s, i) => (
-                    <li className="m-clickable" key={'star-' + i} onClick={this.onHoverStar.bind(this, s)}>
+                    <li className="m-clickable" key={'star-' + i}
+                        onClick={this.onHoverStar.bind(this, s, i)}>
                       Star {(i + 1)}: {s.starType}
                     </li>
                   ))}
@@ -72,9 +75,14 @@ export default class System extends React.Component {
               </div>
             )}
 
-            {activeStar && <div className="StarInfo">
+            {activeStar && <div className="StarInfoWrapper">
               <div className="BackLink m-clickable" onClick={this.resetSelection.bind(this)}>Back</div>
-              {JSON.stringify(activeStar, null, 2)}
+              {console.log(activeStarIndex)}
+              <StarInfo
+                starName={this.props.kss.name}
+                starSystem={starSystem}
+                star={activeStar}
+                i={activeStarIndex} />
             </div>}
 
             {activePlanet && (
@@ -88,6 +96,7 @@ export default class System extends React.Component {
               </div>
             )}
           </div>
+
           <PanZoomer initialZoom={ZOOMS[this.state.zoomIndex]} style={{backgroundColor: 'black'}}>
             <StarSystem
               starSystem={starSystem}

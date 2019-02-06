@@ -69,7 +69,7 @@ export default class StarSystem extends React.Component {
             star={s}
             minSize={5}
             offset={i}
-            onClick={this.props.onHoverStar.bind(this, s)}
+            onClick={this.props.onHoverStar.bind(this, s, i)}
             style={{position: 'absolute', top: 0, left: 0}}
             />))}
 
