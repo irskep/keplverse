@@ -43,7 +43,7 @@ export default class System extends React.Component {
     const seedStr = "" + this.props.kss.seed;
     const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
     const b = seedStr.substring(Math.floor(seedStr.length / 2));
-    const scaleFactor = 800;
+    const scaleFactor = 200;
 
     const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = this.state;
 

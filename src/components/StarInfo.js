@@ -1,13 +1,15 @@
 import React from 'react';
 
 function round(n) {
+  let mult = n < 0 ? -1 : 1;
+  n *= mult;
   let pow = 0;
   while (n < Math.pow(10, 3)) {
     n *= 10;
     pow += 1;
   }
 
-  return Math.round(n) / Math.pow(10, pow);
+  return mult * Math.round(n) / Math.pow(10, pow);
 }
 
 export default class StarInfo extends React.Component {
