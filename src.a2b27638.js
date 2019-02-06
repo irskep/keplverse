@@ -53353,10 +53353,164 @@ var KStarSystem = function KStarSystem(seed) {
 };
 
 exports.default = KStarSystem;
-},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"node_modules/@ajainarayanan/react-pan-zoom/dist/react-pan-zoom.js":[function(require,module,exports) {
-var define;
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e(require("react")):"function"==typeof define&&define.amd?define(["react"],e):"object"==typeof exports?exports.reactPanZoom=e(require("react")):t.reactPanZoom=e(t.React)}(window,function(t){return function(t){var e={};function n(a){if(e[a])return e[a].exports;var r=e[a]={i:a,l:!1,exports:{}};return t[a].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=t,n.c=e,n.d=function(t,e,a){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:a})},n.r=function(t){Object.defineProperty(t,"__esModule",{value:!0})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=1)}([function(e,n){e.exports=t},function(t,e,n){"use strict";var a,r=this&&this.__extends||(a=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,e){t.__proto__=e}||function(t,e){for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n])},function(t,e){function n(){this.constructor=t}a(t,e),t.prototype=null===e?Object.create(e):(n.prototype=e.prototype,new n)});Object.defineProperty(e,"__esModule",{value:!0});var o=n(0),i=function(t){function e(){var e=null!==t&&t.apply(this,arguments)||this;return e.getInitialState=function(){var t=e.props,n=t.pandx,a=t.pandy,r=t.zoom;return{dragData:{dx:n,dy:a,x:0,y:0},dragging:!1,matrixData:[r,0,0,r,n,a]}},e.state=e.getInitialState(),e.onMouseDown=function(t){if(e.props.enablePan){var n=e.state,a=n.matrixData,r=(n.dragData,{dx:a[4],dy:a[5],x:t.pageX,y:t.pageY});e.setState({dragData:r,dragging:!0}),e.panWrapper&&(e.panWrapper.style.cursor="move"),t.stopPropagation(),t.nativeEvent.stopImmediatePropagation(),t.preventDefault()}},e.onMouseUp=function(){e.setState({dragging:!1}),e.panWrapper&&(e.panWrapper.style.cursor=""),e.props.onPan&&e.props.onPan(e.state.matrixData[4],e.state.matrixData[5])},e.getNewMatrixData=function(t,n){var a=e.state,r=a.dragData,o=a.matrixData,i=r.x-t,p=r.y-n;return o[4]=r.dx-i,o[5]=r.dy-p,o},e.onMouseMove=function(t){if(e.state.dragging){var n=e.getNewMatrixData(t.pageX,t.pageY);e.setState({matrixData:n}),e.panContainer&&(e.panContainer.style.transform="matrix("+e.state.matrixData.toString()+")")}},e}return r(e,t),e.prototype.componentWillReceiveProps=function(t){if(t.zoom,this.state.matrixData[0]!==t.zoom){var e=this.state.matrixData.slice();e[0]=t.zoom||e[0],e[3]=t.zoom||e[3],this.setState({matrixData:e})}},e.prototype.render=function(){var t=this;return o.createElement("div",{className:"pan-container "+(this.props.className||""),onMouseDown:this.onMouseDown,onMouseUp:this.onMouseUp,onMouseMove:this.onMouseMove,style:{height:this.props.height,userSelect:"none",width:this.props.width},ref:function(e){return t.panWrapper=e}},o.createElement("div",{ref:function(e){return e?t.panContainer=e:null},style:{transform:"matrix("+this.state.matrixData.toString()+")"}},this.props.children))},e.defaultProps={enablePan:!0,onPan:function(){},pandx:0,pandy:0,zoom:1},e}(o.PureComponent);e.default=i}])});
-},{"react":"node_modules/react/index.js"}],"src/components/Star.js":[function(require,module,exports) {
+},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var PanZoomer =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(PanZoomer, _React$Component);
+
+  // props: { className, children, style }
+  function PanZoomer(props) {
+    var _this;
+
+    _classCallCheck(this, PanZoomer);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PanZoomer).call(this, props));
+    _this.elRef = _react.default.createRef();
+    _this.state = {
+      centerX: 0,
+      centerY: 0,
+      scale: props.initialZoom || 1,
+      mouseDownPoint: null,
+      mouseDownCenter: null,
+      isDragging: false
+    };
+    return _this;
+  }
+
+  _createClass(PanZoomer, [{
+    key: "onMouseDown",
+    value: function onMouseDown(e) {
+      this.setState({
+        isDragging: true,
+        mouseDownPoint: {
+          x: e.screenX,
+          y: e.screenY
+        },
+        mouseDownCenter: {
+          x: this.state.centerX,
+          y: this.state.centerY
+        }
+      });
+    }
+  }, {
+    key: "onMouseMove",
+    value: function onMouseMove(e) {
+      if (!this.state.isDragging) return;
+      var _this$state$mouseDown = this.state.mouseDownCenter,
+          x = _this$state$mouseDown.x,
+          y = _this$state$mouseDown.y;
+      this.setState({
+        centerX: x + (e.screenX - this.state.mouseDownPoint.x) / this.state.scale,
+        centerY: y + (e.screenY - this.state.mouseDownPoint.y) / this.state.scale
+      });
+    }
+  }, {
+    key: "onMouseUp",
+    value: function onMouseUp(e) {
+      this.setState({
+        isDragging: false,
+        mouseDownPoint: null,
+        mouseDownCenter: null
+      });
+    }
+  }, {
+    key: "onMouseWheel",
+    value: function onMouseWheel(e) {
+      if (this.state.isDragging) return;
+      e.preventDefault();
+      var moveAmount = e.deltaY;
+      if (moveAmount < -4) moveAmount = -4;
+      if (moveAmount > 4) moveAmount = 4;
+      this.zoomBy(-moveAmount);
+    }
+  }, {
+    key: "zoomBy",
+    value: function zoomBy(delta) {
+      this.setState({
+        scale: Math.max(0.1, this.state.scale + delta * this.state.scale / 20)
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state = this.state,
+          centerX = _this$state.centerX,
+          centerY = _this$state.centerY,
+          scale = _this$state.scale;
+      return _react.default.createElement("div", {
+        style: this.props.style,
+        className: this.props.className || 'PanZoomer',
+        onMouseDown: this.onMouseDown.bind(this),
+        onMouseMove: this.onMouseMove.bind(this),
+        onMouseUp: this.onMouseUp.bind(this),
+        onMouseLeave: this.onMouseUp.bind(this),
+        onWheel: this.onMouseWheel.bind(this),
+        ref: this.elRef
+      }, _react.default.createElement("div", {
+        className: "PanZoomer__Centerer",
+        style: {
+          transform: "scale(".concat(scale, ") translate(").concat(centerX, "px, ").concat(centerY, "px)")
+        }
+      }, this.props.children), _react.default.createElement("div", {
+        className: "PanZoomer__Help"
+      }, "Drag and scroll to pan and zoom"), _react.default.createElement("div", {
+        className: "PanZoomer__ZoomControls"
+      }, _react.default.createElement("div", {
+        className: "PanZoomer__ZoomControls__ZoomIn",
+        onClick: this.zoomBy.bind(this, 12)
+      }, "\u2795"), _react.default.createElement("div", {
+        className: "PanZoomer__ZoomControls__ZoomOut",
+        onClick: this.zoomBy.bind(this, -12)
+      }, "\u2796")));
+    }
+  }]);
+
+  return PanZoomer;
+}(_react.default.Component);
+
+exports.default = PanZoomer;
+},{"react":"node_modules/react/index.js"}],"src/pct.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = pct;
+
+function pct(n) {
+  return n * 100 + '%';
+}
+},{}],"src/components/Star.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53399,23 +53553,26 @@ function (_React$Component) {
 
   _createClass(Star, [{
     key: "render",
-    // props: { star, minSize }
+    // props: { star, minSize, onClick, offset }
     value: function render() {
       var _this$props = this.props,
           star = _this$props.star,
-          minSize = _this$props.minSize;
+          minSize = _this$props.minSize,
+          offset = _this$props.offset;
       var minStarSize = 0.08;
       var w = minSize / minStarSize * star.radius;
-      var rPx = w / 2 + 'px';
+      var rPx = w / 2;
       var wPx = w + 'px';
       var hPx = Math.max(w, 18) + "px";
+      var offsetPx = offset * 20;
       var style = this.props.style || {};
       return _react.default.createElement("div", {
         className: "star m-big-star",
+        onClick: this.props.onClick,
         style: Object.assign({
           lineHeight: hPx,
           height: hPx,
-          transform: "translate(-".concat(rPx, ", -").concat(rPx, ")")
+          transform: "translate(-".concat(rPx + offsetPx, "px, -").concat(rPx + offsetPx, "px)")
         }, style)
       }, _react.default.createElement("div", {
         className: "star-circle",
@@ -53425,10 +53582,10 @@ function (_React$Component) {
           boxShadow: "0 0 20px 0 ".concat(star.color),
           width: wPx,
           height: wPx,
-          borderRadius: rPx
+          borderRadius: rPx + 'px'
         },
         title: JSON.stringify(star, null, 2)
-      }, star.starType));
+      }));
     }
   }]);
 
@@ -53436,18 +53593,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = Star;
-},{"react":"node_modules/react/index.js"}],"src/pct.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = pct;
-
-function pct(n) {
-  return n * 100 + '%';
-}
-},{}],"src/components/spheroidGradient.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"src/components/spheroidGradient.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53476,15 +53622,27 @@ function spheroidGradient(alea, hueRange, saturationRange, brightnessRange, vari
   var colorBBrightness = mix(variation, normalizedToRange(brightnessRange[0], brightnessRange[1], alea()), colorABrightness);
   return "\n      radial-gradient(circle at top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 100%),\n      radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 62%, rgba(0,0,0,1) 100%),\n      linear-gradient(to top,\n        hsl(".concat(colorAHue, ", ").concat((0, _pct.default)(colorASaturation), ", ").concat((0, _pct.default)(colorABrightness), ") 0%,\n        hsl(").concat(colorBHue, ", ").concat((0, _pct.default)(colorBSaturation), ", ").concat((0, _pct.default)(colorBBrightness), ") 100%)\n      ").replace(/\n/g, '').replace(/\s+/g, ' ');
 }
-},{"../pct":"src/pct.js"}],"src/components/PlanetInfo.js":[function(require,module,exports) {
+},{"../pct":"src/pct.js"}],"src/romanNumerals.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.numbers = void 0;
+exports.default = void 0;
+var numbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
+var _default = numbers;
+exports.default = _default;
+},{}],"src/components/PlanetInfo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
+
+var _romanNumerals = _interopRequireDefault(require("../romanNumerals"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53506,8 +53664,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var numbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
-exports.numbers = numbers;
 var TYPE_DESCRIPTIONS = {
   Terran: "\n  These worlds resemble Mercury, Venus, Earth, and Mars, in that they have\n  survivable gravity and the potential for oceans, ices, and atmospheres.\n  ",
   Neptunian: "\n  Akin to Saturn, Uranus and Neptune, Neptunian planets are dominated by a large\n  atmosphere of hydrogen, helium, and other atoms/molecules that are easily\n  boiled off. They may have rocky interiors, but their atmospheric pressure is\n  too high to be habitable by humans.\n  ",
@@ -53543,12 +53699,13 @@ function (_React$Component) {
 
   _createClass(Planet, [{
     key: "render",
-    // props: { starSystem, planet, i }
+    // props: { starSystem, planet, i, starName }
     value: function render() {
       var _this$props = this.props,
           starSystem = _this$props.starSystem,
           planet = _this$props.planet,
-          i = _this$props.i;
+          i = _this$props.i,
+          starName = _this$props.starName;
       var isCold = planet.distance > starSystem.habitableZoneMax;
       var isHot = planet.distance < starSystem.habitableZoneMin;
       var isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
@@ -53570,10 +53727,10 @@ function (_React$Component) {
 
       return _react.default.createElement("div", {
         className: "planet m-".concat(planet.planetType.toLowerCase(), " ").concat(habClass),
-        title: "".concat(JSON.stringify(planet, null, 2))
+        title: "".concat(JSON.stringify(starName, null, 2))
       }, _react.default.createElement("h4", {
         className: "planet-label"
-      }, numbers[i], ": ", planet.planetType), _react.default.createElement("p", {
+      }, starName, " ", _romanNumerals.default[i], ": ", planet.planetType), _react.default.createElement("p", {
         className: "planet-desc"
       }, "Distance: ", planet.distance.toFixed(2), " AU"), _react.default.createElement("p", {
         className: "planet-desc"
@@ -53587,7 +53744,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = Planet;
-},{"react":"node_modules/react/index.js"}],"src/components/PlanetSphere.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../romanNumerals":"src/romanNumerals.js"}],"src/components/PlanetSphere.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53637,9 +53794,9 @@ var brightnesses = {
   Jovian: [0.4, 0.9]
 };
 var sizes = {
-  Terran: 30,
-  Neptunian: 40,
-  Jovian: 80
+  Terran: 5,
+  Neptunian: 20,
+  Jovian: 40
 };
 
 var PlanetSphere =
@@ -53655,13 +53812,15 @@ function (_React$Component) {
 
   _createClass(PlanetSphere, [{
     key: "render",
-    // props: { planet, style }
+    // props: { planet, style, onClick }
     value: function render() {
       var planet = this.props.planet;
-      var wPx = sizes[planet.planetType] + 'px';
-      var rPx = sizes[planet.planetType] / 2 + 'px';
+      var size = sizes[planet.planetType];
+      var wPx = size + 'px';
+      var rPx = size / 2 + 'px';
       return _react.default.createElement("div", {
         className: "planet-circle m-".concat(planet.planetType.toLowerCase()),
+        onClick: this.props.onClick,
         style: Object.assign({
           background: (0, _spheroidGradient.default)(this.props.alea, hues[planet.planetType], saturations[planet.planetType], brightnesses[planet.planetType], 0.5),
           width: wPx,
@@ -53677,7 +53836,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = PlanetSphere;
-},{"react":"node_modules/react/index.js","./spheroidGradient":"src/components/spheroidGradient.js","./PlanetInfo":"src/components/PlanetInfo.js"}],"src/components/System.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./spheroidGradient":"src/components/spheroidGradient.js","./PlanetInfo":"src/components/PlanetInfo.js"}],"src/components/StarSystem.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53687,17 +53846,228 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _reactPanZoom = _interopRequireDefault(require("@ajainarayanan/react-pan-zoom"));
-
 var _alea = _interopRequireDefault(require("alea"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
+
+var _pct = _interopRequireDefault(require("../pct"));
 
 var _Star = _interopRequireDefault(require("./Star"));
 
 var _PlanetSphere = _interopRequireDefault(require("./PlanetSphere"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var StarSystem =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(StarSystem, _React$Component);
+
+  function StarSystem() {
+    _classCallCheck(this, StarSystem);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(StarSystem).apply(this, arguments));
+  }
+
+  _createClass(StarSystem, [{
+    key: "render",
+    // props: { starSystem scaleFactor, onHoverPlanet, onHoverStar }
+    value: function render() {
+      var _this = this;
+
+      var _this$props = this.props,
+          starSystem = _this$props.starSystem,
+          scaleFactor = _this$props.scaleFactor,
+          activePlanetIndex = _this$props.activePlanetIndex;
+      var alea = new _alea.default(starSystem.seed);
+      var hzMin = starSystem.habitableZoneMin;
+      var hzMax = starSystem.habitableZoneMax;
+      var hzWPx = hzMax * scaleFactor * 2;
+      var hzRPx = hzWPx / 2;
+      return _react.default.createElement("div", {
+        className: "StarSystem",
+        style: {// width: sizePx + 'px',
+          // height: sizePx + 'px',
+          // border: '1px solid white',
+        }
+      }, _react.default.createElement("div", {
+        className: "StarSystem__HabitableZone",
+        style: {
+          width: hzWPx + 'px',
+          height: hzWPx + 'px',
+          borderRadius: hzRPx + 'px',
+          position: 'absolute',
+          top: "-".concat(hzRPx, "px"),
+          left: "-".concat(hzRPx, "px"),
+          background: "\n              radial-gradient(\n                ellipse at center,\n                rgba(0,0,0,0) 0%,\n                rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax), ",\n                rgba(0, 255, 0, 10%) ").concat((0, _pct.default)(hzMin / hzMax + 0.00001), ",\n                rgba(0, 255, 0, 10%) 100%)\n              ").replace(/\n/g, '')
+        }
+      }), starSystem.planets.map(function (p, i) {
+        var wPx = p.distance * scaleFactor * 2 + 'px';
+        var rPx = p.distance * scaleFactor + 'px';
+        return _react.default.createElement("div", {
+          className: "orbit ".concat(activePlanetIndex === i ? 'm-active' : ''),
+          key: i,
+          style: {
+            width: wPx,
+            height: wPx,
+            borderRadius: rPx,
+            position: 'absolute',
+            top: "-".concat(rPx),
+            left: "-".concat(rPx)
+          }
+        });
+      }), starSystem.stars.map(function (s, i) {
+        return _react.default.createElement(_Star.default, {
+          key: i,
+          dataStarIndex: i,
+          star: s,
+          minSize: 5,
+          offset: i,
+          onClick: _this.props.onHoverStar.bind(_this, s, i),
+          style: {
+            position: 'absolute',
+            top: 0,
+            left: 0
+          }
+        });
+      }), starSystem.planets.map(function (p, i) {
+        var angle = Math.PI * alea();
+        return _react.default.createElement(_PlanetSphere.default, {
+          key: i,
+          dataPlanetIndex: i,
+          planet: p,
+          onClick: _this.props.onHoverPlanet.bind(_this, p, i),
+          alea: alea,
+          style: {
+            position: 'absolute',
+            left: Math.cos(angle) * p.distance * scaleFactor + 'px',
+            top: Math.sin(angle) * p.distance * scaleFactor + 'px'
+          }
+        });
+      }));
+    }
+  }]);
+
+  return StarSystem;
+}(_react.default.Component);
+
+exports.default = StarSystem;
+},{"react":"node_modules/react/index.js","alea":"node_modules/alea/alea.js","lodash":"node_modules/lodash/lodash.js","../pct":"src/pct.js","./Star":"src/components/Star.js","./PlanetSphere":"src/components/PlanetSphere.js"}],"src/components/StarInfo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function round(n) {
+  var pow = 0;
+
+  while (n < Math.pow(10, 3)) {
+    n *= 10;
+    pow += 1;
+  }
+
+  return Math.round(n) / Math.pow(10, pow);
+}
+
+var StarInfo =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(StarInfo, _React$Component);
+
+  function StarInfo() {
+    _classCallCheck(this, StarInfo);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(StarInfo).apply(this, arguments));
+  }
+
+  _createClass(StarInfo, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          starName = _this$props.starName,
+          starSystem = _this$props.starSystem,
+          star = _this$props.star,
+          i = _this$props.i;
+      return _react.default.createElement("div", {
+        className: "StarInfo"
+      }, _react.default.createElement("h4", {
+        className: "planet-label"
+      }, "Star ", i + 1), _react.default.createElement("strong", null, "Type:"), " ", star.starType, _react.default.createElement("br", null), _react.default.createElement("strong", null, "Color:"), " ", _react.default.createElement("span", {
+        style: {
+          backgroundColor: star.color,
+          color: 'black'
+        }
+      }, star.color), _react.default.createElement("br", null), _react.default.createElement("strong", null, "Radius:"), " ", round(star.radius), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Luminosity:"), " ", round(star.luminosity), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Mass:"), " ", round(star.mass), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Metallicity:"), " ", round(star.metallicity), " [Fe/H]", _react.default.createElement("br", null));
+    }
+  }]);
+
+  return StarInfo;
+}(_react.default.Component);
+
+exports.default = StarInfo;
+},{"react":"node_modules/react/index.js"}],"src/components/System.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _lodash = _interopRequireDefault(require("lodash"));
+
+var _PanZoomer = _interopRequireDefault(require("./PanZoomer"));
+
+var _StarSystem = _interopRequireDefault(require("./StarSystem"));
+
+var _StarInfo = _interopRequireDefault(require("./StarInfo"));
+
 var _PlanetInfo = _interopRequireDefault(require("./PlanetInfo"));
+
+var _romanNumerals = _interopRequireDefault(require("../romanNumerals"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53731,85 +54101,12 @@ function getSizes(starSystem, scaleFactor) {
   };
 }
 
-var StarSystem =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(StarSystem, _React$Component);
-
-  function StarSystem() {
-    _classCallCheck(this, StarSystem);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(StarSystem).apply(this, arguments));
-  }
-
-  _createClass(StarSystem, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          starSystem = _this$props.starSystem,
-          seed = _this$props.seed,
-          scaleFactor = _this$props.scaleFactor; // const { sizePx } = getSizes(starSystem, scaleFactor);
-
-      var alea = new _alea.default(starSystem.seed);
-      return _react.default.createElement("div", {
-        className: "StarSystem",
-        style: {// width: sizePx + 'px',
-          // height: sizePx + 'px',
-          // border: '1px solid white',
-        }
-      }, _react.default.createElement("div", {
-        style: {// transform: `translate(${sizePx/2}px, ${sizePx/2}px)`,
-        }
-      }, starSystem.planets.map(function (p, i) {
-        var wPx = p.distance * scaleFactor * 2 + 'px';
-        var rPx = p.distance * scaleFactor + 'px';
-        return _react.default.createElement("div", {
-          className: "orbit",
-          key: i,
-          style: {
-            width: wPx,
-            height: wPx,
-            borderRadius: rPx,
-            position: 'absolute',
-            top: "-".concat(rPx),
-            left: "-".concat(rPx)
-          }
-        });
-      }), starSystem.stars.map(function (s, i) {
-        return _react.default.createElement(_Star.default, {
-          key: i,
-          star: s,
-          minSize: 10,
-          style: {
-            position: 'absolute',
-            top: 0,
-            left: 0
-          }
-        });
-      }), starSystem.planets.map(function (p, i) {
-        return _react.default.createElement(_PlanetSphere.default, {
-          key: i,
-          planet: p,
-          alea: alea,
-          style: {
-            position: 'absolute',
-            top: 0,
-            left: p.distance * scaleFactor + 'px'
-          }
-        });
-      })));
-    }
-  }]);
-
-  return StarSystem;
-}(_react.default.Component);
-
 var ZOOMS = [0.1, 0.25, 0.5, 1, 1.5, 2];
 
 var System =
 /*#__PURE__*/
-function (_React$Component2) {
-  _inherits(System, _React$Component2);
+function (_React$Component) {
+  _inherits(System, _React$Component);
 
   function System(props) {
     var _this;
@@ -53818,53 +54115,115 @@ function (_React$Component2) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(System).call(this, props));
     _this.state = {
-      zoomIndex: ZOOMS.length - 3
+      zoomIndex: ZOOMS.length - 3,
+      activeStar: null,
+      activePlanet: null,
+      activePlanetIndex: null,
+      activeStarIndex: null
     };
     return _this;
   }
 
   _createClass(System, [{
-    key: "zoomIn",
-    value: function zoomIn() {
+    key: "onHoverPlanet",
+    value: function onHoverPlanet(p, i) {
       this.setState({
-        zoomIndex: Math.min(ZOOMS.length - 1, this.state.zoomIndex + 1)
+        activePlanet: p,
+        activeStar: null,
+        activePlanetIndex: i,
+        activeStarIndex: null
       });
     }
   }, {
-    key: "zoomOut",
-    value: function zoomOut() {
+    key: "onHoverStar",
+    value: function onHoverStar(s, i) {
       this.setState({
-        zoomIndex: Math.max(0, this.state.zoomIndex - 1)
+        activePlanet: null,
+        activeStar: s,
+        activePlanetIndex: null,
+        activeStarIndex: i
+      });
+    }
+  }, {
+    key: "resetSelection",
+    value: function resetSelection() {
+      this.setState({
+        activePlanet: null,
+        activeStar: null,
+        activePlanetIndex: null,
+        activeStarIndex: null
       });
     } // props: { kss }
 
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var starSystem = this.props.kss.starSystem;
       var seedStr = "" + this.props.kss.seed;
       var a = seedStr.substring(0, Math.floor(seedStr.length / 2));
       var b = seedStr.substring(Math.floor(seedStr.length / 2));
-      var scaleFactor = 1000;
+      var scaleFactor = 800;
+      var _this$state = this.state,
+          activeStar = _this$state.activeStar,
+          activePlanet = _this$state.activePlanet,
+          activePlanetIndex = _this$state.activePlanetIndex,
+          activeStarIndex = _this$state.activeStarIndex;
       return _react.default.createElement("div", {
         className: "System"
-      }, _react.default.createElement("h2", null, this.props.kss.name), _react.default.createElement("p", null, "Galactic coordinates: ", a, ",", b), _react.default.createElement("div", {
-        className: "ZoomControls"
-      }, _react.default.createElement("span", {
-        className: "ZoomControls__ZoomIn m-clickable",
-        onClick: this.zoomIn.bind(this)
-      }, "Zoom in"), " ", _react.default.createElement("span", {
-        className: "ZoomControls__ZoomIn m-clickable",
-        onClick: this.zoomOut.bind(this)
-      }, "Zoom out")), _react.default.createElement(_reactPanZoom.default, {
-        className: "StarSystemContainer",
-        pandx: 768 / 2,
-        pandy: 768 / 2,
-        zoom: ZOOMS[this.state.zoomIndex]
-      }, _react.default.createElement(StarSystem, {
+      }, _react.default.createElement("p", null, "Auto name: ", this.props.kss.name, _react.default.createElement("br", null), "Galactic coordinates: ", a, ",", b), _react.default.createElement("div", {
+        className: "SidebarUI"
+      }, _react.default.createElement("div", {
+        className: "SidebarUI__Sidebar"
+      }, !activeStar && !activePlanet && _react.default.createElement("div", {
+        className: "EmptyState"
+      }, _react.default.createElement("ul", {
+        className: "BodyList"
+      }, starSystem.stars.map(function (s, i) {
+        return _react.default.createElement("li", {
+          className: "m-clickable",
+          key: 'star-' + i,
+          onClick: _this2.onHoverStar.bind(_this2, s, i)
+        }, "Star ", i + 1, ": ", s.starType);
+      }), starSystem.planets.map(function (p, i) {
+        return _react.default.createElement("li", {
+          className: "m-clickable",
+          key: 'planet-' + i,
+          onClick: _this2.onHoverPlanet.bind(_this2, p, i)
+        }, _this2.props.kss.name, " ", _romanNumerals.default[i]);
+      }))), activeStar && _react.default.createElement("div", {
+        className: "StarInfoWrapper"
+      }, _react.default.createElement("div", {
+        className: "BackLink m-clickable",
+        onClick: this.resetSelection.bind(this)
+      }, "Back"), console.log(activeStarIndex), _react.default.createElement(_StarInfo.default, {
+        starName: this.props.kss.name,
         starSystem: starSystem,
-        scaleFactor: scaleFactor
-      })));
+        star: activeStar,
+        i: activeStarIndex
+      })), activePlanet && _react.default.createElement("div", {
+        className: "PlaneInfoWrapper"
+      }, _react.default.createElement("div", {
+        className: "BackLink m-clickable",
+        onClick: this.resetSelection.bind(this)
+      }, "Back"), _react.default.createElement(_PlanetInfo.default, {
+        starName: this.props.kss.name,
+        starSystem: starSystem,
+        planet: activePlanet,
+        i: activePlanetIndex
+      }))), _react.default.createElement(_PanZoomer.default, {
+        initialZoom: ZOOMS[this.state.zoomIndex],
+        style: {
+          backgroundColor: 'black'
+        }
+      }, _react.default.createElement(_StarSystem.default, {
+        starSystem: starSystem,
+        scaleFactor: scaleFactor,
+        activePlanetIndex: activePlanetIndex,
+        onHoverStar: this.onHoverStar.bind(this),
+        onHoverPlanet: this.onHoverPlanet.bind(this)
+      }))));
     }
   }]);
 
@@ -53872,7 +54231,7 @@ function (_React$Component2) {
 }(_react.default.Component);
 
 exports.default = System;
-},{"react":"node_modules/react/index.js","@ajainarayanan/react-pan-zoom":"node_modules/@ajainarayanan/react-pan-zoom/dist/react-pan-zoom.js","alea":"node_modules/alea/alea.js","lodash":"node_modules/lodash/lodash.js","./Star":"src/components/Star.js","./PlanetSphere":"src/components/PlanetSphere.js","./PlanetInfo":"src/components/PlanetInfo.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","../romanNumerals":"src/romanNumerals.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -53957,23 +54316,30 @@ function (_React$Component) {
   }, {
     key: "go",
     value: function go(delta) {
-      this.setState({
+      var newState = {
         seed: this.state.seed + delta
-      });
-      window.location.hash = JSON.stringify(this.state);
+      };
+      this.setState(newState);
+      window.location.hash = JSON.stringify(Object.assign({}, this.state, newState));
     }
   }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
         className: "Meta"
-      }, _react.default.createElement("h1", null, "The Keplverse"), _react.default.createElement("h3", null, "A procedural star system generator"), _react.default.createElement("p", null, _react.default.createElement("span", {
+      }, _react.default.createElement("header", {
+        className: "Header"
+      }, _react.default.createElement("h1", null, "The Keplverse: A procedural star system generator"), _react.default.createElement("nav", null, _react.default.createElement("span", {
         className: "Meta__Next m-clickable",
         onClick: this.go.bind(this, 1)
       }, "Next (n)"), " ", _react.default.createElement("span", {
         className: "Meta__Previous m-clickable",
         onClick: this.go.bind(this, -1)
-      }, "Previous (p)")), _react.default.createElement(_reactKeyHandler.default, {
+      }, "Previous (p)")), _react.default.createElement("div", {
+        style: {
+          clear: 'both'
+        }
+      })), _react.default.createElement(_reactKeyHandler.default, {
         keyEventName: _reactKeyHandler.KEYPRESS,
         keyValue: "n",
         onKeyHandle: this.go.bind(this, 1)
@@ -54018,7 +54384,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53705" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59436" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

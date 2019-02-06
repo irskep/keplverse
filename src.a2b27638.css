@@ -361,6 +361,8 @@ html {
   --bg: #334;
   --fg: #def;
   --clickable: #a8e;
+  --orbit: gray;
+  --orbit-active: white;
 }
 body {
   margin: 0;
@@ -372,13 +374,7 @@ body {
 }
 @media (min-width: 600px) {
   body {
-    font-size: 18px;
-  }
-}
-@media (min-width: 768px) {
-  #main {
-    max-width: 768px;
-    margin: auto;
+    font-size: 14px;
   }
 }
 /* LAYOUT */
@@ -391,22 +387,85 @@ body {
 .small-font {
   font-size: 0.9rem;
 }
+.Header {
+  border-bottom: 1px solid var(--fg);
+  height: 4rem;
+  line-height: 4rem;
+}
+.Header h1 {
+  font-size: 18px;
+  margin: 0.2em 0;
+}
+.Header nav {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+}
 .m-clickable {
   cursor: pointer;
 }
 .m-clickable:hover {
   text-decoration: underline;
 }
-/* display */
-.StarSystemContainer {
-  width: 768px;
-  height: 768px;
-  border: 1px solid white;
+.SidebarUI {
+  display: flex;
+}
+.SidebarUI__Sidebar {
+  width: 20rem;
+}
+.BodyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.StarInfo {
+  font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+/* PanZoomer */
+.PanZoomer {
+  position: relative;
+  width: 100%;
   overflow: hidden;
+  height: 768px;
+}
+.PanZoomer__Centerer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  overflow: visible;
+}
+.PanZoomer__Help {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  color: white;
+  opacity: 0.5;
+}
+.PanZoomer__ZoomControls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: white;
+  font-size: 24px;
+}
+.PanZoomer__ZoomControls > * {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.PanZoomer__ZoomControls > *:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 /* stars, planets, etc */
 .orbit {
-  border: 1px solid gray;
+  border: 1px solid var(--orbit);
+}
+.orbit.m-active {
+  border: 1px solid var(--orbit-active);
 }
 .star {
   font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
@@ -416,10 +475,15 @@ body {
   margin-bottom: 1rem;
 }
 .star-circle {
+  cursor: pointer;
   margin-right: 0.5rem;
   text-align: center;
   color: black;
   display: inline-block;
+  box-sizing: content-box;
+}
+.star-circle:hover {
+  border: 1px solid var(--fg);
 }
 .planet.m-cold.m-terran .planet-label {
   color: #aaaaff;
@@ -430,24 +494,27 @@ body {
 .planet.m-habitable.m-terran .planet-label {
   color: #88ff88;
 }
-.planet-circle.m-terran {
+.planet-circle {
+  cursor: pointer;
+}
+.planet-circle:hover {
+  border: 1px solid white;
+}
+.planet-circle .m-terran {
   width: 30px;
   height: 30px;
   border-radius: 15px;
   background-color: gray;
-  top: -15px;
 }
-.planet-circle.m-neptunian {
+.planet-circle .m-neptunian {
   width: 40px;
   height: 40px;
   border-radius: 20px;
   background-color: blue;
-  top: -20px;
 }
-.planet-circle.m-jovian {
+.planet-circle .m-jovian {
   width: 80px;
   height: 80px;
   border-radius: 40px;
   background-color: burlywood;
-  top: -40px;
 }
