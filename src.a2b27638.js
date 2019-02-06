@@ -54001,6 +54001,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function round(n) {
+  var mult = n < 0 ? -1 : 1;
+  n *= mult;
   var pow = 0;
 
   while (n < Math.pow(10, 3)) {
@@ -54008,7 +54010,7 @@ function round(n) {
     pow += 1;
   }
 
-  return Math.round(n) / Math.pow(10, pow);
+  return mult * Math.round(n) / Math.pow(10, pow);
 }
 
 var StarInfo =
@@ -54164,7 +54166,7 @@ function (_React$Component) {
       var seedStr = "" + this.props.kss.seed;
       var a = seedStr.substring(0, Math.floor(seedStr.length / 2));
       var b = seedStr.substring(Math.floor(seedStr.length / 2));
-      var scaleFactor = 800;
+      var scaleFactor = 200;
       var _this$state = this.state,
           activeStar = _this$state.activeStar,
           activePlanet = _this$state.activePlanet,
@@ -54231,7 +54233,181 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = System;
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","../romanNumerals":"src/romanNumerals.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","../romanNumerals":"src/romanNumerals.js"}],"src/components/SystemFinder.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _lodash = _interopRequireDefault(require("lodash"));
+
+var _stellardream = require("stellardream");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var STAR_TYPES = ['M', 'K', 'G', 'F', 'A', 'B', 'O'];
+
+var SystemFinder =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(SystemFinder, _React$Component);
+
+  // props: { baseSeed, onSeedFound }
+  function SystemFinder(props) {
+    var _this;
+
+    _classCallCheck(this, SystemFinder);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SystemFinder).call(this, props));
+    _this.state = {
+      'M': false,
+      'K': true,
+      'G': true,
+      'F': true,
+      'A': false,
+      'B': false,
+      'O': false,
+      forceHabitableTerran: true,
+      isSearching: false,
+      numSearched: 0
+    };
+    return _this;
+  }
+
+  _createClass(SystemFinder, [{
+    key: "flipCheckbox",
+    value: function flipCheckbox(st) {
+      this.setState(_defineProperty({}, st, !this.state[st]));
+    }
+  }, {
+    key: "search",
+    value: function search() {
+      this.setState({
+        isSearching: true,
+        numSearched: 1
+      });
+      this.trySeed(this.props.baseSeed + 1);
+    }
+  }, {
+    key: "trySeed",
+    value: function trySeed(baseSeed) {
+      var _this2 = this;
+
+      var batchSize = 10000; // const batchSize = 1;
+
+      for (var seed = baseSeed; seed < baseSeed + batchSize; seed++) {
+        var starSystem = new _stellardream.StarSystem(seed);
+
+        if (this.state[starSystem.stars[0].starType]) {
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = starSystem.planets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var planet = _step.value;
+              var isCold = planet.distance > starSystem.habitableZoneMax;
+              var isHot = planet.distance < starSystem.habitableZoneMin;
+              var isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+              var isTerran = planet.planetType == 'Terran';
+
+              if (isTerran && !isCold && !isHot && !isTidallyLocked) {
+                console.log("Searched", this.state.numSearched + (seed - baseSeed));
+                this.setState({
+                  isSearching: false,
+                  numSearched: 0
+                });
+                this.props.onSeedFound(seed);
+                return;
+              }
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return != null) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+        }
+      }
+
+      this.setState({
+        numSearched: this.state.numSearched + batchSize
+      });
+
+      _lodash.default.defer(function () {
+        _this2.trySeed(baseSeed + 100);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var isSearching = this.state.isSearching;
+      return _react.default.createElement("div", {
+        className: "SystemFinder"
+      }, _react.default.createElement("div", {
+        className: "CheckboxRow"
+      }, STAR_TYPES.map(function (st) {
+        return _react.default.createElement("label", {
+          key: st
+        }, _react.default.createElement("input", {
+          type: "checkbox",
+          onChange: _this3.flipCheckbox.bind(_this3, st),
+          checked: _this3.state[st]
+        }), " ", st, " ");
+      })), _react.default.createElement("div", {
+        className: "CheckboxRow"
+      }, _react.default.createElement("label", null, _react.default.createElement("input", {
+        type: "checkbox",
+        onChange: this.flipCheckbox.bind(this, 'forceHabitableTerrain'),
+        checked: this.state['forceHabitableTerran']
+      }), " Must have Terran planet in habitable zone")), !isSearching && _react.default.createElement("span", {
+        className: "m-clickable",
+        onClick: this.search.bind(this)
+      }, "Search the genspace"), isSearching && _react.default.createElement("span", {
+        className: "SystemFinder__Progress"
+      }, "Searched ", this.state.numSearched, " star systems"));
+    }
+  }]);
+
+  return SystemFinder;
+}(_react.default.Component);
+
+exports.default = SystemFinder;
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -54249,6 +54425,8 @@ var _style = _interopRequireDefault(require("./style.scss"));
 var _KStarSystem = _interopRequireDefault(require("./KStarSystem"));
 
 var _System = _interopRequireDefault(require("./components/System"));
+
+var _SystemFinder = _interopRequireDefault(require("./components/SystemFinder"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -54290,7 +54468,7 @@ function (_React$Component) {
       _this.state = {
         seed: Date.now()
       };
-      window.location.hash = JSON.stringify(_this.state);
+      window.location.hash = window.encodeURIComponent(JSON.stringify(_this.state));
     } else {
       var h = window.location.hash;
 
@@ -54316,9 +54494,14 @@ function (_React$Component) {
   }, {
     key: "go",
     value: function go(delta) {
-      var newState = {
-        seed: this.state.seed + delta
-      };
+      this.setSeed(this.state.seed + delta);
+    }
+  }, {
+    key: "setSeed",
+    value: function setSeed(seed) {
+      var newState = Object.assign({}, this.state, {
+        seed: seed
+      });
       this.setState(newState);
       window.location.hash = JSON.stringify(Object.assign({}, this.state, newState));
     }
@@ -54327,7 +54510,15 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         className: "Meta"
-      }, _react.default.createElement("header", {
+      }, _react.default.createElement(_reactKeyHandler.default, {
+        keyEventName: _reactKeyHandler.KEYPRESS,
+        keyValue: "n",
+        onKeyHandle: this.go.bind(this, 1)
+      }), _react.default.createElement(_reactKeyHandler.default, {
+        keyEventName: _reactKeyHandler.KEYPRESS,
+        keyValue: "p",
+        onKeyHandle: this.go.bind(this, -1)
+      }), _react.default.createElement("header", {
         className: "Header"
       }, _react.default.createElement("h1", null, "The Keplverse: A procedural star system generator"), _react.default.createElement("nav", null, _react.default.createElement("span", {
         className: "Meta__Next m-clickable",
@@ -54339,16 +54530,12 @@ function (_React$Component) {
         style: {
           clear: 'both'
         }
-      })), _react.default.createElement(_reactKeyHandler.default, {
-        keyEventName: _reactKeyHandler.KEYPRESS,
-        keyValue: "n",
-        onKeyHandle: this.go.bind(this, 1)
-      }), _react.default.createElement(_reactKeyHandler.default, {
-        keyEventName: _reactKeyHandler.KEYPRESS,
-        keyValue: "p",
-        onKeyHandle: this.go.bind(this, -1)
+      })), _react.default.createElement(_SystemFinder.default, {
+        baseSeed: this.state.seed,
+        onSeedFound: this.setSeed.bind(this)
       }), _react.default.createElement(_System.default, {
-        kss: this.kss()
+        kss: this.kss(),
+        key: this.state.seed
       }));
     }
   }]);
@@ -54357,7 +54544,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 _reactDom.default.render(_react.default.createElement(Meta, null), document.getElementById('root'));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./KStarSystem":"src/KStarSystem.js","./components/System":"src/components/System.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./KStarSystem":"src/KStarSystem.js","./components/System":"src/components/System.js","./components/SystemFinder":"src/components/SystemFinder.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -54384,7 +54571,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59436" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53194" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
