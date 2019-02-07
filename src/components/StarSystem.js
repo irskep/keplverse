@@ -67,7 +67,7 @@ export default class StarSystem extends React.Component {
             key={i}
             dataStarIndex={i}
             star={s}
-            minSize={5}
+            minSize={3}
             offset={i}
             onClick={this.props.onHoverStar.bind(this, s, i)}
             style={{position: 'absolute', top: 0, left: 0}}

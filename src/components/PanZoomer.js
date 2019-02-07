@@ -1,93 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default class PanZoomer extends React.Component {
-  // props: { className, children, style }
-  constructor(props) {
-    super(props)
-    this.elRef = React.createRef();
-    this.state = {
-      centerX: 0,
-      centerY: 0,
-      scale: props.initialZoom || 1,
-      mouseDownPoint: null,
-      mouseDownCenter: null,
-      isDragging: false, 
-    }
+export default function PanZoomer({className, children, style, initialZoom}) {
+  const [worldOffset, setWorldOffset] = useState({x: 0, y: 0});
+  const [scale, setScale] = useState(initialZoom || 1);
+  const [worldOffsetAtMouseDown, setWorldOffsetAtMouseDown] = useState(null);
+  const [mouseDownPoint, setMouseDownPoint] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  function onMouseDown(e) {
+    setIsDragging(true);
+    setMouseDownPoint({ x: e.screenX, y: e.screenY });
+    setWorldOffsetAtMouseDown(worldOffset);
   }
 
-  onMouseDown(e) {
-    this.setState({
-      isDragging: true,
-      mouseDownPoint: { x: e.screenX, y: e.screenY },
-      mouseDownCenter: {x: this.state.centerX, y: this.state.centerY},
+  function onMouseMove(e) {
+    if (!isDragging) return;
+
+    const {x, y} = worldOffsetAtMouseDown;
+
+    setWorldOffset({
+      x: x + (e.screenX - mouseDownPoint.x) / scale,
+      y: y + (e.screenY - mouseDownPoint.y) / scale,
     });
   }
 
-  onMouseMove(e) {
-    if (!this.state.isDragging) return;
-
-    const {x, y} = this.state.mouseDownCenter;
-
-    this.setState({
-      centerX: x + (e.screenX - this.state.mouseDownPoint.x) / this.state.scale,
-      centerY: y + (e.screenY - this.state.mouseDownPoint.y) / this.state.scale,
-    });
+  function onMouseUp(e) {
+    setIsDragging(false);
+    setWorldOffsetAtMouseDown(null);
+    setMouseDownPoint(null);
   }
 
-  onMouseUp(e) {
-    this.setState({
-      isDragging: false,
-      mouseDownPoint: null,
-      mouseDownCenter: null,
-    });
+  function zoomBy(delta) {
+    setScale(Math.max(0.1, scale + delta * scale / 20));
   }
 
-  onMouseWheel(e) {
-    if (this.state.isDragging) return;
+  function onMouseWheel(e) {
+    if (isDragging) return;
     e.preventDefault();
     let moveAmount = e.deltaY;
     if (moveAmount < -4) moveAmount = -4;
     if (moveAmount > 4) moveAmount = 4;
-    this.zoomBy(-moveAmount);
+    zoomBy(-moveAmount);
   }
 
-  zoomBy(delta) {
-    this.setState({
-      scale: Math.max(0.1, this.state.scale + delta * this.state.scale / 20),
-    });
-  }
-
-  render() {
-    const {centerX, centerY, scale} = this.state;
-    return (
+  return (
+    <div
+        style={style}
+        className={className || 'PanZoomer'}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onWheel={onMouseWheel} >
       <div
-          style={this.props.style}
-          className={this.props.className || 'PanZoomer'}
-          onMouseDown={this.onMouseDown.bind(this)}
-          onMouseMove={this.onMouseMove.bind(this)}
-          onMouseUp={this.onMouseUp.bind(this)}
-          onMouseLeave={this.onMouseUp.bind(this)}
-          onWheel={this.onMouseWheel.bind(this)}
-          ref={this.elRef}>
-        <div
-          className="PanZoomer__Centerer"
-          style={{
-            transform: `scale(${scale}) translate(${centerX}px, ${centerY}px)`,
-          }}>
-          {this.props.children}
+        className="PanZoomer__Centerer"
+        style={{
+          transform: `scale(${scale}) translate(${worldOffset.x}px, ${worldOffset.y}px)`,
+        }}>
+        {children}
+      </div>
+      <div className="PanZoomer__Help">
+        Drag and scroll to pan and zoom
+      </div>
+      <div className="PanZoomer__ZoomControls">
+        <div className="PanZoomer__ZoomControls__ZoomIn" onClick={zoomBy.bind(this, 12)}>
+        ➕
         </div>
-        <div className="PanZoomer__Help">
-          Drag and scroll to pan and zoom
-        </div>
-        <div className="PanZoomer__ZoomControls">
-          <div className="PanZoomer__ZoomControls__ZoomIn" onClick={this.zoomBy.bind(this, 12)}>
-          ➕
-          </div>
-          <div className="PanZoomer__ZoomControls__ZoomOut" onClick={this.zoomBy.bind(this, -12)}>
-          ➖
-          </div>
+        <div className="PanZoomer__ZoomControls__ZoomOut" onClick={zoomBy.bind(this, -12)}>
+        ➖
         </div>
       </div>
-    )
-  }
+    </div>
+  );
 }
