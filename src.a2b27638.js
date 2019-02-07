@@ -45446,7 +45446,41 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/strict-uri-encode/index.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/ui/ui.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/ui/StaticWindow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = StaticWindow;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function StaticWindow(_ref) {
+  var title = _ref.title,
+      children = _ref.children,
+      windowStyle = _ref.windowStyle;
+  return _react.default.createElement("div", {
+    className: "W95__Window m-static"
+  }, _react.default.createElement("div", {
+    className: "W95__WindowBG"
+  }), _react.default.createElement("div", {
+    className: "W95__WindowTitle"
+  }, title), _react.default.createElement("div", {
+    className: "W95__WindowContents",
+    style: windowStyle || {}
+  }, children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"node_modules/strict-uri-encode/index.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => "%".concat(x.charCodeAt(0).toString(16).toUpperCase()));
@@ -54438,7 +54472,111 @@ var KStarSystem = function KStarSystem(seed) {
 };
 
 exports.default = KStarSystem;
-},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
+},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/Group.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Group;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Group(_ref) {
+  var title = _ref.title,
+      children = _ref.children,
+      className = _ref.className;
+  return _react.default.createElement("div", {
+    className: "W95__Group ".concat(className || '')
+  }, _react.default.createElement("div", {
+    className: "W95__GroupBG"
+  }), _react.default.createElement("div", {
+    className: "W95__GroupTitle"
+  }, title), _react.default.createElement("div", {
+    className: "W95__GroupContents"
+  }, children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/Button.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Button;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function Button(props) {
+  return _react.default.createElement("button", _extends({
+    className: "W95__Button"
+  }, props), _react.default.createElement("div", {
+    className: "W95__ButtonBG"
+  }), _react.default.createElement("span", {
+    className: "W95__Button__Text"
+  }, props.children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/SeedNavigator.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = SeedNavigator;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Button = _interopRequireDefault(require("./ui/Button"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function SeedNavigator(_ref) {
+  var baseSeed = _ref.baseSeed,
+      onSeedFound = _ref.onSeedFound;
+
+  var _useState = (0, _react.useState)("" + baseSeed),
+      _useState2 = _slicedToArray(_useState, 2),
+      inputSeed = _useState2[0],
+      setInputSeed = _useState2[1];
+
+  function onChange(e) {
+    setInputSeed(e.target.value);
+  }
+
+  return _react.default.createElement("div", {
+    className: "SeedNavigator"
+  }, _react.default.createElement("div", null, _react.default.createElement("input", {
+    type: "text",
+    value: inputSeed,
+    onChange: onChange
+  }), " ", _react.default.createElement(_Button.default, {
+    onClick: onSeedFound.bind(this, parseInt(inputSeed, 10))
+  }, "Go")), _react.default.createElement(_Button.default, {
+    onClick: onSeedFound.bind(this, baseSeed - 1)
+  }, "Previous seed (p)"), _react.default.createElement(_Button.default, {
+    onClick: onSeedFound.bind(this, baseSeed + 1)
+  }, "Next seed (n)"));
+}
+},{"react":"node_modules/react/index.js","./ui/Button":"src/components/ui/Button.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54651,6 +54789,24 @@ exports.default = void 0;
 var numbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
 var _default = numbers;
 exports.default = _default;
+},{}],"src/getPlanetInfo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getPlanetInfo;
+
+function getPlanetInfo(starSystem, planet) {
+  var isCold = planet.distance > starSystem.habitableZoneMax;
+  var isHot = planet.distance < starSystem.habitableZoneMin;
+  var isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+  return {
+    isCold: isCold,
+    isHot: isHot,
+    isTidallyLocked: isTidallyLocked
+  };
+}
 },{}],"src/components/PlanetInfo.js":[function(require,module,exports) {
 "use strict";
 
@@ -54662,6 +54818,8 @@ exports.default = Planet;
 var _react = _interopRequireDefault(require("react"));
 
 var _romanNumerals = _interopRequireDefault(require("../romanNumerals"));
+
+var _getPlanetInfo2 = _interopRequireDefault(require("../getPlanetInfo"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54692,9 +54850,12 @@ function Planet(_ref) {
       planet = _ref.planet,
       i = _ref.i,
       starName = _ref.starName;
-  var isCold = planet.distance > starSystem.habitableZoneMax;
-  var isHot = planet.distance < starSystem.habitableZoneMin;
-  var isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+
+  var _getPlanetInfo = (0, _getPlanetInfo2.default)(starSystem, planet),
+      isCold = _getPlanetInfo.isCold,
+      isHot = _getPlanetInfo.isHot,
+      isTidallyLocked = _getPlanetInfo.isTidallyLocked;
+
   var habDesc = "";
   var habClass = "";
 
@@ -54724,7 +54885,7 @@ function Planet(_ref) {
     className: "planet-desc"
   }, habDesc, " ", isTidallyLocked ? tidalLockingDesc : ''));
 }
-},{"react":"node_modules/react/index.js","../romanNumerals":"src/romanNumerals.js"}],"src/components/PlanetSphere.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../romanNumerals":"src/romanNumerals.js","../getPlanetInfo":"src/getPlanetInfo.js"}],"src/components/PlanetSphere.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54955,7 +55116,41 @@ function StarInfo(_ref) {
     }
   }, star.color), _react.default.createElement("br", null), _react.default.createElement("strong", null, "Radius:"), " ", round(star.radius), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Luminosity:"), " ", round(star.luminosity), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Mass:"), " ", round(star.mass), " suns", _react.default.createElement("br", null), _react.default.createElement("strong", null, "Metallicity:"), " ", round(star.metallicity), " [Fe/H]", _react.default.createElement("br", null));
 }
-},{"react":"node_modules/react/index.js"}],"src/components/System.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"src/components/ui/List.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = List;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function List(_ref) {
+  var _this = this;
+
+  var items = _ref.items,
+      selectedItemIndex = _ref.selectedItemIndex,
+      onSelect = _ref.onSelect;
+  return _react.default.createElement("div", {
+    className: "W95__List"
+  }, _react.default.createElement("div", {
+    className: "W95__ListBG"
+  }), _react.default.createElement("div", {
+    className: "W95__List__Contents"
+  }, items.map(function (item, i) {
+    return _react.default.createElement("div", {
+      onClick: onSelect.bind(_this, i),
+      className: "W95__ListItem ".concat(i === selectedItemIndex ? 'm-selected' : ''),
+      key: i
+    }, item);
+  })));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/BodyListAndPanZoomer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54975,7 +55170,11 @@ var _StarInfo = _interopRequireDefault(require("./StarInfo"));
 
 var _PlanetInfo = _interopRequireDefault(require("./PlanetInfo"));
 
+var _List = _interopRequireDefault(require("./ui/List"));
+
 var _romanNumerals = _interopRequireDefault(require("../romanNumerals"));
+
+var _getPlanetInfo2 = _interopRequireDefault(require("../getPlanetInfo"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54996,8 +55195,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //   return { sizeAU, sizePx };
 // }
 function System(_ref) {
-  var _this = this;
-
   var kss = _ref.kss,
       seed = _ref.seed;
 
@@ -55010,6 +55207,40 @@ function System(_ref) {
       _useState2 = _slicedToArray(_useState, 2),
       state = _useState2[0],
       setState = _useState2[1];
+
+  var starSystem = kss.starSystem;
+  var seedStr = "" + kss.seed;
+  var a = seedStr.substring(0, Math.floor(seedStr.length / 2));
+  var b = seedStr.substring(Math.floor(seedStr.length / 2));
+  var scaleFactor = 200;
+  var activeStar = state.activeStar,
+      activePlanet = state.activePlanet,
+      activePlanetIndex = state.activePlanetIndex,
+      activeStarIndex = state.activeStarIndex;
+
+  function getStarText(s, i) {
+    return "Star ".concat(i + 1, ": ").concat(s.starType);
+  }
+
+  function getPlanetText(p, i) {
+    var prefix = "".concat(kss.name, " ").concat(_romanNumerals.default[i]);
+    var suffixes = [p.planetType[0]];
+
+    var _getPlanetInfo = (0, _getPlanetInfo2.default)(starSystem, p),
+        isHot = _getPlanetInfo.isHot,
+        isCold = _getPlanetInfo.isCold,
+        isTidallyLocked = _getPlanetInfo.isTidallyLocked;
+
+    if (!isHot && !isCold) suffixes.push("Hab");
+    if (isTidallyLocked) suffixes.push("TL");
+    return "".concat(prefix, " (").concat(suffixes.join(', '), ")");
+  }
+
+  var items = [].concat(starSystem.stars.map(getStarText)).concat(starSystem.planets.map(getPlanetText));
+  var selectedItemIndex = null;
+  var planetIndexStart = starSystem.stars.length;
+  if (activeStarIndex !== null) selectedItemIndex = activeStarIndex;
+  if (activePlanetIndex !== null) selectedItemIndex = planetIndexStart + activePlanetIndex;
 
   function onHoverPlanet(p, i) {
     setState({
@@ -55038,53 +55269,34 @@ function System(_ref) {
     });
   }
 
-  var starSystem = kss.starSystem;
-  var seedStr = "" + kss.seed;
-  var a = seedStr.substring(0, Math.floor(seedStr.length / 2));
-  var b = seedStr.substring(Math.floor(seedStr.length / 2));
-  var scaleFactor = 200;
-  var activeStar = state.activeStar,
-      activePlanet = state.activePlanet,
-      activePlanetIndex = state.activePlanetIndex,
-      activeStarIndex = state.activeStarIndex;
+  function onSelect(i) {
+    if (i < planetIndexStart) {
+      onHoverStar(starSystem.stars[i], i);
+    } else {
+      onHoverPlanet(starSystem.planets[i - planetIndexStart], i - planetIndexStart);
+    }
+  }
+
   return _react.default.createElement("div", {
     className: "System"
-  }, _react.default.createElement("p", null, "Auto name: ", kss.name, _react.default.createElement("br", null), "Galactic coordinates: ", a, ",", b), _react.default.createElement("div", {
+  }, _react.default.createElement("div", {
     className: "SidebarUI"
   }, _react.default.createElement("div", {
     className: "SidebarUI__Sidebar"
-  }, !activeStar && !activePlanet && _react.default.createElement("div", {
-    className: "EmptyState"
-  }, _react.default.createElement("ul", {
-    className: "BodyList"
-  }, starSystem.stars.map(function (s, i) {
-    return _react.default.createElement("li", {
-      className: "m-clickable",
-      key: 'star-' + i,
-      onClick: onHoverStar.bind(_this, s, i)
-    }, "Star ", i + 1, ": ", s.starType);
-  }), starSystem.planets.map(function (p, i) {
-    return _react.default.createElement("li", {
-      className: "m-clickable",
-      key: 'planet-' + i,
-      onClick: onHoverPlanet.bind(_this, p, i)
-    }, kss.name, " ", _romanNumerals.default[i]);
-  }))), activeStar && _react.default.createElement("div", {
+  }, _react.default.createElement(_List.default, {
+    items: items,
+    selectedItemIndex: selectedItemIndex,
+    onSelect: onSelect
+  }), activeStar && _react.default.createElement("div", {
     className: "StarInfoWrapper"
-  }, _react.default.createElement("div", {
-    className: "BackLink m-clickable",
-    onClick: resetSelection.bind(this)
-  }, "Back"), _react.default.createElement(_StarInfo.default, {
+  }, _react.default.createElement(_StarInfo.default, {
     starName: kss.name,
     starSystem: starSystem,
     star: activeStar,
     i: activeStarIndex
   })), activePlanet && _react.default.createElement("div", {
     className: "PlaneInfoWrapper"
-  }, _react.default.createElement("div", {
-    className: "BackLink m-clickable",
-    onClick: resetSelection.bind(this)
-  }, "Back"), _react.default.createElement(_PlanetInfo.default, {
+  }, _react.default.createElement(_PlanetInfo.default, {
     starName: kss.name,
     starSystem: starSystem,
     planet: activePlanet,
@@ -55102,7 +55314,7 @@ function System(_ref) {
     onHoverPlanet: onHoverPlanet
   }))));
 }
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","../romanNumerals":"src/romanNumerals.js"}],"src/components/SystemFinder.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","./ui/List":"src/components/ui/List.js","../romanNumerals":"src/romanNumerals.js","../getPlanetInfo":"src/getPlanetInfo.js"}],"src/components/SystemFinder.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55113,6 +55325,10 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
+
+var _Group = _interopRequireDefault(require("./ui/Group"));
+
+var _Button = _interopRequireDefault(require("./ui/Button"));
 
 var _stellardream = require("stellardream");
 
@@ -55259,11 +55475,12 @@ function (_React$Component) {
       var _this3 = this;
 
       var isSearching = this.state.isSearching;
-      return _react.default.createElement("div", {
-        className: "SystemFinder"
-      }, _react.default.createElement("h2", null, "System Finder"), _react.default.createElement("div", {
+      return _react.default.createElement(_Group.default, {
+        className: "SystemFinder",
+        title: "Find Systems"
+      }, _react.default.createElement("div", {
         className: "CheckboxRow"
-      }, STAR_TYPES.map(function (st) {
+      }, _react.default.createElement("strong", null, "Star type:"), " ", STAR_TYPES.map(function (st) {
         return _react.default.createElement("label", {
           key: st
         }, _react.default.createElement("input", {
@@ -55277,10 +55494,9 @@ function (_React$Component) {
         type: "checkbox",
         onChange: this.flipCheckbox.bind(this, 'forceHabitableTerran'),
         checked: this.state['forceHabitableTerran']
-      }), " Must have Terran planet in habitable zone")), !isSearching && _react.default.createElement("span", {
-        className: "m-clickable",
+      }), " Must have Terran planet in habitable zone")), !isSearching && _react.default.createElement(_Button.default, {
         onClick: this.search.bind(this)
-      }, "Search the genspace"), isSearching && _react.default.createElement("span", {
+      }, "Search genspace"), isSearching && _react.default.createElement("span", {
         className: "SystemFinder__Progress"
       }, "Searched ", this.state.numSearched, " star systems"));
     }
@@ -55290,7 +55506,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = SystemFinder;
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -55305,11 +55521,17 @@ var _normalize = _interopRequireDefault(require("./normalize.css"));
 
 var _style = _interopRequireDefault(require("./style.scss"));
 
+var _StaticWindow = _interopRequireDefault(require("./components/ui/StaticWindow"));
+
 var _URLStorage = _interopRequireDefault(require("./URLStorage"));
 
 var _KStarSystem = _interopRequireDefault(require("./KStarSystem"));
 
-var _System = _interopRequireDefault(require("./components/System"));
+var _Group = _interopRequireDefault(require("./components/ui/Group"));
+
+var _SeedNavigator = _interopRequireDefault(require("./components/SeedNavigator"));
+
+var _BodyListAndPanZoomer = _interopRequireDefault(require("./components/BodyListAndPanZoomer"));
 
 var _SystemFinder = _interopRequireDefault(require("./components/SystemFinder"));
 
@@ -55365,29 +55587,28 @@ function Meta() {
     keyEventName: _reactKeyHandler.KEYPRESS,
     keyValue: "p",
     onKeyHandle: go.bind(this, -1)
-  }), _react.default.createElement("header", {
-    className: "Header"
-  }, _react.default.createElement("h1", null, "The Keplverse: A procedural star system generator"), _react.default.createElement("nav", null, _react.default.createElement("span", {
-    className: "Meta__Next m-clickable",
-    onClick: go.bind(this, 1)
-  }, "Next (n)"), " ", _react.default.createElement("span", {
-    className: "Meta__Previous m-clickable",
-    onClick: go.bind(this, -1)
-  }, "Previous (p)")), _react.default.createElement("div", {
-    style: {
-      clear: 'both'
-    }
+  }), _react.default.createElement(_StaticWindow.default, {
+    title: "Keplverse Telescope Software 1.0"
+  }, _react.default.createElement("div", {
+    className: "W95__HorzFlex"
+  }, _react.default.createElement(_Group.default, {
+    title: "Star System Information"
+  }, _react.default.createElement("p", null, "Auto name: ", kss.name), _react.default.createElement("p", null, "Seed: ", seed)), _react.default.createElement(_Group.default, {
+    title: "Seed"
+  }, _react.default.createElement(_SeedNavigator.default, {
+    baseSeed: seed,
+    onSeedFound: setSeed
   })), _react.default.createElement(_SystemFinder.default, {
     baseSeed: seed,
     onSeedFound: setSeed
-  }), _react.default.createElement(_System.default, {
+  })), _react.default.createElement(_BodyListAndPanZoomer.default, {
     kss: kss,
     key: seed
-  }));
+  })));
 }
 
 _reactDom.default.render(_react.default.createElement(Meta, null), document.getElementById('root'));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./URLStorage":"src/URLStorage.js","./KStarSystem":"src/KStarSystem.js","./components/System":"src/components/System.js","./components/SystemFinder":"src/components/SystemFinder.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./components/ui/StaticWindow":"src/components/ui/StaticWindow.js","./URLStorage":"src/URLStorage.js","./KStarSystem":"src/KStarSystem.js","./components/ui/Group":"src/components/ui/Group.js","./components/SeedNavigator":"src/components/SeedNavigator.js","./components/BodyListAndPanZoomer":"src/components/BodyListAndPanZoomer.js","./components/SystemFinder":"src/components/SystemFinder.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -55414,7 +55635,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65178" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55511" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
