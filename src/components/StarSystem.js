@@ -77,7 +77,6 @@ export default class StarSystem extends React.Component {
           const angle = Math.PI * alea();
           return (<PlanetSphere
             key={i}
-            dataPlanetIndex={i}
             planet={p}
             onClick={this.props.onHoverPlanet.bind(this, p, i)}
             alea={alea}

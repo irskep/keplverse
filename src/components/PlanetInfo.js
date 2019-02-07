@@ -43,38 +43,34 @@ const brightnesses = {
   Jovian: [0.4, 0.9],
 };
 
-export default class Planet extends React.Component {
-  // props: { starSystem, planet, i, starName }
-  render() {
-    const {starSystem, planet, i, starName} = this.props;
-    const isCold = planet.distance > starSystem.habitableZoneMax;
-    const isHot = planet.distance < starSystem.habitableZoneMin;
-    const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+export default function Planet({starSystem, planet, i, starName}) {
+  const isCold = planet.distance > starSystem.habitableZoneMax;
+  const isHot = planet.distance < starSystem.habitableZoneMin;
+  const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
 
-    let habDesc = "";
-    let habClass = ""
-    if (planet.planetType == 'Terran') {
-      if (isCold) {
-        habDesc = "This planet is too far from the sun to have an atmosphere.";
-        habClass = "m-cold";
-      } else if (isHot) {
-        habDesc = "This planet is too close to the sun. If it ever had an atmosphere, it has burned off.";
-        habClass = "m-hot";
-      } else {
-        habDesc = "This planet is in the habitable zone and could plausibly have an atmosphere.";
-        habClass = "m-habitable";
-      }
+  let habDesc = "";
+  let habClass = ""
+  if (planet.planetType == 'Terran') {
+    if (isCold) {
+      habDesc = "This planet is too far from the sun to have an atmosphere.";
+      habClass = "m-cold";
+    } else if (isHot) {
+      habDesc = "This planet is too close to the sun. If it ever had an atmosphere, it has burned off.";
+      habClass = "m-hot";
+    } else {
+      habDesc = "This planet is in the habitable zone and could plausibly have an atmosphere.";
+      habClass = "m-habitable";
     }
-
-    return (
-      <div
-          className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
-          title={`${JSON.stringify(starName, null, 2)}`}>
-        <h4 className="planet-label">{starName} {romanNumerals[i]}: {planet.planetType}</h4>
-        <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
-        <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
-        {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}
-      </div>
-    );
   }
+
+  return (
+    <div
+        className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
+        title={`${JSON.stringify(starName, null, 2)}`}>
+      <h4 className="planet-label">{starName} {romanNumerals[i]}: {planet.planetType}</h4>
+      <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
+      <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
+      {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}
+    </div>
+  );
 }

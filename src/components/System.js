@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import PanZoomer from './PanZoomer';
 import StarSystem from './StarSystem';
@@ -6,107 +6,99 @@ import StarInfo from './StarInfo';
 import PlanetInfo from './PlanetInfo';
 import romanNumerals from '../romanNumerals';
 
-function getSizes(starSystem, scaleFactor) {
-  const sizeAU = 2 * _.max(starSystem.planets.map((p) => p.distance));
-  const sizePx = sizeAU * scaleFactor + 3 * scaleFactor;
-  return { sizeAU, sizePx };
-}
+// /// compute size of area needed to contain all orbits
+// function getSizes(starSystem, scaleFactor) {
+//   const sizeAU = 2 * _.max(starSystem.planets.map((p) => p.distance));
+//   const sizePx = sizeAU * scaleFactor + 3 * scaleFactor;
+//   return { sizeAU, sizePx };
+// }
 
-const ZOOMS = [0.1, 0.25, 0.5, 1, 1.5, 2];
-export default class System extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      zoomIndex: ZOOMS.length - 3,
-      activeStar: null,
-      activePlanet: null,
-      activePlanetIndex: null,
-      activeStarIndex: null,
-    };
+export default function System({kss, seed}) {
+  const [state, setState] = useState({
+    activePlanet: null,
+    activeStar: null,
+    activePlanetIndex: null,
+    activeStarIndex: null,
+  });
+
+  function onHoverPlanet(p, i) {
+    setState({activePlanet: p, activeStar: null, activePlanetIndex: i, activeStarIndex: null});
   }
 
-  onHoverPlanet(p, i) {
-    this.setState({activePlanet: p, activeStar: null, activePlanetIndex: i, activeStarIndex: null});
+  function onHoverStar(s, i) {
+    setState({activePlanet: null, activeStar: s, activePlanetIndex: null, activeStarIndex: i});
   }
 
-  onHoverStar(s, i) {
-    this.setState({activePlanet: null, activeStar: s, activePlanetIndex: null, activeStarIndex: i});
+  function resetSelection() {
+    setState({activePlanet: null, activeStar: null, activePlanetIndex: null, activeStarIndex: null});
   }
 
-  resetSelection() {
-    this.setState({activePlanet: null, activeStar: null, activePlanetIndex: null, activeStarIndex: null});
-  }
+  const { starSystem } = kss;
+  const seedStr = "" + kss.seed;
+  const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
+  const b = seedStr.substring(Math.floor(seedStr.length / 2));
+  const scaleFactor = 200;
 
-  // props: { kss }
-  render() {
-    const { starSystem } = this.props.kss;
-    const seedStr = "" + this.props.kss.seed;
-    const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
-    const b = seedStr.substring(Math.floor(seedStr.length / 2));
-    const scaleFactor = 200;
+  const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = state;
 
-    const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = this.state;
+  return (
+    <div className="System">
+      <p>
+        Auto name: {kss.name}
+        <br />
+        Galactic coordinates: {a},{b}
+      </p>
 
-    return (
-      <div className="System">
-        <p>
-          Auto name: {this.props.kss.name}
-          <br />
-          Galactic coordinates: {a},{b}
-        </p>
+      <div className="SidebarUI">
+        <div className="SidebarUI__Sidebar">
+          {!activeStar && !activePlanet && (
+            <div className="EmptyState">
+              <ul className="BodyList">
+                {starSystem.stars.map((s, i) => (
+                  <li className="m-clickable" key={'star-' + i}
+                      onClick={onHoverStar.bind(this, s, i)}>
+                    Star {(i + 1)}: {s.starType}
+                  </li>
+                ))}
+                {starSystem.planets.map((p, i) => (
+                  <li className="m-clickable" key={'planet-' + i} onClick={onHoverPlanet.bind(this, p, i)}>
+                    {kss.name} {romanNumerals[i]}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-        <div className="SidebarUI">
-          <div className="SidebarUI__Sidebar">
-            {!activeStar && !activePlanet && (
-              <div className="EmptyState">
-                <ul className="BodyList">
-                  {starSystem.stars.map((s, i) => (
-                    <li className="m-clickable" key={'star-' + i}
-                        onClick={this.onHoverStar.bind(this, s, i)}>
-                      Star {(i + 1)}: {s.starType}
-                    </li>
-                  ))}
-                  {starSystem.planets.map((p, i) => (
-                    <li className="m-clickable" key={'planet-' + i} onClick={this.onHoverPlanet.bind(this, p, i)}>
-                      {this.props.kss.name} {romanNumerals[i]}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {activeStar && <div className="StarInfoWrapper">
-              <div className="BackLink m-clickable" onClick={this.resetSelection.bind(this)}>Back</div>
-              {console.log(activeStarIndex)}
-              <StarInfo
-                starName={this.props.kss.name}
-                starSystem={starSystem}
-                star={activeStar}
-                i={activeStarIndex} />
-            </div>}
-
-            {activePlanet && (
-              <div className="PlaneInfoWrapper">
-                <div className="BackLink m-clickable" onClick={this.resetSelection.bind(this)}>Back</div>
-                <PlanetInfo
-                  starName={this.props.kss.name}
-                  starSystem={starSystem}
-                  planet={activePlanet}
-                  i={activePlanetIndex} />
-              </div>
-            )}
-          </div>
-
-          <PanZoomer initialZoom={ZOOMS[this.state.zoomIndex]} style={{backgroundColor: 'black'}}>
-            <StarSystem
+          {activeStar && <div className="StarInfoWrapper">
+            <div className="BackLink m-clickable" onClick={resetSelection.bind(this)}>Back</div>
+            <StarInfo
+              starName={kss.name}
               starSystem={starSystem}
-              scaleFactor={scaleFactor}
-              activePlanetIndex={activePlanetIndex}
-              onHoverStar={this.onHoverStar.bind(this)}
-              onHoverPlanet={this.onHoverPlanet.bind(this)} />
-          </PanZoomer>
+              star={activeStar}
+              i={activeStarIndex} />
+          </div>}
+
+          {activePlanet && (
+            <div className="PlaneInfoWrapper">
+              <div className="BackLink m-clickable" onClick={resetSelection.bind(this)}>Back</div>
+              <PlanetInfo
+                starName={kss.name}
+                starSystem={starSystem}
+                planet={activePlanet}
+                i={activePlanetIndex} />
+            </div>
+          )}
         </div>
+
+        <PanZoomer initialZoom={1} style={{backgroundColor: 'black'}}>
+          <StarSystem
+            starSystem={starSystem}
+            scaleFactor={scaleFactor}
+            activePlanetIndex={activePlanetIndex}
+            onHoverStar={onHoverStar}
+            onHoverPlanet={onHoverPlanet} />
+        </PanZoomer>
       </div>
-    );
-  }
+    </div>
+  );
 }

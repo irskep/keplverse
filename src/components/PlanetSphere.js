@@ -26,31 +26,26 @@ const sizes = {
   Jovian: 40,
 };
 
-export default class PlanetSphere extends React.Component {
-  // props: { planet, style, onClick }
-  render() {
-    const {planet} = this.props;
+export default function PlanetSphere({planet, style, onClick, alea}) {
+  const size = sizes[planet.planetType]
+  const wPx = size + 'px';
+  const rPx = (size / 2) + 'px';
 
-    const size = sizes[planet.planetType]
-    const wPx = size + 'px';
-    const rPx = (size / 2) + 'px';
-
-    return (
-      <div
-        className={`planet-circle m-${planet.planetType.toLowerCase()}`}
-        onClick={this.props.onClick}
-        style={Object.assign({
-          background: spheroidGradient(
-            this.props.alea,
-            hues[planet.planetType],
-            saturations[planet.planetType],
-            brightnesses[planet.planetType],
-            0.5),
-          width: wPx,
-          height: wPx,
-          borderRadius: rPx,
-          transform: `translate(-${rPx}, -${rPx})`,
-        }, this.props.style)}/>
-    );
-  }
+  return (
+    <div
+      className={`planet-circle m-${planet.planetType.toLowerCase()}`}
+      onClick={onClick}
+      style={Object.assign({
+        background: spheroidGradient(
+          alea,
+          hues[planet.planetType],
+          saturations[planet.planetType],
+          brightnesses[planet.planetType],
+          0.5),
+        width: wPx,
+        height: wPx,
+        borderRadius: rPx,
+        transform: `translate(-${rPx}, -${rPx})`,
+      }, style)}/>
+  );
 }
