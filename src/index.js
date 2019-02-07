@@ -13,6 +13,12 @@ import SystemFinder from './components/SystemFinder';
 
 const SYSTEMS = {};
 
+function encode(s) {
+  return window.encodeURIComponent(s)
+    .replace(/{/g, '%7B')
+    .replace(/}/g, '%7D');
+}
+
 class Meta extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +27,7 @@ class Meta extends React.Component {
       this.state = {
         seed: Date.now(),
       };
-      window.location.hash = window.encodeURIComponent(JSON.stringify(this.state));
+      window.location.hash = encode(JSON.stringify(this.state));
     } else {
       let h = window.location.hash;
       if (h[0] == "#") {
@@ -46,7 +52,7 @@ class Meta extends React.Component {
   setSeed(seed) {
     const newState = Object.assign({}, this.state, {seed});
     this.setState(newState);
-    window.location.hash = JSON.stringify(Object.assign({}, this.state, newState));
+    window.location.hash = encode(JSON.stringify(Object.assign({}, this.state, newState)));
   }
 
   render() {
