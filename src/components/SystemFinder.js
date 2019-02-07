@@ -37,23 +37,33 @@ export default class SystemFinder extends React.Component {
     // const batchSize = 10000;
     const batchSize = 1;
 
+    const success = (seed) => {
+      console.log("Searched", this.state.numSearched + (seed - baseSeed));
+      this.setState({isSearching: false, numSearched: 0});
+      this.props.onSeedFound(seed);
+    }
+
     for (let seed=baseSeed; seed<baseSeed+batchSize; seed++) {
-      console.log(seed);
       const starSystem = new StarSystem(seed);
 
-      if (this.state[starSystem.stars[0].starType]) {
-        for (let planet of starSystem.planets) {
-          const isCold = planet.distance > starSystem.habitableZoneMax;
-          const isHot = planet.distance < starSystem.habitableZoneMin;
-          const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
-          const isTerran = planet.planetType == 'Terran';
+      if (!this.state[starSystem.stars[0].starType]) {
+        continue;
+      }
 
-          if (isTerran && !isCold && !isHot && !isTidallyLocked) {
-            console.log("Searched", this.state.numSearched + (seed - baseSeed));
-            this.setState({isSearching: false, numSearched: 0});
-            this.props.onSeedFound(seed);
-            return;
-          }
+      if (!this.state.forceHabitableTerran) {
+        success(seed);
+        return
+      }
+
+      for (let planet of starSystem.planets) {
+        const isCold = planet.distance > starSystem.habitableZoneMax;
+        const isHot = planet.distance < starSystem.habitableZoneMin;
+        const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+        const isTerran = planet.planetType == 'Terran';
+
+        if (isTerran && !isCold && !isHot && !isTidallyLocked) {
+          success(seed);
+          return;
         }
       }
     }
@@ -87,7 +97,7 @@ export default class SystemFinder extends React.Component {
           <label>
             <input
               type="checkbox"
-              onChange={this.flipCheckbox.bind(this, 'forceHabitableTerrain')}
+              onChange={this.flipCheckbox.bind(this, 'forceHabitableTerran')}
               checked={this.state['forceHabitableTerran']}/>
             {" Must have Terran planet in habitable zone"}
           </label>
