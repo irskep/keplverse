@@ -34,10 +34,11 @@ export default class SystemFinder extends React.Component {
   }
 
   trySeed(baseSeed) {
-    const batchSize = 10000;
-    // const batchSize = 1;
+    // const batchSize = 10000;
+    const batchSize = 1;
 
     for (let seed=baseSeed; seed<baseSeed+batchSize; seed++) {
+      console.log(seed);
       const starSystem = new StarSystem(seed);
 
       if (this.state[starSystem.stars[0].starType]) {
@@ -59,7 +60,7 @@ export default class SystemFinder extends React.Component {
 
     this.setState({numSearched: this.state.numSearched + batchSize});
     _.defer(() => {
-      this.trySeed(baseSeed + 100);
+      this.trySeed(baseSeed + batchSize);
     });
   }
 

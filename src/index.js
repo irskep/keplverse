@@ -29,7 +29,7 @@ const URL_STORAGE = new URLStorage(() => ({
 }));
 
 function Meta() {
-  const [seed, setSeed] = URL_STORAGE.useStoredValue('seed', parseFloat);
+  const [seed, setSeed] = URL_STORAGE.useStoredValue('seed');
 
   const go = (delta) => setSeed(seed + delta);
 
