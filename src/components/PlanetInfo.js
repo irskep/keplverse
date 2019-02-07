@@ -1,5 +1,6 @@
 import React from 'react';
 import romanNumerals from '../romanNumerals';
+import getPlanetInfo from '../getPlanetInfo';
 
 const TYPE_DESCRIPTIONS = {
   Terran: `
@@ -44,9 +45,7 @@ const brightnesses = {
 };
 
 export default function Planet({starSystem, planet, i, starName}) {
-  const isCold = planet.distance > starSystem.habitableZoneMax;
-  const isHot = planet.distance < starSystem.habitableZoneMin;
-  const isTidallyLocked = !isCold && starSystem.stars[0].starType == 'M';
+  const {isCold, isHot, isTidallyLocked} = getPlanetInfo(starSystem, planet);
 
   let habDesc = "";
   let habClass = ""

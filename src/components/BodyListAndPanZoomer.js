@@ -6,6 +6,7 @@ import StarInfo from './StarInfo';
 import PlanetInfo from './PlanetInfo';
 import List from './ui/List';
 import romanNumerals from '../romanNumerals';
+import getPlanetInfo from '../getPlanetInfo';
 
 // /// compute size of area needed to contain all orbits
 // function getSizes(starSystem, scaleFactor) {
@@ -30,9 +31,22 @@ export default function System({kss, seed}) {
 
   const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = state;
 
+  function getStarText(s, i) {
+    return `Star ${(i + 1)}: ${s.starType}`;
+  }
+
+  function getPlanetText(p, i) {
+    const prefix = `${kss.name} ${romanNumerals[i]}`;
+    const suffixes = [p.planetType[0]];
+    const {isHot, isCold, isTidallyLocked} = getPlanetInfo(starSystem, p);
+    if (!isHot && !isCold) suffixes.push("Hab");
+    if (isTidallyLocked) suffixes.push("TL");
+    return `${prefix} (${suffixes.join(', ')})`;
+  }
+
   const items = []
-    .concat(starSystem.stars.map((s, i) => `Star ${(i + 1)}: ${s.starType}`))
-    .concat(starSystem.planets.map((p, i) => `${kss.name} ${romanNumerals[i]}`));
+    .concat(starSystem.stars.map(getStarText))
+    .concat(starSystem.planets.map(getPlanetText));
   let selectedItemIndex = null;
   const planetIndexStart = starSystem.stars.length;
   if (activeStarIndex !== null) selectedItemIndex = activeStarIndex;
