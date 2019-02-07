@@ -4,6 +4,7 @@ import PanZoomer from './PanZoomer';
 import StarSystem from './StarSystem';
 import StarInfo from './StarInfo';
 import PlanetInfo from './PlanetInfo';
+import List from './ui/List';
 import romanNumerals from '../romanNumerals';
 
 // /// compute size of area needed to contain all orbits
@@ -21,6 +22,22 @@ export default function System({kss, seed}) {
     activeStarIndex: null,
   });
 
+  const { starSystem } = kss;
+  const seedStr = "" + kss.seed;
+  const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
+  const b = seedStr.substring(Math.floor(seedStr.length / 2));
+  const scaleFactor = 200;
+
+  const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = state;
+
+  const items = []
+    .concat(starSystem.stars.map((s, i) => `Star ${(i + 1)}: ${s.starType}`))
+    .concat(starSystem.planets.map((p, i) => `${kss.name} ${romanNumerals[i]}`));
+  let selectedItemIndex = null;
+  const planetIndexStart = starSystem.stars.length;
+  if (activeStarIndex !== null) selectedItemIndex = activeStarIndex;
+  if (activePlanetIndex !== null) selectedItemIndex = planetIndexStart + activePlanetIndex;
+
   function onHoverPlanet(p, i) {
     setState({activePlanet: p, activeStar: null, activePlanetIndex: i, activeStarIndex: null});
   }
@@ -33,44 +50,24 @@ export default function System({kss, seed}) {
     setState({activePlanet: null, activeStar: null, activePlanetIndex: null, activeStarIndex: null});
   }
 
-  const { starSystem } = kss;
-  const seedStr = "" + kss.seed;
-  const a = seedStr.substring(0, Math.floor(seedStr.length / 2));
-  const b = seedStr.substring(Math.floor(seedStr.length / 2));
-  const scaleFactor = 200;
-
-  const {activeStar, activePlanet, activePlanetIndex, activeStarIndex} = state;
+  function onSelect(i) {
+    if (i < planetIndexStart) {
+      onHoverStar(starSystem.stars[i], i);
+    } else {
+      onHoverPlanet(starSystem.planets[i - planetIndexStart], i - planetIndexStart);
+    }
+  }
 
   return (
     <div className="System">
-      <p>
-        Auto name: {kss.name}
-        <br />
-        Galactic coordinates: {a},{b}
-      </p>
-
       <div className="SidebarUI">
         <div className="SidebarUI__Sidebar">
-          {!activeStar && !activePlanet && (
-            <div className="EmptyState">
-              <ul className="BodyList">
-                {starSystem.stars.map((s, i) => (
-                  <li className="m-clickable" key={'star-' + i}
-                      onClick={onHoverStar.bind(this, s, i)}>
-                    Star {(i + 1)}: {s.starType}
-                  </li>
-                ))}
-                {starSystem.planets.map((p, i) => (
-                  <li className="m-clickable" key={'planet-' + i} onClick={onHoverPlanet.bind(this, p, i)}>
-                    {kss.name} {romanNumerals[i]}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <List
+            items={items}
+            selectedItemIndex={selectedItemIndex}
+            onSelect={onSelect} />
 
           {activeStar && <div className="StarInfoWrapper">
-            <div className="BackLink m-clickable" onClick={resetSelection.bind(this)}>Back</div>
             <StarInfo
               starName={kss.name}
               starSystem={starSystem}
@@ -80,7 +77,6 @@ export default function System({kss, seed}) {
 
           {activePlanet && (
             <div className="PlaneInfoWrapper">
-              <div className="BackLink m-clickable" onClick={resetSelection.bind(this)}>Back</div>
               <PlanetInfo
                 starName={kss.name}
                 starSystem={starSystem}

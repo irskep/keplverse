@@ -22,11 +22,14 @@
 /* GLOBAL */
 
 html {
+  // Star system view
+  --orbit: gray;
+  --orbit-active: white;
+
+  // UI
   --bg: #334;
   --fg: #def;
   --clickable: #a8e;
-  --orbit: gray;
-  --orbit-active: white;
 }
 
 body {
@@ -48,33 +51,12 @@ body {
 
 /* LAYOUT */
 
-.text-container {
-  padding: 0 1rem 1rem 1rem;
-}
-
 .title-font, .mono-font, .scene-actions button {
   @include mono-font;
 }
 
 .small-font {
   @include small-font;
-}
-
-.Header {
-  border-bottom: 1px solid var(--fg);
-  height: 4rem;
-  line-height: 4rem;
-}
-
-.Header h1 {
-  font-size: 18px;
-  margin: 0.2em 0;
-}
-
-.Header nav {
-  position: absolute;
-  top: 0;
-  right: 1rem;;
 }
 
 .m-clickable {
@@ -87,10 +69,14 @@ body {
 
 .SidebarUI {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .SidebarUI__Sidebar {
-  width: 20rem;
+  width: 15rem;
+  padding-right: 12px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .BodyList {
@@ -99,18 +85,36 @@ body {
   padding: 0;
 }
 
-.StarInfo {
-  @include mono-font;
+.SystemFinder {
+  min-width: 480px;
+
+  .W95__Button {
+    float: right;
+  }
+
+  &:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
 }
 
-.SystemFinder {
-  border: 1px solid var(--fg);
-  margin-top: 1rem;
-  padding: 1rem;
+.CheckboxRow {
+  line-height: 2rem;
 
-  h2 {
-    font-size: 18px;
-    margin-top: 0;
+  label, input {
+    line-height: 2rem;
+    vertical-align: baseline;
+  }
+
+  label {
+    margin-right: 0.7em;
+  }
+
+  input {
+    transform: translate(0, -2px);
   }
 }
 
@@ -118,9 +122,10 @@ body {
 
 .PanZoomer {
   position: relative;
-  width: 100%;
   overflow: hidden;
-  height: 768px;
+  min-width: 320px;
+  min-height: 768px;
+  flex-grow: 100;
 }
 
 .PanZoomer__Centerer {
@@ -186,7 +191,7 @@ body {
   box-sizing: content-box;
 
   &:hover {
-    border: 1px solid var(--fg);
+    border: 1px solid #fff;
   }
 }
 

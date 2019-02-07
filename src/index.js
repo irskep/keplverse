@@ -7,9 +7,13 @@ import _ from "lodash";
 import __ from "./normalize.css";
 import ___ from "./style.scss";
 
+import StaticWindow from './components/ui/StaticWindow';
+
 import URLStorage from './URLStorage';
 import KStarSystem from "./KStarSystem";
-import System from './components/System';
+import Group from './components/ui/Group';
+import SeedNavigator from './components/SeedNavigator';
+import BodyListAndPanZoomer from './components/BodyListAndPanZoomer';
 import SystemFinder from './components/SystemFinder';
 
 /* Good seeds for testing:
@@ -37,35 +41,22 @@ function Meta() {
 
   return (
     <div className="Meta">
-      <KeyHandler
-        keyEventName={KEYPRESS}
-        keyValue="n"
-        onKeyHandle={go.bind(this, 1)}
-        />
+      <KeyHandler keyEventName={KEYPRESS} keyValue="n" onKeyHandle={go.bind(this, 1)} />
+      <KeyHandler keyEventName={KEYPRESS} keyValue="p" onKeyHandle={go.bind(this, -1)} />
 
-      <KeyHandler
-        keyEventName={KEYPRESS}
-        keyValue="p"
-        onKeyHandle={go.bind(this, -1)}
-        />
-
-      <header className="Header">
-        <h1>The Keplverse: A procedural star system generator</h1>
-
-        <nav>
-          <span className="Meta__Next m-clickable" onClick={go.bind(this, 1)}>
-            Next (n)
-          </span>
-          {" "}
-          <span className="Meta__Previous m-clickable" onClick={go.bind(this, -1)}>
-            Previous (p)
-          </span>
-        </nav>
-        <div style={{clear: 'both'}} />
-      </header>
-
-      <SystemFinder baseSeed={seed} onSeedFound={setSeed} />
-      <System kss={kss} key={seed} />
+      <StaticWindow title="Keplverse Telescope Software 1.0">
+        <div className="W95__HorzFlex">
+          <Group title="Star System Information">
+            <p>Auto name: {kss.name}</p>
+            <p>Seed: {seed}</p>
+          </Group>
+          <Group title="Seed">
+            <SeedNavigator baseSeed={seed} onSeedFound={setSeed} />
+          </Group>
+          <SystemFinder baseSeed={seed} onSeedFound={setSeed} />
+        </div>
+        <BodyListAndPanZoomer kss={kss} key={seed} />
+      </StaticWindow>
     </div>
   );
 }

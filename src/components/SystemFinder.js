@@ -1,5 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
+import Group from './ui/Group';
+import Button from './ui/Button';
 import { StarSystem } from 'stellardream';
 
 const STAR_TYPES = [
@@ -77,9 +79,10 @@ export default class SystemFinder extends React.Component {
   render() {
     const {isSearching} = this.state;
     return (
-      <div className="SystemFinder">
-        <h2>System Finder</h2>
+      <Group className="SystemFinder" title="Find Systems">
         <div className="CheckboxRow">
+          <strong>Star type:</strong>
+          {" "}
           {STAR_TYPES.map((st) => (
             <label key={st}>
               <input
@@ -103,14 +106,14 @@ export default class SystemFinder extends React.Component {
           </label>
         </div>
 
-        {!isSearching && (<span className="m-clickable" onClick={this.search.bind(this)}>
-          Search the genspace
-        </span>)}
+        {!isSearching && (<Button onClick={this.search.bind(this)}>
+          Search genspace
+        </Button>)}
 
         {isSearching && (<span className="SystemFinder__Progress">
           Searched {this.state.numSearched} star systems
         </span>)}
-      </div>
+      </Group>
     );
   }
 }
