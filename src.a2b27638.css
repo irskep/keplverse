@@ -621,7 +621,7 @@ body {
 .W95__Group .W95__GroupContents {
   padding: 14px 12px 0 12px;
 }
-.W95__List {
+.W95__BorderedControl, .W95__List, .W95__Checkbox__Box {
   position: relative;
   background-color: white;
   border-top: 2px solid #878a8e;
@@ -629,7 +629,7 @@ body {
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
 }
-.W95__List .W95__ListBG {
+.W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG {
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -640,6 +640,40 @@ body {
   border-left: 2px solid #000;
   border-right: 2px solid #c4c7cb;
   border-bottom: 2px solid #c4c7cb;
+}
+.W95__Checkbox {
+  display: inline-block;
+  height: 2rem;
+  line-height: 2rem;
+  cursor: pointer;
+}
+.W95__Checkbox .W95__Checkbox__Box {
+  width: 26px;
+  height: 26px;
+  display: inline-block;
+  position: relative;
+  margin-right: 6px;
+  -webkit-transform: translate(0, 4px);
+          transform: translate(0, 4px);
+  cursor: pointer;
+}
+.W95__Checkbox .W95__Checkbox__Box input {
+  visibility: hidden;
+}
+.W95__Checkbox .W95__ControlBG {
+  cursor: pointer;
+}
+.W95__Checkbox svg {
+  display: block;
+  -webkit-transform: translate(1px, 0);
+          transform: translate(1px, 0);
+}
+.W95__Checkbox label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
 }
 .W95__List .W95__List__Contents {
   margin: 2px;

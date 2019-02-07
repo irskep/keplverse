@@ -55139,7 +55139,7 @@ function List(_ref) {
   return _react.default.createElement("div", {
     className: "W95__List"
   }, _react.default.createElement("div", {
-    className: "W95__ListBG"
+    className: "W95__ControlBG"
   }), _react.default.createElement("div", {
     className: "W95__List__Contents"
   }, items.map(function (item, i) {
@@ -55314,7 +55314,54 @@ function System(_ref) {
     onHoverPlanet: onHoverPlanet
   }))));
 }
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","./ui/List":"src/components/ui/List.js","../romanNumerals":"src/romanNumerals.js","../getPlanetInfo":"src/getPlanetInfo.js"}],"src/components/SystemFinder.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./PanZoomer":"src/components/PanZoomer.js","./StarSystem":"src/components/StarSystem.js","./StarInfo":"src/components/StarInfo.js","./PlanetInfo":"src/components/PlanetInfo.js","./ui/List":"src/components/ui/List.js","../romanNumerals":"src/romanNumerals.js","../getPlanetInfo":"src/getPlanetInfo.js"}],"src/components/ui/Checkbox.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Checkbox;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var points = [[1, 3], [1, 6], [3, 8], [7, 4], [7, 1], [3, 5]];
+points.forEach(function (p, i) {
+  points[i] = [p[0] * 2, p[1] * 2];
+});
+
+function Checkbox(_ref) {
+  var checked = _ref.checked,
+      label = _ref.label,
+      onChange = _ref.onChange;
+  return _react.default.createElement("div", {
+    className: "W95__Checkbox",
+    onClick: onChange
+  }, _react.default.createElement("div", {
+    className: "W95__Checkbox__Box"
+  }, _react.default.createElement("div", {
+    className: "W95__ControlBG"
+  }, checked && _react.default.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18",
+    xmlns: "http://www.w3.org/2000/svg",
+    xmlnsXlink: "http://www.w3.org/1999/xlink"
+  }, _react.default.createElement("polygon", {
+    points: points.map(function (pts) {
+      return pts.join(',');
+    }).join(' '),
+    fill: "black",
+    stroke: "none"
+  }))), _react.default.createElement("input", {
+    type: "checkbox",
+    checked: checked
+  })), _react.default.createElement("label", null, label));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/SystemFinder.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55329,6 +55376,8 @@ var _lodash = _interopRequireDefault(require("lodash"));
 var _Group = _interopRequireDefault(require("./ui/Group"));
 
 var _Button = _interopRequireDefault(require("./ui/Button"));
+
+var _Checkbox = _interopRequireDefault(require("./ui/Checkbox"));
 
 var _stellardream = require("stellardream");
 
@@ -55481,20 +55530,19 @@ function (_React$Component) {
       }, _react.default.createElement("div", {
         className: "CheckboxRow"
       }, _react.default.createElement("strong", null, "Star type:"), " ", STAR_TYPES.map(function (st) {
-        return _react.default.createElement("label", {
-          key: st
-        }, _react.default.createElement("input", {
-          type: "checkbox",
+        return _react.default.createElement(_Checkbox.default, {
+          label: st,
+          key: st,
           onChange: _this3.flipCheckbox.bind(_this3, st),
           checked: _this3.state[st]
-        }), " ", st, " ");
+        });
       })), _react.default.createElement("div", {
         className: "CheckboxRow"
-      }, _react.default.createElement("label", null, _react.default.createElement("input", {
-        type: "checkbox",
+      }, _react.default.createElement(_Checkbox.default, {
         onChange: this.flipCheckbox.bind(this, 'forceHabitableTerran'),
-        checked: this.state['forceHabitableTerran']
-      }), " Must have Terran planet in habitable zone")), !isSearching && _react.default.createElement(_Button.default, {
+        checked: this.state['forceHabitableTerran'],
+        label: "Must have Terran planet in habitable zone"
+      })), !isSearching && _react.default.createElement(_Button.default, {
         onClick: this.search.bind(this)
       }, "Search genspace"), isSearching && _react.default.createElement("span", {
         className: "SystemFinder__Progress"
@@ -55506,7 +55554,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = SystemFinder;
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","./ui/Checkbox":"src/components/ui/Checkbox.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -55635,7 +55683,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55511" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60829" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
