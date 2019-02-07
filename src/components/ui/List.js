@@ -3,8 +3,8 @@ import ___ from "./ui.scss";
 
 export default function List({items, selectedItemIndex, onSelect}) {
   return (
-    <div className={`W95__List`}>
-      <div className="W95__ListBG" />
+    <div className="W95__List">
+      <div className="W95__ControlBG" />
       <div className="W95__List__Contents">
         {items.map((item, i) => (
           <div

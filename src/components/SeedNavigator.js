@@ -17,7 +17,6 @@ export default function SeedNavigator({baseSeed, onSeedFound}) {
           Go
         </Button>
       </div>
-
       <Button onClick={onSeedFound.bind(this, baseSeed - 1)}>
         Previous seed (p)
       </Button>

@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import Group from './ui/Group';
 import Button from './ui/Button';
+import Checkbox from './ui/Checkbox';
 import { StarSystem } from 'stellardream';
 
 const STAR_TYPES = [
@@ -84,26 +85,20 @@ export default class SystemFinder extends React.Component {
           <strong>Star type:</strong>
           {" "}
           {STAR_TYPES.map((st) => (
-            <label key={st}>
-              <input
-                type="checkbox"
-                onChange={this.flipCheckbox.bind(this, st)}
-                checked={this.state[st]}/>
-              {" "}
-              {st}
-              {" "}
-            </label>
+            <Checkbox
+              label={st}
+              key={st}
+              onChange={this.flipCheckbox.bind(this, st)}
+              checked={this.state[st]} />
           ))}
         </div>
 
         <div className="CheckboxRow">
-          <label>
-            <input
-              type="checkbox"
-              onChange={this.flipCheckbox.bind(this, 'forceHabitableTerran')}
-              checked={this.state['forceHabitableTerran']}/>
-            {" Must have Terran planet in habitable zone"}
-          </label>
+          <Checkbox 
+            onChange={this.flipCheckbox.bind(this, 'forceHabitableTerran')}
+            checked={this.state['forceHabitableTerran']}
+            label="Must have Terran planet in habitable zone"
+            />
         </div>
 
         {!isSearching && (<Button onClick={this.search.bind(this)}>
