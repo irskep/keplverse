@@ -7,14 +7,17 @@ import _ from "lodash";
 import __ from "./normalize.css";
 import ___ from "./style.scss";
 
+import MovableWindow from './components/ui/MovableWindow';
 import StaticWindow from './components/ui/StaticWindow';
+import Group from './components/ui/Group';
+import ScrollingText from './components/ui/ScrollingText';
 
 import URLStorage from './URLStorage';
 import KStarSystem from "./KStarSystem";
-import Group from './components/ui/Group';
 import SeedNavigator from './components/SeedNavigator';
 import BodyListAndPanZoomer from './components/BodyListAndPanZoomer';
 import SystemFinder from './components/SystemFinder';
+import AboutText from './components/AboutText';
 
 /* Good seeds for testing:
 1549433735318
@@ -34,8 +37,14 @@ const URL_STORAGE = new URLStorage(() => ({
 
 function Meta() {
   const [seed, setSeed] = URL_STORAGE.useStoredValue('seed');
+  const [isOpen, setIsOpen] = useState(!localStorage.wasClosed);
 
   const go = (delta) => setSeed(seed + delta);
+
+  const closeAbout = () => {
+    localStorage.wasClosed = true;
+    setIsOpen(false);
+  }
 
   const kss = getSystem(seed);
 
@@ -57,6 +66,16 @@ function Meta() {
         </div>
         <BodyListAndPanZoomer kss={kss} key={seed} />
       </StaticWindow>
+
+      <MovableWindow
+          isOpen={isOpen}
+          title="About Keplverse Telescope Software"
+          width={500}
+          height={500}
+          canClose={true}
+          onClose={closeAbout}>
+        <AboutText />
+      </MovableWindow>
     </div>
   );
 }

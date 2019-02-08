@@ -30,7 +30,7 @@ export default function Checkbox({checked, label, onChange}) {
             </svg>
           )}
         </div>
-        <input type="checkbox" checked={checked} />
+        <input type="checkbox" checked={checked} onChange={onChange} />
       </div>
       <label>{label}</label>
     </div>
