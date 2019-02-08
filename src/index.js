@@ -46,7 +46,7 @@ function Meta() {
 
       <StaticWindow title="Keplverse Telescope Software 1.0">
         <div className="W95__HorzFlex">
-          <Group title="Star System Information">
+          <Group title="Star System Info">
             <p>Auto name: {kss.name}</p>
             <p>Seed: {seed}</p>
           </Group>

@@ -7,12 +7,6 @@ $contentPadding: 12px;
   p {
     margin: $contentPadding 0;
   }
-
-  input[type=text] {
-    height: 44px;
-    line-height: 44px;
-    border: 2px solid #000;
-  }
 }
 
 // Utils
@@ -118,7 +112,7 @@ $contentPadding: 12px;
   }
 }
 
-.W95__BorderedControl, .W95__List, .W95__Checkbox__Box {
+.W95__BorderedControl, .W95__List, .W95__Checkbox__Box, .W95__TextInput {
   position: relative;
   background-color: white;
 
@@ -140,6 +134,17 @@ $contentPadding: 12px;
     border-bottom: 2px solid #c4c7cb;
   }
 
+}
+
+.W95__TextInput {
+  display: inline-block;
+
+  input[type=text] {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 6px;
+    border: none;
+  }
 }
 
 .W95__Checkbox {
