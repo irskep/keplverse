@@ -492,7 +492,6 @@ body {
   margin-right: 0.5rem;
   text-align: center;
   color: black;
-  display: inline-block;
   box-sizing: content-box;
 }
 .star-circle:hover {
@@ -564,6 +563,10 @@ body {
   left: 0;
 }
 
+.W95__Window.m-movable {
+  position: absolute;
+}
+
 .W95__Window .W95__WindowBG {
   position: absolute;
   top: 0;
@@ -576,12 +579,39 @@ body {
   border-bottom: 2px solid #828282;
 }
 
+.W95__MovableWindowContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.W95__MovableWindowContainer .W95__MovableWindowContainer__Centerer {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  overflow: visible;
+}
+
+.W95__MovableWindowContainer .W95__MovableWindowContainer__Centerer > * {
+  pointer-events: auto;
+}
+
 .W95__WindowTitle {
   position: absolute;
   top: 2px;
   right: 2px;
   left: 2px;
   height: 36px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   background-color: var(--blue);
   color: var(--white);
   padding-left: 4px;
@@ -627,7 +657,7 @@ body {
   padding: 14px 12px 0 12px;
 }
 
-.W95__BorderedControl, .W95__List, .W95__Checkbox__Box, .W95__TextInput {
+.W95__BorderedControl, .W95__List, .W95__Checkbox__Box, .W95__TextInput, .W95__ScrollingText {
   position: relative;
   background-color: white;
   border-top: 2px solid #878a8e;
@@ -636,7 +666,7 @@ body {
   border-bottom: 2px solid #fff;
 }
 
-.W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG, .W95__TextInput .W95__ControlBG {
+.W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG, .W95__TextInput .W95__ControlBG, .W95__ScrollingText .W95__ControlBG {
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -727,12 +757,61 @@ body {
   border: 2px dotted yellow;
 }
 
-.W95__Button {
+.W95__ButtonStyling, .W95__Button, .W95__WindowCloseButton, .W95__TinyButton {
   background-color: var(--bg);
   color: var(--fg);
   border: none;
   position: relative;
   display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.W95__ButtonStyling .W95__ButtonBG, .W95__Button .W95__ButtonBG, .W95__WindowCloseButton .W95__ButtonBG, .W95__TinyButton .W95__ButtonBG {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-right: 2px solid #878a8e;
+  border-bottom: 2px solid #878a8e;
+}
+
+.W95__ButtonStyling .W95__Button__Text, .W95__Button .W95__Button__Text, .W95__WindowCloseButton .W95__Button__Text, .W95__TinyButton .W95__Button__Text {
+  display: inline-block;
+}
+
+.W95__ButtonStyling:focus, .W95__Button:focus, .W95__WindowCloseButton:focus, .W95__TinyButton:focus {
+  outline: 0;
+}
+
+.W95__ButtonStyling:active, .W95__Button:active, .W95__WindowCloseButton:active, .W95__TinyButton:active {
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.W95__ButtonStyling:active .W95__Button__Text, .W95__Button:active .W95__Button__Text, .W95__WindowCloseButton:active .W95__Button__Text, .W95__TinyButton:active .W95__Button__Text {
+  -webkit-transform: translate(2px, 2px);
+          transform: translate(2px, 2px);
+}
+
+.W95__ButtonStyling:active .W95__ButtonBG, .W95__Button:active .W95__ButtonBG, .W95__WindowCloseButton:active .W95__ButtonBG, .W95__TinyButton:active .W95__ButtonBG {
+  border-top: 2px solid #878a8e;
+  border-left: 2px solid #878a8e;
+  border-right: 2px solid #878a8e;
+  border-bottom: 2px solid #878a8e;
+}
+
+.W95__Button {
   min-width: 44px;
   height: 44px;
   line-height: 40px;
@@ -744,11 +823,6 @@ body {
   margin-right: 12px;
   margin-bottom: 12px;
   font-size: 18px;
-  cursor: pointer;
-  border-top: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
 }
 
 .W95__Button:last-child {
@@ -763,39 +837,34 @@ body {
   position: absolute;
 }
 
-.W95__Button .W95__ButtonBG {
+.W95__WindowCloseButton, .W95__TinyButton {
+  margin: 6px;
+  width: 30px;
+  line-height: 22px;
+  height: 26px;
+  text-align: center;
+}
+
+.W95__WindowCloseButton svg, .W95__TinyButton svg {
+  -webkit-transform: translate(0, 3px);
+          transform: translate(0, 3px);
+}
+
+.W95__WindowCloseButton {
+  float: right;
+}
+
+.W95__ScrollingText h1, .W95__ScrollingText h2, .W95__ScrollingText h3 {
+  text-align: center;
+}
+
+.W95__ScrollingText .W95__ScrollingText__Content {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-right: 2px solid #878a8e;
-  border-bottom: 2px solid #878a8e;
-}
-
-.W95__Button .W95__Button__Text {
-  display: inline-block;
-}
-
-.W95__Button:focus {
-  outline: 0;
-}
-
-.W95__Button:active {
-  border-top: 2px solid #000;
-  border-left: 2px solid #000;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-}
-
-.W95__Button:active .W95__Button__Text {
-  -webkit-transform: translate(2px, 2px);
-          transform: translate(2px, 2px);
-}
-
-.W95__Button:active .W95__ButtonBG {
-  border-top: 2px solid #878a8e;
-  border-left: 2px solid #878a8e;
-  border-right: 2px solid #878a8e;
-  border-bottom: 2px solid #878a8e;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
+  padding: 4px;
+  overflow: scroll;
+  font-family: "Times New Roman", Times, serif;
 }

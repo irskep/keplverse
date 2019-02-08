@@ -45451,7 +45451,184 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/ui/StaticWindow.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/ui/MovableWindow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function doublePoints(points) {
+  points.forEach(function (p, i) {
+    points[i] = [p[0] * 2, p[1] * 2];
+  });
+  return points;
+}
+
+var points1 = doublePoints([[0, 0], [2, 0], [8, 6], [6, 6]]);
+var points2 = doublePoints([[8, 0], [6, 0], [0, 6], [2, 6]]);
+
+var MovableWindow =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(MovableWindow, _React$Component);
+
+  function MovableWindow(props) {
+    var _this;
+
+    _classCallCheck(this, MovableWindow);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MovableWindow).call(this, props));
+    var width = props.width || 320;
+    var height = props.height || 320;
+    _this.state = {
+      width: width,
+      height: height,
+      worldOffset: {
+        x: -width / 2,
+        y: -height / 2
+      },
+      worldOffsetAtMouseDown: null,
+      mouseDownPoint: null
+    };
+    return _this;
+  }
+
+  _createClass(MovableWindow, [{
+    key: "onMouseDown",
+    value: function onMouseDown(e) {
+      var _this2 = this;
+
+      this.setState({
+        mouseDownPoint: {
+          x: e.screenX,
+          y: e.screenY
+        },
+        worldOffsetAtMouseDown: this.state.worldOffset
+      });
+
+      var moveListener = function moveListener(e) {
+        e.stopPropagation();
+        var _this2$state$worldOff = _this2.state.worldOffsetAtMouseDown,
+            x = _this2$state$worldOff.x,
+            y = _this2$state$worldOff.y;
+
+        _this2.setState({
+          worldOffset: {
+            x: x + (e.screenX - _this2.state.mouseDownPoint.x),
+            y: y + (e.screenY - _this2.state.mouseDownPoint.y)
+          }
+        });
+      };
+
+      var upListener = function upListener(e) {
+        e.stopPropagation();
+
+        _this2.setState({
+          worldOffsetAtMouseDown: null,
+          mouseDownPoint: null
+        });
+
+        document.body.removeEventListener('mouseup', upListener, true);
+        document.body.removeEventListener('mousemove', moveListener, true);
+      };
+
+      document.body.addEventListener('mouseup', upListener, true);
+      document.body.addEventListener('mousemove', moveListener, true);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          title = _this$props.title,
+          children = _this$props.children,
+          windowStyle = _this$props.windowStyle,
+          canClose = _this$props.canClose,
+          isOpen = _this$props.isOpen,
+          onClose = _this$props.onClose;
+      if (!isOpen) return null;
+      var _this$state = this.state,
+          width = _this$state.width,
+          height = _this$state.height,
+          worldOffset = _this$state.worldOffset;
+      return _react.default.createElement("div", {
+        className: "W95__MovableWindowContainer"
+      }, _react.default.createElement("div", {
+        className: "W95__MovableWindowContainer__Centerer",
+        style: {
+          transform: "translate(".concat(worldOffset.x, "px, ").concat(worldOffset.y, "px)")
+        }
+      }, _react.default.createElement("div", {
+        className: "W95__Window m-movable",
+        style: {
+          width: width,
+          height: height
+        }
+      }, _react.default.createElement("div", {
+        className: "W95__WindowBG"
+      }), _react.default.createElement("div", {
+        className: "W95__WindowTitle",
+        onMouseDown: this.onMouseDown.bind(this)
+      }, title), canClose && _react.default.createElement("div", {
+        className: "W95__WindowCloseButton",
+        onClick: onClose
+      }, _react.default.createElement("div", {
+        className: "W95__ButtonBG"
+      }), _react.default.createElement("svg", {
+        width: "16",
+        height: "16",
+        viewBox: "0 0 16 16",
+        xmlns: "http://www.w3.org/2000/svg",
+        xmlnsXlink: "http://www.w3.org/1999/xlink"
+      }, _react.default.createElement("polygon", {
+        points: points1.map(function (pts) {
+          return pts.join(',');
+        }).join(' '),
+        fill: "black",
+        stroke: "none"
+      }), _react.default.createElement("polygon", {
+        points: points2.map(function (pts) {
+          return pts.join(',');
+        }).join(' '),
+        fill: "black",
+        stroke: "none"
+      }))), _react.default.createElement("div", {
+        className: "W95__WindowContents",
+        style: windowStyle || {}
+      }, children))));
+    }
+  }]);
+
+  return MovableWindow;
+}(_react.default.Component);
+
+exports.default = MovableWindow;
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/StaticWindow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45468,17 +45645,73 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function StaticWindow(_ref) {
   var title = _ref.title,
       children = _ref.children,
-      windowStyle = _ref.windowStyle;
+      windowStyle = _ref.windowStyle,
+      titleExtra = _ref.titleExtra;
   return _react.default.createElement("div", {
     className: "W95__Window m-static"
   }, _react.default.createElement("div", {
     className: "W95__WindowBG"
   }), _react.default.createElement("div", {
     className: "W95__WindowTitle"
-  }, title), _react.default.createElement("div", {
+  }, title, titleExtra), _react.default.createElement("div", {
     className: "W95__WindowContents",
     style: windowStyle || {}
   }, children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/Group.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Group;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Group(_ref) {
+  var title = _ref.title,
+      children = _ref.children,
+      className = _ref.className;
+  return _react.default.createElement("div", {
+    className: "W95__Group ".concat(className || '')
+  }, _react.default.createElement("div", {
+    className: "W95__GroupBG"
+  }), _react.default.createElement("div", {
+    className: "W95__GroupTitle"
+  }, title), _react.default.createElement("div", {
+    className: "W95__GroupContents"
+  }, children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/TinyButton.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = TinyButton;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function TinyButton(_ref) {
+  var style = _ref.style,
+      className = _ref.className,
+      children = _ref.children,
+      onClick = _ref.onClick;
+  return _react.default.createElement("div", {
+    style: style,
+    className: "W95__TinyButton ".concat(className || ''),
+    onClick: onClick
+  }, _react.default.createElement("div", {
+    className: "W95__ButtonBG"
+  }), children);
 }
 },{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"node_modules/strict-uri-encode/index.js":[function(require,module,exports) {
 'use strict';
@@ -54472,35 +54705,7 @@ var KStarSystem = function KStarSystem(seed) {
 };
 
 exports.default = KStarSystem;
-},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/Group.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = Group;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _ui = _interopRequireDefault(require("./ui.scss"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Group(_ref) {
-  var title = _ref.title,
-      children = _ref.children,
-      className = _ref.className;
-  return _react.default.createElement("div", {
-    className: "W95__Group ".concat(className || '')
-  }, _react.default.createElement("div", {
-    className: "W95__GroupBG"
-  }), _react.default.createElement("div", {
-    className: "W95__GroupTitle"
-  }, title), _react.default.createElement("div", {
-    className: "W95__GroupContents"
-  }, children));
-}
-},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/Button.js":[function(require,module,exports) {
+},{"chance":"node_modules/chance/chance.js","alea":"node_modules/alea/alea.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/Button.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55387,7 +55592,8 @@ function Checkbox(_ref) {
     stroke: "none"
   }))), _react.default.createElement("input", {
     type: "checkbox",
-    checked: checked
+    checked: checked,
+    onChange: onChange
   })), _react.default.createElement("label", null, label));
 }
 },{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/SystemFinder.js":[function(require,module,exports) {
@@ -55583,7 +55789,70 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = SystemFinder;
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","./ui/Checkbox":"src/components/ui/Checkbox.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","./ui/Checkbox":"src/components/ui/Checkbox.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/ScrollingText.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ScrollingText;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ScrollingText(_ref) {
+  var style = _ref.style,
+      className = _ref.className,
+      children = _ref.children;
+  return _react.default.createElement("div", {
+    style: style,
+    className: "W95__ScrollingText ".concat(className || '')
+  }, _react.default.createElement("div", {
+    className: "W95__ControlBG"
+  }), _react.default.createElement("div", {
+    className: "W95__ScrollingText__Content"
+  }, children));
+}
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/AboutText.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = AboutText;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ScrollingText = _interopRequireDefault(require("./ui/ScrollingText"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function AboutText() {
+  return _react.default.createElement(_ScrollingText.default, {
+    style: {
+      position: 'absolute',
+      top: 4,
+      right: 4,
+      bottom: 4,
+      left: 4
+    }
+  }, _react.default.createElement("h2", null, "Keplverse Telescope Software 1.0"), _react.default.createElement("h3", null, "by Steve Landey", _react.default.createElement("br", null), _react.default.createElement("a", {
+    href: "mailto:steve@steveasleep.com"
+  }, "steve@steveasleep.com")), _react.default.createElement("p", null, "Congratulations on your purchase of the Keplverse Telescope! This device allows you to stargaze in an imaginary, procedurally generated universe."), _react.default.createElement("p", null, "Each star system is at a coordinate called a ", _react.default.createElement("em", null, "seed"), ". This seed is used to choose pseudorandom numbers to decide things like type and number of stars, type and number of planets, types of planets, and how far each planet is from the star."), _react.default.createElement("p", null, "The star systems in the Keplverse are meant to approximate the distribution of stars and planets in the Milky Way Galaxy, according to what we know as of 2019. NASA's Kepler exoplanet search mission spawned hundreds of research papers, many of which changed our expectations of the type and number of exoplanets in outer space."), _react.default.createElement("p", null, "The original purpose of this program was to demonstrate ", _react.default.createElement("a", {
+    href: "https://github.com/irskep/stellardream",
+    target: "_blank"
+  }, "Stellar Dream"), ", a JavaScript library that generates random star systems that pass a basic nerd sniff test. That library may eventually be used in a game about space exploration. To find out if that ever happens, subscribe to ", _react.default.createElement("a", {
+    href: "https://blog.steveasleep.com/",
+    target: "_blank"
+  }, "blog.steveasleep.com"), " in your RSS reader."), _react.default.createElement("p", null, "Links to the papers used to create these star systems may be found in the comments of ", _react.default.createElement("a", {
+    href: "https://github.com/irskep/stellardream",
+    target: "_blank"
+  }, "Stellar Dream's code"), "."));
+}
+},{"react":"node_modules/react/index.js","./ui/ScrollingText":"src/components/ui/ScrollingText.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -55598,19 +55867,25 @@ var _normalize = _interopRequireDefault(require("./normalize.css"));
 
 var _style = _interopRequireDefault(require("./style.scss"));
 
+var _MovableWindow = _interopRequireDefault(require("./components/ui/MovableWindow"));
+
 var _StaticWindow = _interopRequireDefault(require("./components/ui/StaticWindow"));
+
+var _Group = _interopRequireDefault(require("./components/ui/Group"));
+
+var _TinyButton = _interopRequireDefault(require("./components/ui/TinyButton"));
 
 var _URLStorage = _interopRequireDefault(require("./URLStorage"));
 
 var _KStarSystem = _interopRequireDefault(require("./KStarSystem"));
-
-var _Group = _interopRequireDefault(require("./components/ui/Group"));
 
 var _SeedNavigator = _interopRequireDefault(require("./components/SeedNavigator"));
 
 var _BodyListAndPanZoomer = _interopRequireDefault(require("./components/BodyListAndPanZoomer"));
 
 var _SystemFinder = _interopRequireDefault(require("./components/SystemFinder"));
+
+var _AboutText = _interopRequireDefault(require("./components/AboutText"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55649,8 +55924,18 @@ function Meta() {
       seed = _URL_STORAGE$useStore2[0],
       setSeed = _URL_STORAGE$useStore2[1];
 
+  var _useState = (0, _react.useState)(!localStorage.wasClosed),
+      _useState2 = _slicedToArray(_useState, 2),
+      isAboutOpen = _useState2[0],
+      setIsAboutOpen = _useState2[1];
+
   var go = function go(delta) {
     return setSeed(seed + delta);
+  };
+
+  var closeAbout = function closeAbout() {
+    localStorage.wasClosed = true;
+    setIsAboutOpen(false);
   };
 
   var kss = getSystem(seed);
@@ -55665,7 +55950,13 @@ function Meta() {
     keyValue: "p",
     onKeyHandle: go.bind(this, -1)
   }), _react.default.createElement(_StaticWindow.default, {
-    title: "Keplverse Telescope Software 1.0"
+    title: "Keplverse Telescope Software 1.0",
+    titleExtra: _react.default.createElement(_TinyButton.default, {
+      style: {
+        float: 'right'
+      },
+      onClick: setIsAboutOpen.bind(this, true)
+    }, "?")
   }, _react.default.createElement("div", {
     className: "W95__HorzFlex"
   }, _react.default.createElement(_Group.default, {
@@ -55681,11 +55972,18 @@ function Meta() {
   })), _react.default.createElement(_BodyListAndPanZoomer.default, {
     kss: kss,
     key: seed
-  })));
+  })), _react.default.createElement(_MovableWindow.default, {
+    isOpen: isAboutOpen,
+    title: "About Keplverse Telescope Software",
+    width: 500,
+    height: 500,
+    canClose: true,
+    onClose: closeAbout
+  }, _react.default.createElement(_AboutText.default, null)));
 }
 
 _reactDom.default.render(_react.default.createElement(Meta, null), document.getElementById('root'));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./components/ui/StaticWindow":"src/components/ui/StaticWindow.js","./URLStorage":"src/URLStorage.js","./KStarSystem":"src/KStarSystem.js","./components/ui/Group":"src/components/ui/Group.js","./components/SeedNavigator":"src/components/SeedNavigator.js","./components/BodyListAndPanZoomer":"src/components/BodyListAndPanZoomer.js","./components/SystemFinder":"src/components/SystemFinder.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-key-handler":"node_modules/react-key-handler/dist/esm/index.js","lodash":"node_modules/lodash/lodash.js","./normalize.css":"src/normalize.css","./style.scss":"src/style.scss","./components/ui/MovableWindow":"src/components/ui/MovableWindow.js","./components/ui/StaticWindow":"src/components/ui/StaticWindow.js","./components/ui/Group":"src/components/ui/Group.js","./components/ui/TinyButton":"src/components/ui/TinyButton.js","./URLStorage":"src/URLStorage.js","./KStarSystem":"src/KStarSystem.js","./components/SeedNavigator":"src/components/SeedNavigator.js","./components/BodyListAndPanZoomer":"src/components/BodyListAndPanZoomer.js","./components/SystemFinder":"src/components/SystemFinder.js","./components/AboutText":"src/components/AboutText.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -55712,7 +56010,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59855" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63998" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
