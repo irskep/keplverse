@@ -406,9 +406,6 @@ body {
   margin: 0;
   padding: 0;
 }
-.SystemFinder {
-  min-width: 480px;
-}
 .SystemFinder .W95__Button {
   float: right;
 }
