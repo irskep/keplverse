@@ -533,16 +533,13 @@ body {
 }.W95__Window p {
   margin: 12px 0;
 }
-.W95__Window input[type=text] {
-  height: 44px;
-  line-height: 44px;
-  border: 2px solid #000;
-}
+
 .W95__Window .W95__HorzFlex {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
 .W95__Window {
   --bg: #c0c0c0;
   --fg: #000;
@@ -558,6 +555,7 @@ body {
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
 }
+
 .W95__Window.m-static {
   position: fixed;
   top: 0;
@@ -565,6 +563,7 @@ body {
   bottom: 0;
   left: 0;
 }
+
 .W95__Window .W95__WindowBG {
   position: absolute;
   top: 0;
@@ -576,6 +575,7 @@ body {
   border-right: 2px solid #828282;
   border-bottom: 2px solid #828282;
 }
+
 .W95__WindowTitle {
   position: absolute;
   top: 2px;
@@ -588,6 +588,7 @@ body {
   line-height: 36px;
   font-weight: bold;
 }
+
 .W95__WindowContents {
   position: absolute;
   top: 38px;
@@ -597,11 +598,13 @@ body {
   overflow: auto;
   padding: 12px;
 }
+
 .W95__Group {
   position: relative;
   border: 2px solid #808080;
   margin: 12px 0;
 }
+
 .W95__Group .W95__GroupBG {
   z-index: -1;
   position: absolute;
@@ -611,6 +614,7 @@ body {
   right: -4px;
   border: 2px solid #fff;
 }
+
 .W95__Group .W95__GroupTitle {
   position: absolute;
   background-color: var(--bg);
@@ -618,10 +622,12 @@ body {
   left: 8px;
   padding: 0 4px;
 }
+
 .W95__Group .W95__GroupContents {
   padding: 14px 12px 0 12px;
 }
-.W95__BorderedControl, .W95__List, .W95__Checkbox__Box {
+
+.W95__BorderedControl, .W95__List, .W95__Checkbox__Box, .W95__TextInput {
   position: relative;
   background-color: white;
   border-top: 2px solid #878a8e;
@@ -629,7 +635,8 @@ body {
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
 }
-.W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG {
+
+.W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG, .W95__TextInput .W95__ControlBG {
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -641,12 +648,25 @@ body {
   border-right: 2px solid #c4c7cb;
   border-bottom: 2px solid #c4c7cb;
 }
+
+.W95__TextInput {
+  display: inline-block;
+}
+
+.W95__TextInput input[type=text] {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 6px;
+  border: none;
+}
+
 .W95__Checkbox {
   display: inline-block;
   height: 2rem;
   line-height: 2rem;
   cursor: pointer;
 }
+
 .W95__Checkbox .W95__Checkbox__Box {
   width: 26px;
   height: 26px;
@@ -657,17 +677,21 @@ body {
           transform: translate(0, 4px);
   cursor: pointer;
 }
+
 .W95__Checkbox .W95__Checkbox__Box input {
   visibility: hidden;
 }
+
 .W95__Checkbox .W95__ControlBG {
   cursor: pointer;
 }
+
 .W95__Checkbox svg {
   display: block;
   -webkit-transform: translate(1px, 0);
           transform: translate(1px, 0);
 }
+
 .W95__Checkbox label {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -675,9 +699,11 @@ body {
           user-select: none;
   cursor: pointer;
 }
+
 .W95__List .W95__List__Contents {
   margin: 2px;
 }
+
 .W95__List .W95__ListItem {
   cursor: pointer;
   height: 40px;
@@ -686,11 +712,13 @@ body {
   overflow-x: scroll;
   overflow-y: hidden;
 }
+
 .W95__List .W95__ListItem:hover {
   padding-left: 2px;
   line-height: 36px;
   border: 2px dotted #000;
 }
+
 .W95__List .W95__ListItem.m-selected {
   padding-left: 2px;
   line-height: 36px;
@@ -698,6 +726,7 @@ body {
   color: var(--white);
   border: 2px dotted yellow;
 }
+
 .W95__Button {
   background-color: var(--bg);
   color: var(--fg);
@@ -721,15 +750,19 @@ body {
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
 }
+
 .W95__Button:last-child {
   margin-right: 0;
 }
+
 .W95__Button.m-block {
   display: block;
 }
+
 .W95__Button.m-absolute {
   position: absolute;
 }
+
 .W95__Button .W95__ButtonBG {
   position: absolute;
   top: 0;
@@ -739,22 +772,27 @@ body {
   border-right: 2px solid #878a8e;
   border-bottom: 2px solid #878a8e;
 }
+
 .W95__Button .W95__Button__Text {
   display: inline-block;
 }
+
 .W95__Button:focus {
   outline: 0;
 }
+
 .W95__Button:active {
   border-top: 2px solid #000;
   border-left: 2px solid #000;
   border-right: 2px solid #000;
   border-bottom: 2px solid #000;
 }
+
 .W95__Button:active .W95__Button__Text {
   -webkit-transform: translate(2px, 2px);
           transform: translate(2px, 2px);
 }
+
 .W95__Button:active .W95__ButtonBG {
   border-top: 2px solid #878a8e;
   border-left: 2px solid #878a8e;

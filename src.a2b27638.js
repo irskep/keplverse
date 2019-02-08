@@ -54525,6 +54525,34 @@ function Button(props) {
     className: "W95__Button__Text"
   }, props.children));
 }
+},{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/ui/TextInput.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = TextInput;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ui = _interopRequireDefault(require("./ui.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function TextInput(_ref) {
+  var value = _ref.value,
+      onChange = _ref.onChange;
+  return _react.default.createElement("div", {
+    className: "W95__TextInput",
+    onClick: onChange
+  }, _react.default.createElement("div", {
+    className: "W95__ControlBG"
+  }), _react.default.createElement("input", {
+    type: "text",
+    value: value,
+    onChange: onChange
+  }));
+}
 },{"react":"node_modules/react/index.js","./ui.scss":"src/components/ui/ui.scss"}],"src/components/SeedNavigator.js":[function(require,module,exports) {
 "use strict";
 
@@ -54536,6 +54564,8 @@ exports.default = SeedNavigator;
 var _react = _interopRequireWildcard(require("react"));
 
 var _Button = _interopRequireDefault(require("./ui/Button"));
+
+var _TextInput = _interopRequireDefault(require("./ui/TextInput"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54564,19 +54594,18 @@ function SeedNavigator(_ref) {
 
   return _react.default.createElement("div", {
     className: "SeedNavigator"
-  }, _react.default.createElement("div", null, _react.default.createElement("input", {
-    type: "text",
+  }, _react.default.createElement("div", null, _react.default.createElement(_TextInput.default, {
     value: inputSeed,
     onChange: onChange
   }), " ", _react.default.createElement(_Button.default, {
     onClick: onSeedFound.bind(this, parseInt(inputSeed, 10))
   }, "Go")), _react.default.createElement(_Button.default, {
     onClick: onSeedFound.bind(this, baseSeed - 1)
-  }, "Previous seed (p)"), _react.default.createElement(_Button.default, {
+  }, _react.default.createElement("u", null, "P"), "revious seed"), _react.default.createElement(_Button.default, {
     onClick: onSeedFound.bind(this, baseSeed + 1)
-  }, "Next seed (n)"));
+  }, _react.default.createElement("u", null, "N"), "ext seed"));
 }
-},{"react":"node_modules/react/index.js","./ui/Button":"src/components/ui/Button.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./ui/Button":"src/components/ui/Button.js","./ui/TextInput":"src/components/ui/TextInput.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55640,7 +55669,7 @@ function Meta() {
   }, _react.default.createElement("div", {
     className: "W95__HorzFlex"
   }, _react.default.createElement(_Group.default, {
-    title: "Star System Information"
+    title: "Star System Info"
   }, _react.default.createElement("p", null, "Auto name: ", kss.name), _react.default.createElement("p", null, "Seed: ", seed)), _react.default.createElement(_Group.default, {
     title: "Seed"
   }, _react.default.createElement(_SeedNavigator.default, {
@@ -55683,7 +55712,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59458" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59855" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
