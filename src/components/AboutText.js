@@ -13,7 +13,39 @@ export default function AboutText() {
       </h3>
 
       <p>
+        Congratulations on your purchase of the Keplverse Telescope! This
+        device allows you to stargaze in an imaginary, procedurally generated
+        universe.
+      </p>
 
+      <p>
+        Each star system is at a coordinate called a <em>seed</em>. This seed
+        is used to choose pseudorandom numbers to decide things like type and
+        number of stars, type and number of planets, types of planets, and
+        how far each planet is from the star.
+      </p>
+
+      <p>
+        The star systems in the Keplverse are meant to approximate the
+        distribution of stars and planets in the Milky Way Galaxy, according
+        to what we know as of 2019. NASA's Kepler exoplanet search mission
+        spawned hundreds of research papers, many of which changed our
+        expectations of the type and number of exoplanets in outer space.
+      </p>
+
+      <p>
+        The original purpose of this program was to
+        demonstrate <a href="https://github.com/irskep/stellardream" target="_blank">Stellar Dream</a>,
+        a JavaScript library that generates random star systems that pass a
+        basic nerd sniff test. That library may eventually be used in a game about
+        space exploration. To find out if that ever happens, subscribe
+        to <a href="https://blog.steveasleep.com/" target="_blank">blog.steveasleep.com</a> in
+        your RSS reader.
+      </p>
+
+      <p>
+        Links to the papers used to create these star systems may be found
+        in the comments of <a href="https://github.com/irskep/stellardream" target="_blank">Stellar Dream's code</a>.
       </p>
     </ScrollingText>
   );
