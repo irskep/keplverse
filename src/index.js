@@ -10,7 +10,7 @@ import ___ from "./style.scss";
 import MovableWindow from './components/ui/MovableWindow';
 import StaticWindow from './components/ui/StaticWindow';
 import Group from './components/ui/Group';
-import ScrollingText from './components/ui/ScrollingText';
+import TinyButton from './components/ui/TinyButton';
 
 import URLStorage from './URLStorage';
 import KStarSystem from "./KStarSystem";
@@ -37,13 +37,13 @@ const URL_STORAGE = new URLStorage(() => ({
 
 function Meta() {
   const [seed, setSeed] = URL_STORAGE.useStoredValue('seed');
-  const [isOpen, setIsOpen] = useState(!localStorage.wasClosed);
+  const [isAboutOpen, setIsAboutOpen] = useState(!localStorage.wasClosed);
 
   const go = (delta) => setSeed(seed + delta);
 
   const closeAbout = () => {
     localStorage.wasClosed = true;
-    setIsOpen(false);
+    setIsAboutOpen(false);
   }
 
   const kss = getSystem(seed);
@@ -53,7 +53,13 @@ function Meta() {
       <KeyHandler keyEventName={KEYPRESS} keyValue="n" onKeyHandle={go.bind(this, 1)} />
       <KeyHandler keyEventName={KEYPRESS} keyValue="p" onKeyHandle={go.bind(this, -1)} />
 
-      <StaticWindow title="Keplverse Telescope Software 1.0">
+      <StaticWindow
+          title="Keplverse Telescope Software 1.0"
+          titleExtra={(
+            <TinyButton style={{float: 'right'}} onClick={setIsAboutOpen.bind(this, true)}>
+              ?
+            </TinyButton>
+          )}>
         <div className="W95__HorzFlex">
           <Group title="Star System Info">
             <p>Auto name: {kss.name}</p>
@@ -68,7 +74,7 @@ function Meta() {
       </StaticWindow>
 
       <MovableWindow
-          isOpen={isOpen}
+          isOpen={isAboutOpen}
           title="About Keplverse Telescope Software"
           width={500}
           height={500}

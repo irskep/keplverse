@@ -98,6 +98,7 @@ export default class MovableWindow extends React.Component {
               {title}
             </div>
             {canClose && <div className="W95__WindowCloseButton" onClick={onClose}>
+              <div className="W95__ButtonBG" />
               <svg
                   width="16" height="16" viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"

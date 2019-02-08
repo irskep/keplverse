@@ -235,7 +235,7 @@ $contentPadding: 12px;
   }
 }
 
-.W95__ButtonStyling, .W95__Button, .W95__WindowCloseButton {
+.W95__ButtonStyling, .W95__Button, .W95__WindowCloseButton, .W95__TinyButton {
   // resets
   background-color: var(--bg);
   color: var(--fg);
@@ -316,16 +316,20 @@ $contentPadding: 12px;
   }
 }
 
-.W95__WindowCloseButton {
+.W95__WindowCloseButton, .W95__TinyButton {
   margin: 6px;
-  float: right;
   width: 30px;
+  line-height: 22px;
   height: 26px;
   text-align: center;
 
   svg {
     transform: translate(0, 3px);
   }
+}
+
+.W95__WindowCloseButton {
+  float: right;
 }
 
 .W95__ScrollingText {
