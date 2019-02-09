@@ -27,13 +27,9 @@ const points2 = doublePoints([
 export default class MovableWindow extends React.Component {
   constructor(props) {
     super(props);
-    
-    const width = props.width || 320;
-    const height = props.height || 320;
 
     this.state = {
-      width, height,
-      worldOffset: {x: -width / 2, y: -height / 2},
+      worldOffset: {x: 0, y: 0},
       worldOffsetAtMouseDown: null,
       mouseDownPoint: null,
     };
@@ -83,7 +79,7 @@ export default class MovableWindow extends React.Component {
     } = this.props;
     if (!isOpen) return null;
 
-    const {width, height, worldOffset} = this.state;
+    const {worldOffset} = this.state;
 
     return (
       <div className="W95__MovableWindowContainer">
@@ -92,7 +88,7 @@ export default class MovableWindow extends React.Component {
             style={{
               transform: `translate(${worldOffset.x}px, ${worldOffset.y}px)`,
             }}>
-          <div className="W95__Window m-movable" style={{ width, height }}>
+          <div className="W95__Window m-movable" style={windowStyle}>
             <div className="W95__WindowBG" />
             <div className="W95__WindowTitle" onMouseDown={this.onMouseDown.bind(this)}>
               {title}
@@ -107,7 +103,7 @@ export default class MovableWindow extends React.Component {
                 <polygon points={points2.map((pts) => pts.join(',')).join(' ')} fill="black" stroke="none" />
               </svg>
             </div>}
-            <div className="W95__WindowContents" style={windowStyle || {}}>
+            <div className="W95__WindowContents">
               {children}
             </div>
           </div>

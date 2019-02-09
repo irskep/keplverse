@@ -80,8 +80,12 @@ function Meta() {
       <MovableWindow
           isOpen={isAboutOpen}
           title="About Keplverse Telescope Software"
-          width={500}
-          height={500}
+          windowStyle={{
+            width: 500,
+            height: 500,
+            maxWidth: '100%',
+            maxHeight: '100%',
+          }}
           canClose={true}
           onClose={closeAbout}>
         <AboutText />
