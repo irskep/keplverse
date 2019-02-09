@@ -54019,9 +54019,11 @@ exports.StarType = StarType;
 
   StarType["O"] = "O";
 })(StarType || (exports.StarType = StarType = {})); // http://lup.lub.lu.se/luur/download?func=downloadFile&recordOId=8867455&fileOId=8870454
+// which is really from http://adsabs.harvard.edu/abs/2001JRASC..95...32L
 
 
-var StarTypeProbabilities = new Map([[StarType.M, 0.7645629], [StarType.K, 0.1213592], [StarType.G, 0.0764563], [StarType.F, 0.0303398], [StarType.A, 0.0060679], [StarType.B, 0.0012136], [StarType.O, 0.0000003]]);
+var StarTypeProbabilities = new Map([[StarType.M, 0.7645629], [StarType.K, 0.1213592], [StarType.G, 0.0764563], [StarType.F, 0.0303398], [StarType.A, 0.0060679], [StarType.B, 0.0012136], [StarType.O, 0.0000003]]); // https://www.astro.princeton.edu/~gk/A403/constants.pdf
+
 exports.StarTypeProbabilities = StarTypeProbabilities;
 var StarTemperature = new Map([[StarType.M, 3850], [StarType.K, 5300], [StarType.G, 5920], [StarType.F, 7240], [StarType.A, 9500], [StarType.B, 31000], [StarType.O, 41000]]);
 exports.StarTemperature = StarTemperature;
@@ -54316,7 +54318,7 @@ function addPlanets(starSystem, getRandom) {
   // the Titus-Bode law:
   // https://en.wikipedia.org/wiki/Titius%E2%80%93Bode_law
   // According to this paper it's pretty darn accurate:
-  // https://watermark.silverchair.com/stt1357.pdf?token=AQECAHi208BE49Ooan9kkhW_Ercy7Dm3ZL_9Cf3qfKAc485ysgAAAkYwggJCBgkqhkiG9w0BBwagggIzMIICLwIBADCCAigGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMXXlXIp7_lwD8QJsjAgEQgIIB-Z96njhcrt4HyhJSQ_02byW4uXVLfJlgORYjKns4IgHZ7hOohpgBhhuilHJ9CqVseHjZ2gRc6UxJ9zbWPMSEbR2ccKm93ziwbQIfl0cP7lLi50lTyffZyuW4klH9hF5usqCbX3mVLhrMVLaHRqpHY9ciTzJnLosk_FJJbYNV_OkvruGc0uY_6EtOkt13FZRxTG-Of3T9CfZj2L6PMTZxVTOMP-xY8TEDr20Kgxkwp-0DA9Lbec4SBgaEAMYSo8FJDHH_VZqYUE4H5BoUk3MRzaIbmGfCxttLGm96f-Pa0uYneyt6XZFXSUj9X7kAcN1wO0ul3pLBmhhY8dGYF_dFNKOnV3Q4O5yaFjtsJXrJheJh82UsyYmZo36QaZIC8c7h5fDluDz51JM-n_pdaI_Nj6DKXk1eisgd5wLj3MeZappwhTVDsRZnyfhLRkW6VWb0bm-FzcjEw6KvOZtJh9D7-jPyqc4Qnpdt5jLXyLqXJDOlUH1IYf0fJf1k_cw1jAPMHveHHEGrxwpZ1Jee7Q7gR1hZwkVBC4BzPq2K9a22SJ8Jgktr5PHi7RXSTeXVa9mlDTM8uqnXmwYdAu_y3SeyPvIJL7LZ7KKh_Z7FPqIwMjUHWDrY20FWHUl9oRlqthDT9CgEW1ECV9h6-MfEUlKMXUKf92FKxzICRlk
+  // https://arxiv.org/pdf/1602.02877.pdf
 
 
   var planetAnchor = normalizedToRange(hzMin, hzMax, getRandom());
@@ -54364,8 +54366,11 @@ function addPlanets(starSystem, getRandom) {
 
 
   var planetTypeChoices = [[_planets.PlanetType.Terran, terrainWeight], [_planets.PlanetType.Neptunian, neptunianWeight], [_planets.PlanetType.Jovian, jovianWeight]];
-  var start = Math.floor(normalizedToRange(2, planetSlots.length - 2, getRandom()));
-  var forceHZTerran = starSystem.stars[0].starType == _stars.StarType.M && getRandom() < 0.5;
+  var start = Math.floor(normalizedToRange(2, planetSlots.length - 2, getRandom())); // 50% of M-Dwarfs have Terrans in the HZ. There's already "some" probability that
+  // we'll get a Terran orbiting an M-dwarf in the HZ, but give it an extra 40% nudge
+  // anyway.
+
+  var forceHZTerran = starSystem.stars[0].starType == _stars.StarType.M && getRandom() < 0.4;
 
   if (forceHZTerran) {
     start = numHotSlots;
@@ -54376,7 +54381,7 @@ function addPlanets(starSystem, getRandom) {
 
   function makePlanet(i, t) {
     if (i < 0 || i >= planetSlots.length) {
-      debugger;
+      throw new Error("Trying to make a planet out of bounds");
     }
 
     var planetType = (0, _weightedChoice.default)(planetTypeChoices, getRandom());
@@ -54400,14 +54405,14 @@ function addPlanets(starSystem, getRandom) {
   // describes one with SIX: https://arxiv.org/pdf/1710.07337.pdf
 
 
-  while (getRandom() < 0.3 && left > 0) {
+  while (getRandom() < 0.15 && left > 0) {
     left -= 1; // Skip a slot sometimes just for fun
 
     if (left > 0 && getRandom() < 0.5) left -= 1;
     makePlanet(left);
   }
 
-  while (getRandom() < 0.3 && right < planetSlots.length - 1) {
+  while (getRandom() < 0.15 && right < planetSlots.length - 1) {
     right += 1; // Skip a slot sometimes just for fun
 
     if (right < planetSlots.length - 1 && getRandom() < 0.5) right += 1;
@@ -54446,7 +54451,7 @@ function () {
       human-relevant life.
      */
 
-    if (alea() < 0.44) {
+    if (alea() < 0.44 / 4) {
       this.stars.push(new _stars.Star(alea)); // One strategy for generating the second star would be to force
       // it to be smaller than the first, but it's simpler to just
       // generate them independently and sort by mass.
@@ -54808,7 +54813,9 @@ function SeedNavigator(_ref) {
     onClick: onSeedFound.bind(this, baseSeed - 1)
   }, _react.default.createElement("u", null, "P"), "revious seed"), _react.default.createElement(_Button.default, {
     onClick: onSeedFound.bind(this, baseSeed + 1)
-  }, _react.default.createElement("u", null, "N"), "ext seed"));
+  }, _react.default.createElement("u", null, "N"), "ext seed"), _react.default.createElement(_Button.default, {
+    onClick: onSeedFound.bind(this, Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
+  }, _react.default.createElement("u", null, "R"), "andom"));
 }
 },{"react":"node_modules/react/index.js","./ui/Button":"src/components/ui/Button.js","./ui/TextInput":"src/components/ui/TextInput.js"}],"src/components/PanZoomer.js":[function(require,module,exports) {
 "use strict";
@@ -55949,6 +55956,10 @@ function Meta() {
     keyEventName: _reactKeyHandler.KEYPRESS,
     keyValue: "p",
     onKeyHandle: go.bind(this, -1)
+  }), _react.default.createElement(_reactKeyHandler.default, {
+    keyEventName: _reactKeyHandler.KEYPRESS,
+    keyValue: "r",
+    onKeyHandle: setSeed.bind(this, Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
   }), _react.default.createElement(_StaticWindow.default, {
     title: "Keplverse Telescope Software 1.0",
     titleExtra: _react.default.createElement(_TinyButton.default, {
@@ -56010,7 +56021,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51769" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52834" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
