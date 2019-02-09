@@ -3,6 +3,7 @@ import _ from 'lodash';
 import Group from './ui/Group';
 import Button from './ui/Button';
 import Checkbox from './ui/Checkbox';
+import TextInput from './ui/TextInput';
 import { StarSystem } from 'stellardream';
 
 const STAR_TYPES = [
@@ -24,11 +25,17 @@ export default class SystemFinder extends React.Component {
       forceHabitableTerran: true,
       isSearching: false,
       numSearched: 0,
+      minPlanetsString: "3",
     };
   }
 
   flipCheckbox(st) {
     this.setState({[st]: !this.state[st]});
+  }
+
+  onChangeMinPlanets(e) {
+    const minPlanetsString = e.target.value;
+    this.setState({minPlanetsString});
   }
 
   search() {
@@ -40,6 +47,9 @@ export default class SystemFinder extends React.Component {
     // const batchSize = 10000;
     const batchSize = 1;
 
+    const maybeMinPlanets = parseInt(this.state.minPlanetsString, 10);
+    const minPlanets = isNaN(maybeMinPlanets) ? 0 : maybeMinPlanets;
+
     const success = (seed) => {
       console.log("Searched", this.state.numSearched + (seed - baseSeed));
       this.setState({isSearching: false, numSearched: 0});
@@ -50,6 +60,10 @@ export default class SystemFinder extends React.Component {
       const starSystem = new StarSystem(seed);
 
       if (!this.state[starSystem.stars[0].starType]) {
+        continue;
+      }
+
+      if (starSystem.planets.length < minPlanets) {
         continue;
       }
 
@@ -93,7 +107,7 @@ export default class SystemFinder extends React.Component {
           ))}
         </div>
 
-        <div className="CheckboxRow">
+        <div className="CheckboxRow" style={{textAlign: 'center'}}>
           <Checkbox 
             onChange={this.flipCheckbox.bind(this, 'forceHabitableTerran')}
             checked={this.state['forceHabitableTerran']}
@@ -101,13 +115,20 @@ export default class SystemFinder extends React.Component {
             />
         </div>
 
-        {!isSearching && (<Button onClick={this.search.bind(this)}>
-          Search genspace
-        </Button>)}
+        <div className="SystemFinder__MinPlanets">
+          <strong>Minimum planets:</strong> <TextInput
+            value={this.state.minPlanetsString}
+            onChange={this.onChangeMinPlanets.bind(this)} />
 
-        {isSearching && (<span className="SystemFinder__Progress">
-          Searched {this.state.numSearched} star systems
-        </span>)}
+          {!isSearching && (<Button onClick={this.search.bind(this)}>
+            Search genspace
+          </Button>)}
+
+          {isSearching && (<span className="SystemFinder__Progress">
+            Searched {this.state.numSearched} star systems
+          </span>)}
+
+        </div>
       </Group>
     );
   }

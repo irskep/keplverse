@@ -27,8 +27,6 @@ export default class StarSystem extends React.Component {
         rgba(0, 0, 0, 0) 73%)
       `.replace(/\n/g, '');
 
-    console.log(gradientText);
-
     return (
       <div
           className="StarSystem"

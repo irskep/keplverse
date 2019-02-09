@@ -51,6 +51,16 @@ body {
 
 /* LAYOUT */
 
+.u-clear-floats {
+  &:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
 .title-font, .mono-font, .scene-actions button {
   @include mono-font;
 }
@@ -88,6 +98,8 @@ body {
 .SystemFinder {
   .W95__Button {
     float: right;
+    margin-top: 0;
+    margin-left: 12px;
   }
 
   &:after {
@@ -96,6 +108,10 @@ body {
     display: block;
     height: 0;
     clear: both;
+  }
+
+  .W95__TextInput {
+    width: 3rem;
   }
 }
 
