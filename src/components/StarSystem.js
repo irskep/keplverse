@@ -18,6 +18,17 @@ export default class StarSystem extends React.Component {
     const hzW1Px = hzMax * scaleFactor * 2;
     const hzR1Px = hzW1Px / 2;
 
+    const gradientText = `
+      radial-gradient(
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) ${pct(hzMin / hzMax / 2 - 0.05)},
+        rgba(0, 255, 0, 0.2) ${pct(hzMin / hzMax / 2 + 0.05)},
+        rgba(0, 255, 0, 0.2) 60%,
+        rgba(0, 0, 0, 0) 73%)
+      `.replace(/\n/g, '');
+
+    console.log(gradientText);
+
     return (
       <div
           className="StarSystem"
@@ -36,15 +47,7 @@ export default class StarSystem extends React.Component {
             position: 'absolute',
             top: `-${hzR1Px}px`,
             left: `-${hzR1Px}px`,
-            background: `
-            radial-gradient(
-              ellipse at center,
-              rgba(0,0,0,0) 0%,
-              rgba(0,0,0,0) ${pct(hzMin / hzMax / 2 - 0.05)},
-              rgba(0, 255, 0, 20%) ${pct(hzMin / hzMax / 2 + 0.05)},
-              rgba(0, 255, 0, 20%) 60%,
-              rgba(0, 0, 0, 0%) 73%)
-            `.replace(/\n/g, ''),
+            background: gradientText,
           }}>
         </div>
 
@@ -87,13 +90,6 @@ export default class StarSystem extends React.Component {
               top: (Math.sin(angle) * p.distance * scaleFactor) + 'px',
             }} />);
         })}
-
-        {/* {starSystem.planets.map((p, i) => (
-          <PlanetInfo
-            key={i}
-            i={i}
-            starSystem={this.props.starSystem}
-            planet={p} />))} */}
       </div>
     );
   }
