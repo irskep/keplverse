@@ -45504,14 +45504,10 @@ function (_React$Component) {
     _classCallCheck(this, MovableWindow);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MovableWindow).call(this, props));
-    var width = props.width || 320;
-    var height = props.height || 320;
     _this.state = {
-      width: width,
-      height: height,
       worldOffset: {
-        x: -width / 2,
-        y: -height / 2
+        x: 0,
+        y: 0
       },
       worldOffsetAtMouseDown: null,
       mouseDownPoint: null
@@ -45572,10 +45568,7 @@ function (_React$Component) {
           isOpen = _this$props.isOpen,
           onClose = _this$props.onClose;
       if (!isOpen) return null;
-      var _this$state = this.state,
-          width = _this$state.width,
-          height = _this$state.height,
-          worldOffset = _this$state.worldOffset;
+      var worldOffset = this.state.worldOffset;
       return _react.default.createElement("div", {
         className: "W95__MovableWindowContainer"
       }, _react.default.createElement("div", {
@@ -45585,10 +45578,7 @@ function (_React$Component) {
         }
       }, _react.default.createElement("div", {
         className: "W95__Window m-movable",
-        style: {
-          width: width,
-          height: height
-        }
+        style: windowStyle
       }, _react.default.createElement("div", {
         className: "W95__WindowBG"
       }), _react.default.createElement("div", {
@@ -45618,8 +45608,7 @@ function (_React$Component) {
         fill: "black",
         stroke: "none"
       }))), _react.default.createElement("div", {
-        className: "W95__WindowContents",
-        style: windowStyle || {}
+        className: "W95__WindowContents"
       }, children))));
     }
   }]);
@@ -55986,8 +55975,12 @@ function Meta() {
   })), _react.default.createElement(_MovableWindow.default, {
     isOpen: isAboutOpen,
     title: "About Keplverse Telescope Software",
-    width: 500,
-    height: 500,
+    windowStyle: {
+      width: 500,
+      height: 500,
+      maxWidth: '100%',
+      maxHeight: '100%'
+    },
     canClose: true,
     onClose: closeAbout
   }, _react.default.createElement(_AboutText.default, null)));
@@ -56021,7 +56014,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52834" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55016" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

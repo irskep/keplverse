@@ -561,7 +561,7 @@ body {
 }
 
 .W95__Window.m-movable {
-  position: absolute;
+  position: relative;
 }
 
 .W95__Window .W95__WindowBG {
@@ -588,10 +588,13 @@ body {
 .W95__MovableWindowContainer .W95__MovableWindowContainer__Centerer {
   pointer-events: none;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: visible;
 }
 
