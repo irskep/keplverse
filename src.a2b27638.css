@@ -378,6 +378,13 @@ body {
   }
 }
 /* LAYOUT */
+.u-clear-floats:after {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
 .title-font, .mono-font, .scene-actions button {
   font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 }
@@ -408,6 +415,8 @@ body {
 }
 .SystemFinder .W95__Button {
   float: right;
+  margin-top: 0;
+  margin-left: 12px;
 }
 .SystemFinder:after {
   content: ".";
@@ -415,6 +424,9 @@ body {
   display: block;
   height: 0;
   clear: both;
+}
+.SystemFinder .W95__TextInput {
+  width: 3rem;
 }
 .CheckboxRow {
   line-height: 2rem;
@@ -688,6 +700,7 @@ body {
   line-height: 40px;
   padding: 0 6px;
   border: none;
+  max-width: 100%;
 }
 
 .W95__Checkbox {

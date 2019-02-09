@@ -53965,8 +53965,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.computeHabitableZone = computeHabitableZone;
 exports.computeMass = computeMass;
-exports.getMetallicityValue = getMetallicityValue;
-exports.Star = exports.HabitableZonePlanetLikelihoods = exports.StarColors = exports.StarRadiusMax = exports.StarRadiusMin = exports.StarLuminosityMax = exports.StarLuminosityMin = exports.StarTemperature = exports.StarTypeProbabilities = exports.StarType = void 0;
+exports.computeMetallicityValue = computeMetallicityValue;
+exports.Star = exports.StarColors = exports.StarRadiusMax = exports.StarRadiusMin = exports.StarLuminosityMax = exports.StarLuminosityMin = exports.StarTemperature = exports.StarTypeProbabilities = exports.StarType = void 0;
 
 var _weightedChoice = _interopRequireDefault(require("./weightedChoice"));
 
@@ -54025,39 +54025,19 @@ exports.StarRadiusMin = StarRadiusMin;
 var StarRadiusMax = new Map([[StarType.M, 0.7], [StarType.K, 0.96], [StarType.G, 1.15], [StarType.F, 1.4], [StarType.A, 1.8], [StarType.B, 6.6], [StarType.O, 12]]); // http://www.vendian.org/mncharity/dir3/starcolor/
 
 exports.StarRadiusMax = StarRadiusMax;
-var StarColors = new Map([[StarType.O, '#9bb0ff'], [StarType.B, '#aabfff'], [StarType.A, '#cad7ff'], [StarType.F, '#f8f7ff'], [StarType.G, '#fff4ea'], [StarType.K, '#ffd2a1'], [StarType.M, '#ffcc6f']]); // http://www.solstation.com/habitable.htm
-
-/**
-* ~44% of F6-K3 stars with 0.5-1.5 stellar masses are likely binary/multiple star systems,
-* making stable orbits extremely unlikely unless the stars are close together.
-*
-* Inside HZ: "water is broken up by stellar radiation into oxygen and hydrogen...
-* the freed hydrogen would escape to space due to the relatively puny
-* gravitational pull of small rocky planets like Earth"
-*
-* Outside HZ: "atmospheric carbon dioxide condenses...which eliminates its
-* greenhouse warming effect."
-*
-* Stars get brighter as they age, so HZ expands outward. CHZ = "continuously habitable zone"
-* over time.
-*/
-
-exports.StarColors = StarColors;
-var HabitableZonePlanetLikelihoods = new Map([[StarType.M, 0.0002], [StarType.K, 0.001], [StarType.G, 0.002], [StarType.F, 0.001], // my sources don't discuss these star types, and they are rare, so just pick
-// some random small values
-[StarType.A, 0.0002], [StarType.B, 0.00015], [StarType.O, 0.0001]]); // "normalized solar flux factor"
+var StarColors = new Map([[StarType.O, '#9bb0ff'], [StarType.B, '#aabfff'], [StarType.A, '#cad7ff'], [StarType.F, '#f8f7ff'], [StarType.G, '#fff4ea'], [StarType.K, '#ffd2a1'], [StarType.M, '#ffcc6f']]); // "normalized solar flux factor"
 // http://www.solstation.com/habitable.htm
 
-exports.HabitableZonePlanetLikelihoods = HabitableZonePlanetLikelihoods;
+exports.StarColors = StarColors;
 var SeffInner = new Map([[StarType.M, 1.05], [StarType.K, 1.05], [StarType.G, 1.41], [StarType.F, 1.9], [StarType.A, 0], [StarType.B, 0], [StarType.O, 0]]);
 var SeffOuter = new Map([[StarType.M, 0.27], [StarType.K, 0.27], [StarType.G, 0.36], [StarType.F, 0.46], [StarType.A, 0], [StarType.B, 0], [StarType.O, 0]]);
 
-function computeHabitableZoneHelper(luminosity, seff) {
+function computeHZBoundary(luminosity, seff) {
   return 1 * Math.pow(luminosity / seff, 0.5);
 }
 
 function computeHabitableZone(t, luminosity) {
-  return [computeHabitableZoneHelper(luminosity, SeffInner.get(t)), computeHabitableZoneHelper(luminosity, SeffOuter.get(t))];
+  return [computeHZBoundary(luminosity, SeffInner.get(t)), computeHZBoundary(luminosity, SeffOuter.get(t))];
 }
 
 function computeMass(luminosity) {
@@ -54085,18 +54065,6 @@ function computeMass(luminosity) {
   return Math.pow(luminosity / a, b);
 }
 /*
-// this is garbage and wrong, don't use this
-// might be able to salvage using this:
-// https://www.astro.princeton.edu/~gk/A403/constants.pdf
-export function computeRadius(t: StarType, luminosity: number): number {
-  const temperature = StarTemperature.get(t)!;
-  const tempRatio = temperature / StarTemperature.get(StarType.G)!
-
-  return Math.sqrt(Math.pow(tempRatio, 4) / luminosity);
-}
-*/
-
-/*
   https://arxiv.org/pdf/1511.07438.pdf
   
   According to this paper, metallicity distribution is best represented
@@ -54107,7 +54075,7 @@ export function computeRadius(t: StarType, luminosity: number): number {
 */
 
 
-function getMetallicityValue(aRandomNumber, n2) {
+function computeMetallicityValue(aRandomNumber, n2) {
   var dist1 = (0, _gaussian.default)(0.3, 0.1);
   var dist2 = (0, _gaussian.default)(-0.45, 0.1);
   var val1 = dist1.ppf(aRandomNumber);
@@ -54121,8 +54089,6 @@ function getMetallicityValue(aRandomNumber, n2) {
 var Star =
 /** @class */
 function () {
-  // _metallicity?: number;
-  // _metallicityValues: [number, number];
   function Star(getRandom) {
     var weights = Array();
     StarTypeProbabilities.forEach(function (v, k) {
@@ -54133,10 +54099,8 @@ function () {
     var sizeValue = getRandom();
     this.luminosity = normalizedToRange(StarLuminosityMin.get(this.starType), StarLuminosityMax.get(this.starType), sizeValue);
     this.radius = normalizedToRange(StarRadiusMin.get(this.starType), StarRadiusMax.get(this.starType), sizeValue);
-    this.mass = computeMass(this.luminosity); // this._metallicity = undefined;
-    // this._metallicityValues = [getRandom(), getRandom()];
-
-    this.metallicity = getMetallicityValue(getRandom(), getRandom());
+    this.mass = computeMass(this.luminosity);
+    this.metallicity = computeMetallicityValue(getRandom(), getRandom());
   }
 
   return Star;
@@ -54149,7 +54113,7 @@ exports.Star = Star;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Planet = exports.PlanetTypeRadiusExponent = exports.PlanetTypeMassMax = exports.PlanetTypeMassMin = exports.KeplerGrouping = exports.PlanetType = void 0;
+exports.Planet = exports.PlanetTypeProbabilities = exports.PlanetTypeRadiusExponent = exports.PlanetTypeMassMax = exports.PlanetTypeMassMin = exports.PlanetType = void 0;
 // https://medium.com/starts-with-a-bang/sorry-super-earth-fans-there-are-only-three-classes-of-planet-44f3da47eb64
 var PlanetType;
 exports.PlanetType = PlanetType;
@@ -54158,27 +54122,7 @@ exports.PlanetType = PlanetType;
   PlanetType["Terran"] = "Terran";
   PlanetType["Neptunian"] = "Neptunian";
   PlanetType["Jovian"] = "Jovian";
-  PlanetType["Placeholder"] = "Placeholder";
-})(PlanetType || (exports.PlanetType = PlanetType = {})); // unused; future work? comments map wonky infographic clusters onto PlanetType
-
-
-var KeplerGrouping;
-exports.KeplerGrouping = KeplerGrouping;
-
-(function (KeplerGrouping) {
-  // "big" jovians that are doing a fusion
-  KeplerGrouping["HotJupiter"] = "HotJupiter"; // "small" jovians
-
-  KeplerGrouping["ColdGasGiant"] = "ColdGasGiant"; // neptunes
-
-  KeplerGrouping["IceGiant"] = "IceGiant"; // watery terrans
-
-  KeplerGrouping["OceanWorld"] = "OceanWorld"; // mercury-sized terrans
-
-  KeplerGrouping["LavaWorld"] = "LavaWorld"; // terrans
-
-  KeplerGrouping["Rocky"] = "Rocky";
-})(KeplerGrouping || (exports.KeplerGrouping = KeplerGrouping = {})); // Units: 10^x earth-masses
+})(PlanetType || (exports.PlanetType = PlanetType = {})); // Units: 10^x earth-masses
 // https://arxiv.org/pdf/1603.08614v2.pdf%29
 
 /*
@@ -54197,14 +54141,36 @@ var PlanetTypeMassMax = new Map([[PlanetType.Terran, 0.22], [PlanetType.Neptunia
 exports.PlanetTypeMassMax = PlanetTypeMassMax;
 var PlanetTypeRadiusExponent = new Map([[PlanetType.Terran, 0.28], [PlanetType.Neptunian, 0.59], [PlanetType.Jovian, -0.04]]);
 exports.PlanetTypeRadiusExponent = PlanetTypeRadiusExponent;
+var PlanetTypeProbabilities = {
+  /*
+      http://iopscience.iop.org/article/10.1086/428383/pdf
+      https://arxiv.org/pdf/1511.07438.pdf
+       "One-quarter of the FGK-type stars with [Fe/H] > 0.3 dex harbor
+      Jupiter-like planets with orbital periods shorter than 4 yr. In
+      contrast, gas giant planets are detected around fewer than 3% of
+      the stars with subsolar metallicity. "
+       So if stars have a 70% chance of having any planets, and a 25%
+      chance of specifically having a gas giant, we want about a 35%
+      chance of a planet being a gas giant.
+  */
+  jovianInHighMetallicitySystem: 0.5,
+  jovianInLowMetallicitySystem: 0.05,
+  // eyeballed from
+  // https://www.popularmechanics.com/space/deep-space/a13733860/all-the-exoplanets-weve-discovered-in-one-small-chart/
+  neptunian: 1,
+  terran: 0.5
+};
+exports.PlanetTypeProbabilities = PlanetTypeProbabilities;
 
 var Planet =
 /** @class */
 function () {
-  function Planet(planetType, star, distance) {
+  function Planet(planetType, star, distance, mass) {
     this.planetType = planetType;
     this.distance = distance;
     this.star = star;
+    this.mass = mass;
+    this.radius = Math.pow(this.mass, PlanetTypeRadiusExponent.get(planetType) || 0);
   }
 
   return Planet;
@@ -54235,32 +54201,21 @@ function normalizedToRange(min, max, val) {
   return min + (max - min) * val;
 }
 /*
-    https://www.gemini.edu/node/12025
-
-    "In our search, we could have found gas giants beyond orbital distances
-    corresponding to Uranus and Neptune in our own Solar System, but we didn’t
-    find any."
-*/
-
-/*
     https://www.cfa.harvard.edu/news/2013-01
 
-    "At Least One in Six Stars Has an Earth-sized Planet"
+    "Altogether, the researchers found that 50 percent of stars have a
+    planet of Earth-size or larger in a close orbit. By adding larger
+    planets, which have been detected in wider orbits up to the orbital
+    distance of the Earth, this number reaches 70 percent."
+
+    "for every planet size except gas giants, the type of star doesn't
+    matter."
 */
 
-/*
-    https://en.wikipedia.org/wiki/Circumbinary_planet
-    https://en.wikipedia.org/wiki/Habitability_of_binary_star_systems
 
-    Many restrictions on circumbinary planets have not been implemented here
-*/
+var atLeastOnePlanetProbability = 0.7; // This comes from nowhere in particular. I made it up.
 
-/*
-    https://www.manyworlds.space/index.php/2018/07/09/the-architecture-of-solar-systems/
-    
-    Planets seem to have similar sizes as their neighbors
-*/
-
+var closeBinaryProbability = 0.11;
 
 function addPlanets(starSystem, getRandom) {
   switch (starSystem.stars[0].starType) {
@@ -54273,41 +54228,18 @@ function addPlanets(starSystem, getRandom) {
       return;
   }
 
-  if (getRandom() < 0.3) {
+  if (getRandom() > atLeastOnePlanetProbability) {
     // Current research suggests that 70% of sunlike stars have terran
     // or neptunian planets (see comment later). So in 30% of cases, just
     // bail.
     return;
   }
-  /*
-      http://iopscience.iop.org/article/10.1086/428383/pdf
-      https://arxiv.org/pdf/1511.07438.pdf
-       "One-quarter of the FGK-type stars with [Fe/H] > 0.3 dex harbor
-      Jupiter-like planets with orbital periods shorter than 4 yr. In
-      contrast, gas giant planets are detected around fewer than 3% of
-      the stars with subsolar metallicity. "
-  */
-
-  /*
-  We can use that information to form a simple planet type distribution
-  strategy. If a star has high metallicity, we'll say gas giant probability
-  per plant is 30%; otherwise it'll be 6%.
-  */
-
-
-  var jovianWeight = starSystem.metallicity >= 0 ? 0.3 : 0.04; // The others are eyeballed figures from https://www.popularmechanics.com/space/deep-space/a13733860/all-the-exoplanets-weve-discovered-in-one-small-chart/
-
-  var terrainWeight = 0.3;
-  var neptunianWeight = 0.6;
 
   var _a = (0, _stars.computeHabitableZone)(starSystem.stars[0].starType, starSystem.stars[0].luminosity),
       hzMin = _a[0],
-      hzMax = _a[1]; // Stick a planet slot in the habitable zone because I don't have anything
-  // else to go on. Then add slots toward and away from the sun based on
-  // the Titus-Bode law:
-  // https://en.wikipedia.org/wiki/Titius%E2%80%93Bode_law
-  // According to this paper it's pretty darn accurate:
-  // https://arxiv.org/pdf/1602.02877.pdf
+      hzMax = _a[1]; // Artistic license, since there isn't a clear rule for planet placement:
+  // pick an orbit in the habitable zone, and then use the Titus-Bode relation
+  // to generate 5 closer orbits and 5 farther orbits.
 
 
   var planetAnchor = normalizedToRange(hzMin, hzMax, getRandom());
@@ -54323,41 +54255,14 @@ function addPlanets(starSystem, getRandom) {
   for (var i = 0; i < numHotSlots; i++) {
     planetSlots.unshift(planetSlots[0] / normalizedToRange(1.1, 2, getRandom()));
   }
-  /*
-      https://www.nasa.gov/mission_pages/kepler/news/17-percent-of-stars-have-earth-size-planets.html
-       "Extrapolating from Kepler's currently ongoing observations and results
-      from other detection techniques, scientists have determined that nearly
-      all sun-like stars have planets."
-  */
 
-  /*
-      https://www.cfa.harvard.edu/news/2013-01
-       "Altogether, the researchers found that 50 percent of stars have a
-      planet of Earth-size or larger in a close orbit. By adding larger
-      planets, which have been detected in wider orbits up to the orbital
-      distance of the Earth, this number reaches 70 percent."
-       "for every planet size except gas giants, the type of star doesn't
-      matter."
-  */
+  var jovianWeight = starSystem.metallicity >= 0 ? _planets.PlanetTypeProbabilities.jovianInHighMetallicitySystem : _planets.PlanetTypeProbabilities.jovianInLowMetallicitySystem;
+  var planetTypeChoices = [[_planets.PlanetType.Terran, _planets.PlanetTypeProbabilities.terran], [_planets.PlanetType.Neptunian, _planets.PlanetTypeProbabilities.neptunian], [_planets.PlanetType.Jovian, jovianWeight / atLeastOnePlanetProbability]]; // Star making planets somewhere random
 
-  /*
-      http://www.pnas.org/content/111/35/12647
-       "The HZ of M-type dwarfs corresponds to orbital periods of a few weeks
-      to a few months. Kepler’s current planet catalog is sufficient for
-      addressing statistics of HZ exoplanets orbiting M stars. The results
-      indicate that the average number of small (0.5–1.4 R⊕) HZ
-      (optimistic) planets per M-type main-sequence star is ∼0.5."
-       "Collectively, the statistics emerging from the Kepler data suggest
-      that every late-type main-sequence star has at least one planet (of
-      any size), that one in six has an Earth-size planet within a
-      Mercury-like orbit, and that small HZ planets around M dwarfs abound."
-  */
-
-
-  var planetTypeChoices = [[_planets.PlanetType.Terran, terrainWeight], [_planets.PlanetType.Neptunian, neptunianWeight], [_planets.PlanetType.Jovian, jovianWeight]];
   var start = Math.floor(normalizedToRange(2, planetSlots.length - 2, getRandom())); // 50% of M-Dwarfs have Terrans in the HZ. There's already "some" probability that
   // we'll get a Terran orbiting an M-dwarf in the HZ, but give it an extra 40% nudge
   // anyway.
+  // http://www.pnas.org/content/111/35/12647
 
   var forceHZTerran = starSystem.stars[0].starType == _stars.StarType.M && getRandom() < 0.4;
 
@@ -54373,13 +54278,9 @@ function addPlanets(starSystem, getRandom) {
       throw new Error("Trying to make a planet out of bounds");
     }
 
-    var planetType = (0, _weightedChoice.default)(planetTypeChoices, getRandom());
-
-    if (t) {
-      planetType = t;
-    }
-
-    starSystem.planets.push(new _planets.Planet(planetType, starSystem.stars[0], planetSlots[i]));
+    var planetType = t || (0, _weightedChoice.default)(planetTypeChoices, getRandom());
+    var mass = normalizedToRange(_planets.PlanetTypeMassMin.get(planetType) || 0, _planets.PlanetTypeMassMax.get(planetType) || 0, getRandom());
+    starSystem.planets.push(new _planets.Planet(planetType, starSystem.stars[0], planetSlots[i], Math.pow(10, mass)));
   }
 
   if (forceHZTerran) {
@@ -54406,11 +54307,7 @@ function addPlanets(starSystem, getRandom) {
 
     if (right < planetSlots.length - 1 && getRandom() < 0.5) right += 1;
     makePlanet(right);
-  } // for (let s of originalSlots) {
-  //     starSystem.planets.push(new Planet(
-  //         PlanetType.Placeholder, starSystem.stars[0], s));
-  // }
-
+  }
 
   starSystem.planets.sort(function (a, b) {
     return a.distance - b.distance;
@@ -54425,26 +54322,11 @@ function () {
 
     this.seed = seed;
     var alea = new _alea.default(seed);
-    this.stars = [new _stars.Star(alea)];
-    /*
-      Roughly 44% of star systems have two stars. The stars orbit each
-      other at distances of "zero-ish" to 1 light year. Alpha Centauri,
-      for example, has Proxima Centauri at 15,000 AU (~0.23 light years).
-       This model will only look at "close binaries" (hand-wavingly
-      estimated at 1/4 of binary systems), and say their planets are in
-      orbit of both stars simultaneously. Other binaries will be treated
-      like separate star systems. Research shows that even non-close
-      binaries make planetary orbits eccentric over time (billions of
-      years), but this would have no effect on colonization potential by
-      humans (I suppose) except as it relates to the development of
-      human-relevant life.
-     */
+    this.stars = [new _stars.Star(alea)]; // Second star so far is only cosmetic and doesn't affect important
+    // things like orbits or habitable zones.
 
-    if (alea() < 0.44 / 4) {
-      this.stars.push(new _stars.Star(alea)); // One strategy for generating the second star would be to force
-      // it to be smaller than the first, but it's simpler to just
-      // generate them independently and sort by mass.
-
+    if (alea() < closeBinaryProbability) {
+      this.stars.push(new _stars.Star(alea));
       this.stars = this.stars.sort(function (a, b) {
         return b.mass - a.mass;
       });
@@ -54479,6 +54361,42 @@ exports.StarSystem = StarSystem;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "Star", {
+  enumerable: true,
+  get: function () {
+    return _stars.Star;
+  }
+});
+Object.defineProperty(exports, "StarTypeProbabilities", {
+  enumerable: true,
+  get: function () {
+    return _stars.StarTypeProbabilities;
+  }
+});
+Object.defineProperty(exports, "StarType", {
+  enumerable: true,
+  get: function () {
+    return _stars.StarType;
+  }
+});
+Object.defineProperty(exports, "Planet", {
+  enumerable: true,
+  get: function () {
+    return _planets.Planet;
+  }
+});
+Object.defineProperty(exports, "PlanetType", {
+  enumerable: true,
+  get: function () {
+    return _planets.PlanetType;
+  }
+});
+Object.defineProperty(exports, "PlanetTypeProbabilities", {
+  enumerable: true,
+  get: function () {
+    return _planets.PlanetTypeProbabilities;
+  }
+});
 Object.defineProperty(exports, "StarSystem", {
   enumerable: true,
   get: function () {
@@ -54488,20 +54406,10 @@ Object.defineProperty(exports, "StarSystem", {
 
 var _stars = require("./stars");
 
+var _planets = require("./planets");
+
 var _starSystem = require("./starSystem");
 
-/// Tweak probability values to make planets more habitable and life-infested
-// function cheatStars() {
-//     StarTypeProbabilities.set(StarType.K, StarTypeProbabilities.get(StarType.K)! + 0.5);
-//     StarTypeProbabilities.set(StarType.G, StarTypeProbabilities.get(StarType.G)! + 0.5);
-//     StarTypeProbabilities.set(StarType.F, StarTypeProbabilities.get(StarType.F)! + 0.5);
-//     // Cheat so about half of G-type stars have a planet in their habitable zones
-//     for (let k of Object.keys(StarType)) {
-//         const t = StarType[k as keyof typeof StarType];
-//         HabitableZonePlanetLikelihoods.set(t, HabitableZonePlanetLikelihoods.get(t)! * 250);
-//     }
-// }
-// cheatStars();
 // main
 var main = document.getElementById("js-stellardream-main");
 var seed = Date.now();
@@ -54571,64 +54479,10 @@ if (main) {
 
     planetsEl.style.width = maxDistance * distanceFactor + 100 + "px";
     main.appendChild(systemEl);
+    console.log(JSON.stringify(system, null, 2));
   }
-} // Dumb visual check of the metallicity probability distribution
-// function testMetallicity() {
-//     if (document.body.children[0].tagName == 'CANVAS') {
-//         document.body.removeChild(document.body.children[0]);
-//     }
-//     const buckets: any = {};
-//     let maxCount = 0;
-//     let min = 0;
-//     let max = 0;
-//     const mult = 100;
-//     for(let i=0; i<100000; i++) {
-//         const val = getMetallicityValue(Math.random(), Math.random());
-//         const roundedVal = Math.floor(val * mult) / mult;
-//         min = Math.min(min, roundedVal);
-//         max = Math.max(max, roundedVal);
-//         if (!buckets[roundedVal]) buckets[roundedVal] = 0;
-//         buckets[roundedVal] += 1;
-//         maxCount = Math.max(maxCount, buckets[roundedVal]);
-//     }
-//     console.log(maxCount);
-//     const height = 200;
-//     const factor = height / maxCount;
-//     const canvasEl = document.createElement('canvas');
-//     canvasEl.width = (max - min) * mult;
-//     canvasEl.height = height;
-//     canvasEl.style.backgroundColor = 'white';
-//     const ctx = canvasEl.getContext('2d');
-//     if (!ctx) return;
-//     ctx.fillStyle = 'black';
-//     for(let i=min * mult; i<max * mult; i+=1) {
-//         const k = i / mult;
-//         const val = buckets[k];
-//         switch (k) {
-//         case 0:
-//             ctx.fillStyle = 'red';
-//             break;
-//         case 0.3:
-//         case -0.45:
-//             ctx.fillStyle = 'lightgreen';
-//             break;
-//         case 1:
-//             ctx.fillStyle = 'cyan';
-//             break;
-//         case -1:
-//             ctx.fillStyle = 'yellow';
-//             break;
-//         default:
-//             ctx.fillStyle = 'black';
-//             break;
-//         }
-//         ctx.fillRect(i - (min * mult), height - val * factor, 1, val * factor);
-//     }
-//     console.log(buckets);
-//     document.body.insertBefore(canvasEl, document.body.children[0]);
-// }
-// testMetallicity();
-},{"./stars":"node_modules/stellardream/lib/stars.js","./starSystem":"node_modules/stellardream/lib/starSystem.js"}],"src/KStarSystem.js":[function(require,module,exports) {
+}
+},{"./stars":"node_modules/stellardream/lib/stars.js","./planets":"node_modules/stellardream/lib/planets.js","./starSystem":"node_modules/stellardream/lib/starSystem.js"}],"src/KStarSystem.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55199,7 +55053,6 @@ function (_React$Component) {
       var hzW1Px = hzMax * scaleFactor * 2;
       var hzR1Px = hzW1Px / 2;
       var gradientText = "\n      radial-gradient(\n        rgba(0,0,0,0) 0%,\n        rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax / 2 - 0.05), ",\n        rgba(0, 255, 0, 0.2) ").concat((0, _pct.default)(hzMin / hzMax / 2 + 0.05), ",\n        rgba(0, 255, 0, 0.2) 60%,\n        rgba(0, 0, 0, 0) 73%)\n      ").replace(/\n/g, '');
-      console.log(gradientText);
       return _react.default.createElement("div", {
         className: "StarSystem",
         style: {// width: sizePx + 'px',
@@ -55572,6 +55425,8 @@ var _Button = _interopRequireDefault(require("./ui/Button"));
 
 var _Checkbox = _interopRequireDefault(require("./ui/Checkbox"));
 
+var _TextInput = _interopRequireDefault(require("./ui/TextInput"));
+
 var _stellardream = require("stellardream");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -55620,7 +55475,8 @@ function (_React$Component) {
       'O': false,
       forceHabitableTerran: true,
       isSearching: false,
-      numSearched: 0
+      numSearched: 0,
+      minPlanetsString: "3"
     };
     return _this;
   }
@@ -55629,6 +55485,14 @@ function (_React$Component) {
     key: "flipCheckbox",
     value: function flipCheckbox(st) {
       this.setState(_defineProperty({}, st, !this.state[st]));
+    }
+  }, {
+    key: "onChangeMinPlanets",
+    value: function onChangeMinPlanets(e) {
+      var minPlanetsString = e.target.value;
+      this.setState({
+        minPlanetsString: minPlanetsString
+      });
     }
   }, {
     key: "search",
@@ -55646,6 +55510,8 @@ function (_React$Component) {
 
       // const batchSize = 10000;
       var batchSize = 1;
+      var maybeMinPlanets = parseInt(this.state.minPlanetsString, 10);
+      var minPlanets = isNaN(maybeMinPlanets) ? 0 : maybeMinPlanets;
 
       var success = function success(seed) {
         console.log("Searched", _this2.state.numSearched + (seed - baseSeed));
@@ -55662,6 +55528,10 @@ function (_React$Component) {
         var starSystem = new _stellardream.StarSystem(seed);
 
         if (!this.state[starSystem.stars[0].starType]) {
+          continue;
+        }
+
+        if (starSystem.planets.length < minPlanets) {
           continue;
         }
 
@@ -55730,16 +55600,24 @@ function (_React$Component) {
           checked: _this3.state[st]
         });
       })), _react.default.createElement("div", {
-        className: "CheckboxRow"
+        className: "CheckboxRow",
+        style: {
+          textAlign: 'center'
+        }
       }, _react.default.createElement(_Checkbox.default, {
         onChange: this.flipCheckbox.bind(this, 'forceHabitableTerran'),
         checked: this.state['forceHabitableTerran'],
         label: "Must have Terran planet in habitable zone"
-      })), !isSearching && _react.default.createElement(_Button.default, {
+      })), _react.default.createElement("div", {
+        className: "SystemFinder__MinPlanets"
+      }, _react.default.createElement("strong", null, "Minimum planets:"), " ", _react.default.createElement(_TextInput.default, {
+        value: this.state.minPlanetsString,
+        onChange: this.onChangeMinPlanets.bind(this)
+      }), !isSearching && _react.default.createElement(_Button.default, {
         onClick: this.search.bind(this)
       }, "Search genspace"), isSearching && _react.default.createElement("span", {
         className: "SystemFinder__Progress"
-      }, "Searched ", this.state.numSearched, " star systems"));
+      }, "Searched ", this.state.numSearched, " star systems")));
     }
   }]);
 
@@ -55747,7 +55625,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = SystemFinder;
-},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","./ui/Checkbox":"src/components/ui/Checkbox.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/ScrollingText.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","lodash":"node_modules/lodash/lodash.js","./ui/Group":"src/components/ui/Group.js","./ui/Button":"src/components/ui/Button.js","./ui/Checkbox":"src/components/ui/Checkbox.js","./ui/TextInput":"src/components/ui/TextInput.js","stellardream":"node_modules/stellardream/lib/index.js"}],"src/components/ui/ScrollingText.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55976,7 +55854,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49224" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51691" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
