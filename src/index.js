@@ -52,6 +52,10 @@ function Meta() {
     <div className="Meta">
       <KeyHandler keyEventName={KEYPRESS} keyValue="n" onKeyHandle={go.bind(this, 1)} />
       <KeyHandler keyEventName={KEYPRESS} keyValue="p" onKeyHandle={go.bind(this, -1)} />
+      <KeyHandler
+        keyEventName={KEYPRESS}
+        keyValue="r"
+        onKeyHandle={setSeed.bind(this, Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))} />
 
       <StaticWindow
           title="Keplverse Telescope Software 1.0"

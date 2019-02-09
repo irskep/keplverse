@@ -5094,9 +5094,9 @@ statuses@~1.4.0:
   integrity sha512-zhSCtt8v2NDrRlPQpCNtw/heZLtfUDqxBM1udqikb/Hbk52LK4nQSwr10u77iopCW5LsyHpuXS0GnEc48mLeew==
 
 stellardream@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/stellardream/-/stellardream-0.1.1.tgz#903862747583919b3c89e13b8d4813501fd8cb93"
-  integrity sha512-m0OivIlNzoTQea/dNlTZHgXwVz06wr9NycQ5XO+xUS/qcQjVlp+pyMHJVRNzzenSezkQFh0ZdHYiJsxhy96hFw==
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/stellardream/-/stellardream-0.1.3.tgz#5ff38bda35d0e06e852547e6253bc215cba0bf1a"
+  integrity sha512-vLrQIuT9ZymRegymfxxt1WQgJkqpvn+WAk/qk3S0l5MXYO2+w/F/41BlO+FqpUzKIFiINfUBdVBdpRYi+BvcYA==
   dependencies:
     alea "^1.0.0"
     gaussian "^1.1.0"

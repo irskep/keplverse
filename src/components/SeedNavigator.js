@@ -24,6 +24,9 @@ export default function SeedNavigator({baseSeed, onSeedFound}) {
       <Button onClick={onSeedFound.bind(this, baseSeed + 1)}>
         <u>N</u>ext seed
       </Button>
+      <Button onClick={onSeedFound.bind(this, Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))}>
+        <u>R</u>andom
+      </Button>
     </div>
   )
 }
