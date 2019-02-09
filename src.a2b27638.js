@@ -54646,46 +54646,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function isRockyHabitablePlanet(starSystem, planet) {
-  if (starSystem.stars[0].starType == 'M') return false; // tidally locked
-
-  if (planet.planetType != 'Terran') return false;
-  return planet.distance >= starSystem.habitableZoneMin && planet.distance <= starSystem.habitableZoneMax;
-}
-
-function hasRockyHabitablePlanets(starSystem) {
-  if (starSystem.stars[0].starType == 'M') return false; // tidally locked
-
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = starSystem.planets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var p = _step.value;
-
-      if (isRockyHabitablePlanet(starSystem, p)) {
-        return true;
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return false;
-}
-
 var KStarSystem = function KStarSystem(seed) {
   _classCallCheck(this, KStarSystem);
 
@@ -55238,6 +55198,8 @@ function (_React$Component) {
       var hzMax = starSystem.habitableZoneMax;
       var hzW1Px = hzMax * scaleFactor * 2;
       var hzR1Px = hzW1Px / 2;
+      var gradientText = "\n      radial-gradient(\n        rgba(0,0,0,0) 0%,\n        rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax / 2 - 0.05), ",\n        rgba(0, 255, 0, 0.2) ").concat((0, _pct.default)(hzMin / hzMax / 2 + 0.05), ",\n        rgba(0, 255, 0, 0.2) 60%,\n        rgba(0, 0, 0, 0) 73%)\n      ").replace(/\n/g, '');
+      console.log(gradientText);
       return _react.default.createElement("div", {
         className: "StarSystem",
         style: {// width: sizePx + 'px',
@@ -55253,7 +55215,7 @@ function (_React$Component) {
           position: 'absolute',
           top: "-".concat(hzR1Px, "px"),
           left: "-".concat(hzR1Px, "px"),
-          background: "\n            radial-gradient(\n              ellipse at center,\n              rgba(0,0,0,0) 0%,\n              rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax / 2 - 0.05), ",\n              rgba(0, 255, 0, 20%) ").concat((0, _pct.default)(hzMin / hzMax / 2 + 0.05), ",\n              rgba(0, 255, 0, 20%) 60%,\n              rgba(0, 0, 0, 0%) 73%)\n            ").replace(/\n/g, '')
+          background: gradientText
         }
       }), starSystem.planets.map(function (p, i) {
         var wPx = p.distance * scaleFactor * 2 + 'px';
@@ -56014,7 +55976,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55016" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49224" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
