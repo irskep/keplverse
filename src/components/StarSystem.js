@@ -15,8 +15,8 @@ export default class StarSystem extends React.Component {
 
     const hzMin = starSystem.habitableZoneMin;
     const hzMax = starSystem.habitableZoneMax;
-    const hzWPx = hzMax * scaleFactor * 2;
-    const hzRPx = hzWPx / 2;
+    const hzW1Px = hzMax * scaleFactor * 2;
+    const hzR1Px = hzW1Px / 2;
 
     return (
       <div
@@ -28,22 +28,23 @@ export default class StarSystem extends React.Component {
             }}>
 
         <div
-          className="StarSystem__HabitableZone"
+          className="StarSystem__HabitableZoneGradient"
           style={{
-            width: hzWPx + 'px',
-            height: hzWPx + 'px',
-            borderRadius: hzRPx + 'px',
+            width: hzW1Px + 'px',
+            height: hzW1Px + 'px',
+            borderRadius: hzR1Px + 'px',
             position: 'absolute',
-            top: `-${hzRPx}px`,
-            left: `-${hzRPx}px`,
+            top: `-${hzR1Px}px`,
+            left: `-${hzR1Px}px`,
             background: `
-              radial-gradient(
-                ellipse at center,
-                rgba(0,0,0,0) 0%,
-                rgba(0,0,0,0) ${pct(hzMin / hzMax)},
-                rgba(0, 255, 0, 10%) ${pct(hzMin / hzMax + 0.00001)},
-                rgba(0, 255, 0, 10%) 100%)
-              `.replace(/\n/g, ''),
+            radial-gradient(
+              ellipse at center,
+              rgba(0,0,0,0) 0%,
+              rgba(0,0,0,0) ${pct(hzMin / hzMax / 2 - 0.05)},
+              rgba(0, 255, 0, 20%) ${pct(hzMin / hzMax / 2 + 0.05)},
+              rgba(0, 255, 0, 20%) 60%,
+              rgba(0, 0, 0, 0%) 73%)
+            `.replace(/\n/g, ''),
           }}>
         </div>
 
