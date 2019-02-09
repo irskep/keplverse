@@ -55240,8 +55240,8 @@ function (_React$Component) {
       var alea = new _alea.default(starSystem.seed);
       var hzMin = starSystem.habitableZoneMin;
       var hzMax = starSystem.habitableZoneMax;
-      var hzWPx = hzMax * scaleFactor * 2;
-      var hzRPx = hzWPx / 2;
+      var hzW1Px = hzMax * scaleFactor * 2;
+      var hzR1Px = hzW1Px / 2;
       return _react.default.createElement("div", {
         className: "StarSystem",
         style: {// width: sizePx + 'px',
@@ -55249,15 +55249,15 @@ function (_React$Component) {
           // border: '1px solid white',
         }
       }, _react.default.createElement("div", {
-        className: "StarSystem__HabitableZone",
+        className: "StarSystem__HabitableZoneGradient",
         style: {
-          width: hzWPx + 'px',
-          height: hzWPx + 'px',
-          borderRadius: hzRPx + 'px',
+          width: hzW1Px + 'px',
+          height: hzW1Px + 'px',
+          borderRadius: hzR1Px + 'px',
           position: 'absolute',
-          top: "-".concat(hzRPx, "px"),
-          left: "-".concat(hzRPx, "px"),
-          background: "\n              radial-gradient(\n                ellipse at center,\n                rgba(0,0,0,0) 0%,\n                rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax), ",\n                rgba(0, 255, 0, 10%) ").concat((0, _pct.default)(hzMin / hzMax + 0.00001), ",\n                rgba(0, 255, 0, 10%) 100%)\n              ").replace(/\n/g, '')
+          top: "-".concat(hzR1Px, "px"),
+          left: "-".concat(hzR1Px, "px"),
+          background: "\n            radial-gradient(\n              ellipse at center,\n              rgba(0,0,0,0) 0%,\n              rgba(0,0,0,0) ".concat((0, _pct.default)(hzMin / hzMax / 2 - 0.05), ",\n              rgba(0, 255, 0, 20%) ").concat((0, _pct.default)(hzMin / hzMax / 2 + 0.05), ",\n              rgba(0, 255, 0, 20%) 60%,\n              rgba(0, 0, 0, 0%) 73%)\n            ").replace(/\n/g, '')
         }
       }), starSystem.planets.map(function (p, i) {
         var wPx = p.distance * scaleFactor * 2 + 'px';
@@ -56010,7 +56010,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60707" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51769" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
