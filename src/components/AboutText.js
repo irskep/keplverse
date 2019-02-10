@@ -34,7 +34,11 @@ export default function AboutText() {
       </p>
 
       <p>
-        The original purpose of this program was to
+        More about how this program works: <a target="_blank" href="https://blog.steveasleep.com/using-data-from-the-kepler-mission-to-scientifically-imagine-star-systems">Using data from the Kepler mission to scientifically imagine star systems</a>
+      </p>
+
+      <p>
+        The original purpose of Keplverse Telescope Software
         demonstrate <a href="https://github.com/irskep/stellardream" target="_blank">Stellar Dream</a>,
         a JavaScript library that generates random star systems that pass a
         basic nerd sniff test. That library may eventually be used in a game about
