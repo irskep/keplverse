@@ -9,7 +9,9 @@ export default function AboutText() {
       <h3>
         by Steve Landey
         <br />
-        <a href="mailto:steve@steveasleep.com">steve@steveasleep.com</a>
+        <a href="mailto:steve+keplverse@steveasleep.com">steve@steveasleep.com</a>
+        <br />
+        <a href="http://steveasleep.com">http://steveasleep.com</a>
       </h3>
 
       <p>
