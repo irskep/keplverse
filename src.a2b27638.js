@@ -54830,7 +54830,29 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var numbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
+// const numbers = [
+//   'I',
+//   'II',
+//   'III',
+//   'IV',
+//   'V',
+//   'VI',
+//   'VII',
+//   'VIII',
+//   'IX',
+//   'X',
+//   'XI',
+//   'XII',
+//   'XIII',
+//   'XIV',
+//   'XV',
+//   'XVI',
+//   'XVII',
+//   'XVIII',
+//   'XIX',
+//   'XX',
+// ];
+var numbers = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var _default = numbers;
 exports.default = _default;
 },{}],"src/getPlanetInfo.js":[function(require,module,exports) {
@@ -55859,7 +55881,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51600" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58320" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
