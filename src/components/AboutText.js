@@ -20,6 +20,8 @@ export default function AboutText() {
         universe.
       </p>
 
+      <p><em>(Keplverse Telescope Software is not optimized for palm-sized devices such as Apple Newton.)</em></p>
+
       <p>
         Each star system is at a coordinate called a <em>seed</em>. This seed
         is used to choose pseudorandom numbers to decide things like type and

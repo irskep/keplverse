@@ -81,8 +81,8 @@ function Meta() {
           isOpen={isAboutOpen}
           title="About Keplverse Telescope Software"
           windowStyle={{
-            width: 500,
-            height: 500,
+            width: 485,
+            height: 485,
             maxWidth: '100%',
             maxHeight: '100%',
           }}
