@@ -55676,8 +55676,10 @@ function AboutText() {
       left: 4
     }
   }, _react.default.createElement("h2", null, "Keplverse Telescope Software 1.0"), _react.default.createElement("h3", null, "by Steve Landey", _react.default.createElement("br", null), _react.default.createElement("a", {
-    href: "mailto:steve@steveasleep.com"
-  }, "steve@steveasleep.com")), _react.default.createElement("p", null, "Congratulations on your purchase of the Keplverse Telescope! This device allows you to stargaze in an imaginary, procedurally generated universe."), _react.default.createElement("p", null, "Each star system is at a coordinate called a ", _react.default.createElement("em", null, "seed"), ". This seed is used to choose pseudorandom numbers to decide things like type and number of stars, type and number of planets, types of planets, and how far each planet is from the star."), _react.default.createElement("p", null, "The star systems in the Keplverse are meant to approximate the distribution of stars and planets in the Milky Way Galaxy, according to what we know as of 2019. NASA's Kepler exoplanet search mission spawned hundreds of research papers, many of which changed our expectations of the type and number of exoplanets in outer space."), _react.default.createElement("p", null, "More about how this program works: ", _react.default.createElement("a", {
+    href: "mailto:steve+keplverse@steveasleep.com"
+  }, "steve@steveasleep.com"), _react.default.createElement("br", null), _react.default.createElement("a", {
+    href: "http://steveasleep.com"
+  }, "http://steveasleep.com")), _react.default.createElement("p", null, "Congratulations on your purchase of the Keplverse Telescope! This device allows you to stargaze in an imaginary, procedurally generated universe."), _react.default.createElement("p", null, _react.default.createElement("em", null, "(Keplverse Telescope Software is not optimized for palm-sized devices such as Apple Newton.)")), _react.default.createElement("p", null, "Each star system is at a coordinate called a ", _react.default.createElement("em", null, "seed"), ". This seed is used to choose pseudorandom numbers to decide things like type and number of stars, type and number of planets, types of planets, and how far each planet is from the star."), _react.default.createElement("p", null, "The star systems in the Keplverse are meant to approximate the distribution of stars and planets in the Milky Way Galaxy, according to what we know as of 2019. NASA's Kepler exoplanet search mission spawned hundreds of research papers, many of which changed our expectations of the type and number of exoplanets in outer space."), _react.default.createElement("p", null, "More about how this program works: ", _react.default.createElement("a", {
     target: "_blank",
     href: "https://blog.steveasleep.com/using-data-from-the-kepler-mission-to-scientifically-imagine-star-systems"
   }, "Using data from the Kepler mission to scientifically imagine star systems")), _react.default.createElement("p", null, "The original purpose of Keplverse Telescope Software demonstrate ", _react.default.createElement("a", {
@@ -55819,8 +55821,8 @@ function Meta() {
     isOpen: isAboutOpen,
     title: "About Keplverse Telescope Software",
     windowStyle: {
-      width: 500,
-      height: 500,
+      width: 485,
+      height: 485,
       maxWidth: '100%',
       maxHeight: '100%'
     },
@@ -55857,7 +55859,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58754" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51600" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
