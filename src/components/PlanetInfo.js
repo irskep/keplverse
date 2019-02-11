@@ -62,12 +62,16 @@ export default function Planet({starSystem, planet, i, starName}) {
     }
   }
 
+  const periodYears = Math.sqrt(Math.pow(planet.distance, 3) / starSystem.stars[0].mass);
+  const periodDays = Math.floor(periodYears * 365);
+
   return (
     <div
         className={`planet m-${planet.planetType.toLowerCase()} ${habClass}`}
         title={`${JSON.stringify(starName, null, 2)}`}>
       <h4 className="planet-label">{starName} {romanNumerals[i]}: {planet.planetType}</h4>
       <p className="planet-desc">Distance: {planet.distance.toFixed(2)} AU</p>
+      <p className="planet-desc">Orbital period: {periodYears.toFixed(2)} Earth years ({periodDays} days)</p>
       <p className="planet-desc">{TYPE_DESCRIPTIONS[planet.planetType]}</p>
       {habDesc && <p className="planet-desc">{habDesc} {isTidallyLocked ? tidalLockingDesc : ''}</p>}
     </div>
