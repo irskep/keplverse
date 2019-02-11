@@ -54938,6 +54938,8 @@ function Planet(_ref) {
     }
   }
 
+  var periodYears = Math.sqrt(Math.pow(planet.distance, 3) / starSystem.stars[0].mass);
+  var periodDays = Math.floor(periodYears * 365);
   return _react.default.createElement("div", {
     className: "planet m-".concat(planet.planetType.toLowerCase(), " ").concat(habClass),
     title: "".concat(JSON.stringify(starName, null, 2))
@@ -54946,6 +54948,8 @@ function Planet(_ref) {
   }, starName, " ", _romanNumerals.default[i], ": ", planet.planetType), _react.default.createElement("p", {
     className: "planet-desc"
   }, "Distance: ", planet.distance.toFixed(2), " AU"), _react.default.createElement("p", {
+    className: "planet-desc"
+  }, "Orbital period: ", periodYears.toFixed(2), " Earth years (", periodDays, " days)"), _react.default.createElement("p", {
     className: "planet-desc"
   }, TYPE_DESCRIPTIONS[planet.planetType]), habDesc && _react.default.createElement("p", {
     className: "planet-desc"
@@ -55881,7 +55885,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58320" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58324" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
