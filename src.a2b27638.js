@@ -27853,7 +27853,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // with apologies to https://www.springhole.net/writing_roleplaying_randomators/greekyish-names.htm
 var grammar = _traceryGrammar.default.createGrammar({
-  'starname': ['#greek# #numseq#', '#greek# #numseq#', '#letters# #numseq#', '#numbers# #greek# #numseq#'],
+  'starname': ['#greek# #numseq#', '#greek# #numseq#', '#numbers# #greek#', '#numbers# #greek#', '#letters# #numseq#', '#numbers# #greek# #numseq#'],
   'numseq': ['#numbers#', '#numbers#', '#numbers#', '#numbers# #letter#', '#numbers#-#letterorletters#', '#letterorletters# #numbers#', '#numbers##numbers#', '#numbers#-#letter##number#', '#numbers#-#number#'],
   'letterorletters': ['#letter#', '#letter#', '#letter#', '#letter#', '#letters#', '#letters#'],
   'letters': ['#letter##letter#', '#letter##letter##letter#'],
@@ -30053,7 +30053,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59905" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60706" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
