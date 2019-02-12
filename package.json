@@ -6,19 +6,21 @@
   },
   "dependencies": {
     "alea": "^1.0.0",
-    "chance": "^1.0.17",
+    "greek": "^0.2.0",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-key-handler": "^1.2.0-beta.3",
     "stellardream": "^0.1.1",
-    "style.css": "^1.0.0"
+    "style.css": "^1.0.0",
+    "tracery-grammar": "^2.7.3"
   },
   "devDependencies": {
-    "autoprefixer": "^9.3.1",
+    "autoprefixer": "^9.4.7",
     "eslint": "^5.9.0",
     "eslint-config-google": "^0.11.0",
     "gh-pages": "^2.0.1",
+    "node-sass": "^4.11.0",
     "parcel-bundler": "^1.10.3",
     "postcss-import": "^12.0.1",
     "sass": "^1.14.3"
