@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import KeyHandler, { KEYPRESS } from 'react-key-handler';
 
-import _ from "lodash";
-
 import __ from "./normalize.css";
 import ___ from "./style.scss";
 

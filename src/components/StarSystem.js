@@ -1,6 +1,5 @@
 import React from 'react';
 import Alea from 'alea';
-import _ from 'lodash';
 import pct from '../pct';
 import Star from './Star';
 import PlanetSphere from './PlanetSphere';

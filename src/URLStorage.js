@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import queryString from 'query-string';
 
-import _ from "lodash";
-
 export default class URLStorage {
   constructor(getInitialState) {
     this.getInitialState = getInitialState;

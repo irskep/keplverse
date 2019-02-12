@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "parcel --port 1235 index.html",
-    "build": "parcel build index.html --public-url .",
-    "deploy": "parcel build index.html --public-url . && gh-pages -d dist"
+    "build": "parcel build index.html --public-url . --detailed-report",
+    "deploy": "parcel build index.html --public-url . --detailed-report && gh-pages -d dist"
   },
   "dependencies": {
     "alea": "^1.0.0",

@@ -1,10 +1,13 @@
 import React from 'react';
-import _ from 'lodash';
 import Group from './ui/Group';
 import Button from './ui/Button';
 import Checkbox from './ui/Checkbox';
 import TextInput from './ui/TextInput';
 import { StarSystem } from 'stellardream';
+
+const defer = (fn) => {
+  setTimeout(fn, 0);
+};
 
 const STAR_TYPES = [
   'M', 'K', 'G', 'F', 'A', 'B', 'O',
@@ -44,8 +47,7 @@ export default class SystemFinder extends React.Component {
   }
 
   trySeed(baseSeed) {
-    // const batchSize = 10000;
-    const batchSize = 1;
+    const batchSize = 7;
 
     const maybeMinPlanets = parseInt(this.state.minPlanetsString, 10);
     const minPlanets = isNaN(maybeMinPlanets) ? 0 : maybeMinPlanets;
@@ -86,7 +88,7 @@ export default class SystemFinder extends React.Component {
     }
 
     this.setState({numSearched: this.state.numSearched + batchSize});
-    _.defer(() => {
+    defer(() => {
       this.trySeed(baseSeed + batchSize);
     });
   }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _ from 'lodash';
 import PanZoomer from './PanZoomer';
 import StarSystem from './StarSystem';
 import StarInfo from './StarInfo';
@@ -7,13 +6,6 @@ import PlanetInfo from './PlanetInfo';
 import List from './ui/List';
 import romanNumerals from '../romanNumerals';
 import getPlanetInfo from '../getPlanetInfo';
-
-// /// compute size of area needed to contain all orbits
-// function getSizes(starSystem, scaleFactor) {
-//   const sizeAU = 2 * _.max(starSystem.planets.map((p) => p.distance));
-//   const sizePx = sizeAU * scaleFactor + 3 * scaleFactor;
-//   return { sizeAU, sizePx };
-// }
 
 export default function System({kss, seed}) {
   const [state, setState] = useState({
