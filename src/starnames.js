@@ -4,8 +4,9 @@ import tracery from 'tracery-grammar';
 const grammar = tracery.createGrammar({
 	'starname': [
 		'#greek# #numseq#',
+		'#greek# #numseq#',
 		'#letters# #numseq#',
-		'#letterorletters# #greek# #numseq#',
+		'#numbers# #greek# #numseq#',
 	],
 
 	'numseq': [
