@@ -354,199 +354,158 @@ fieldset {
  }/* mixins */
 /* hi */
 *, *::before, *::after {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
 /* GLOBAL */
 html {
   --orbit: gray;
   --orbit-active: white;
   --bg: #334;
   --fg: #def;
-  --clickable: #a8e;
-}
+  --clickable: #a8e; }
 body {
   margin: 0;
   background-color: var(--bg);
   color: var(--fg);
   font-size: 4vw;
   line-height: 1.4;
-  font-family: Iowan, "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
-}
+  font-family: Iowan, "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif; }
 @media (min-width: 600px) {
   body {
-    font-size: 14px;
-  }
-}
+    font-size: 14px; } }
 /* LAYOUT */
 .u-clear-floats:after {
   content: ".";
   visibility: hidden;
   display: block;
   height: 0;
-  clear: both;
-}
+  clear: both; }
 .title-font, .mono-font, .scene-actions button {
-  font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-}
+  font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; }
 .small-font {
-  font-size: 0.9rem;
-}
+  font-size: 0.9rem; }
 .m-clickable {
   color: var(--clickable);
-  cursor: pointer;
-}
+  cursor: pointer; }
 .m-clickable:hover {
-  text-decoration: underline;
-}
+    text-decoration: underline; }
 .SidebarUI {
   display: flex;
-  flex-wrap: wrap;
-}
+  flex-wrap: wrap; }
 .SidebarUI__Sidebar {
   width: 15rem;
   padding-right: 12px;
   flex-grow: 0;
-  flex-shrink: 0;
-}
+  flex-shrink: 0; }
 .BodyList {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 .SystemFinder .W95__Button {
   float: right;
   margin-top: 0;
-  margin-left: 12px;
-}
+  margin-left: 12px; }
 .SystemFinder:after {
   content: ".";
   visibility: hidden;
   display: block;
   height: 0;
-  clear: both;
-}
+  clear: both; }
 .SystemFinder .W95__TextInput {
-  width: 3rem;
-}
+  width: 3rem; }
 .CheckboxRow {
-  line-height: 2rem;
-}
+  line-height: 2rem; }
 .CheckboxRow label, .CheckboxRow input {
-  line-height: 2rem;
-  vertical-align: baseline;
-}
+    line-height: 2rem;
+    vertical-align: baseline; }
 .CheckboxRow label {
-  margin-right: 0.7em;
-}
+    margin-right: 0.7em; }
 .CheckboxRow input {
-  -webkit-transform: translate(0, -2px);
-          transform: translate(0, -2px);
-}
+    -webkit-transform: translate(0, -2px);
+            transform: translate(0, -2px); }
 /* PanZoomer */
 .PanZoomer {
   position: relative;
   overflow: hidden;
   min-width: 320px;
   min-height: 768px;
-  flex-grow: 100;
-}
+  flex-grow: 100; }
 .PanZoomer__Centerer {
   position: absolute;
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  overflow: visible;
-}
+  overflow: visible; }
 .PanZoomer__Help {
   position: absolute;
   left: 2px;
   bottom: 2px;
   color: white;
-  opacity: 0.5;
-}
+  opacity: 0.5; }
 .PanZoomer__ZoomControls {
   position: absolute;
   left: 0;
   top: 0;
   color: white;
-  font-size: 24px;
-}
+  font-size: 24px; }
 .PanZoomer__ZoomControls > * {
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none; }
 .PanZoomer__ZoomControls > *:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
+      background-color: rgba(255, 255, 255, 0.2); }
 /* stars, planets, etc */
 .orbit {
-  border: 1px solid var(--orbit);
-}
+  border: 1px solid var(--orbit); }
 .orbit.m-active {
-  border: 1px solid var(--orbit-active);
-}
+    border: 1px solid var(--orbit-active); }
 .star {
   font-family: Menlo, Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-  vertical-align: middle;
-}
+  vertical-align: middle; }
 .star:last-child {
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1rem; }
 .star-circle {
   cursor: pointer;
   margin-right: 0.5rem;
   text-align: center;
   color: black;
-  box-sizing: content-box;
-}
+  box-sizing: content-box; }
 .star-circle:hover {
-  border: 1px solid #fff;
-}
+    border: 1px solid #fff; }
 .planet.m-cold.m-terran .planet-label {
-  color: #aaaaff;
-}
+  color: #aaaaff; }
 .planet.m-hot.m-terran .planet-label {
-  color: #ffaaaa;
-}
+  color: #ffaaaa; }
 .planet.m-habitable.m-terran .planet-label {
-  color: #88ff88;
-}
+  color: #88ff88; }
 .planet-circle {
-  cursor: pointer;
-}
+  cursor: pointer; }
 .planet-circle:hover {
-  border: 1px solid white;
-}
+    border: 1px solid white; }
 .planet-circle .m-terran {
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: gray;
-}
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: gray; }
 .planet-circle .m-neptunian {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: blue;
-}
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: blue; }
 .planet-circle .m-jovian {
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  background-color: burlywood;
-}.W95__Window p {
-  margin: 12px 0;
-}
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: burlywood; }
+.W95__Window p {
+  margin: 12px 0; }
 
 .W95__Window .W95__HorzFlex {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
-}
+  flex-wrap: wrap; }
 
 .W95__Window {
   --bg: #c0c0c0;
@@ -561,32 +520,28 @@ body {
   border-top: 2px solid #c3c3c3;
   border-left: 2px solid #c3c3c3;
   border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-}
+  border-bottom: 2px solid #000; }
 
 .W95__Window.m-static {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
 
 .W95__Window.m-movable {
-  position: relative;
-}
+    position: relative; }
 
 .W95__Window .W95__WindowBG {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-top: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #828282;
-  border-bottom: 2px solid #828282;
-}
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #828282;
+    border-bottom: 2px solid #828282; }
 
 .W95__MovableWindowContainer {
   position: fixed;
@@ -594,25 +549,22 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  pointer-events: none;
-}
+  pointer-events: none; }
 
 .W95__MovableWindowContainer .W95__MovableWindowContainer__Centerer {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-}
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible; }
 
 .W95__MovableWindowContainer .W95__MovableWindowContainer__Centerer > * {
-  pointer-events: auto;
-}
+      pointer-events: auto; }
 
 .W95__WindowTitle {
   position: absolute;
@@ -628,8 +580,7 @@ body {
   color: var(--white);
   padding-left: 4px;
   line-height: 36px;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
 .W95__WindowContents {
   position: absolute;
@@ -638,36 +589,31 @@ body {
   bottom: 2px;
   left: 2px;
   overflow: auto;
-  padding: 12px;
-}
+  padding: 12px; }
 
 .W95__Group {
   position: relative;
   border: 2px solid #808080;
-  margin: 12px 0;
-}
+  margin: 12px 0; }
 
 .W95__Group .W95__GroupBG {
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: -4px;
-  right: -4px;
-  border: 2px solid #fff;
-}
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: -4px;
+    right: -4px;
+    border: 2px solid #fff; }
 
 .W95__Group .W95__GroupTitle {
-  position: absolute;
-  background-color: var(--bg);
-  top: -0.7em;
-  left: 8px;
-  padding: 0 4px;
-}
+    position: absolute;
+    background-color: var(--bg);
+    top: -0.7em;
+    left: 8px;
+    padding: 0 4px; }
 
 .W95__Group .W95__GroupContents {
-  padding: 14px 12px 0 12px;
-}
+    padding: 14px 12px 0 12px; }
 
 .W95__BorderedControl, .W95__List, .W95__Checkbox__Box, .W95__TextInput, .W95__ScrollingText {
   position: relative;
@@ -675,77 +621,66 @@ body {
   border-top: 2px solid #878a8e;
   border-left: 2px solid #878a8e;
   border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-}
+  border-bottom: 2px solid #fff; }
 
 .W95__BorderedControl .W95__ControlBG, .W95__List .W95__ControlBG, .W95__Checkbox__Box .W95__ControlBG, .W95__TextInput .W95__ControlBG, .W95__ScrollingText .W95__ControlBG {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-top: 2px solid #000;
-  border-left: 2px solid #000;
-  border-right: 2px solid #c4c7cb;
-  border-bottom: 2px solid #c4c7cb;
-}
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #c4c7cb;
+    border-bottom: 2px solid #c4c7cb; }
 
 .W95__TextInput {
-  display: inline-block;
-}
+  display: inline-block; }
 
 .W95__TextInput input[type=text] {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 6px;
-  border: none;
-  max-width: 100%;
-}
+    height: 40px;
+    line-height: 40px;
+    padding: 0 6px;
+    border: none;
+    max-width: 100%; }
 
 .W95__Checkbox {
   display: inline-block;
   height: 2rem;
   line-height: 2rem;
-  cursor: pointer;
-}
+  cursor: pointer; }
 
 .W95__Checkbox .W95__Checkbox__Box {
-  width: 26px;
-  height: 26px;
-  display: inline-block;
-  position: relative;
-  margin-right: 6px;
-  -webkit-transform: translate(0, 4px);
-          transform: translate(0, 4px);
-  cursor: pointer;
-}
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    position: relative;
+    margin-right: 6px;
+    -webkit-transform: translate(0, 4px);
+            transform: translate(0, 4px);
+    cursor: pointer; }
 
 .W95__Checkbox .W95__Checkbox__Box input {
-  visibility: hidden;
-}
+      visibility: hidden; }
 
 .W95__Checkbox .W95__ControlBG {
-  cursor: pointer;
-}
+    cursor: pointer; }
 
 .W95__Checkbox svg {
-  display: block;
-  -webkit-transform: translate(1px, 0);
-          transform: translate(1px, 0);
-}
+    display: block;
+    -webkit-transform: translate(1px, 0);
+            transform: translate(1px, 0); }
 
 .W95__Checkbox label {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  cursor: pointer;
-}
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    cursor: pointer; }
 
 .W95__List .W95__List__Contents {
-  margin: 2px;
-}
+  margin: 2px; }
 
 .W95__List .W95__ListItem {
   cursor: pointer;
@@ -753,22 +688,19 @@ body {
   line-height: 40px;
   padding-left: 4px;
   overflow-x: scroll;
-  overflow-y: hidden;
-}
+  overflow-y: hidden; }
 
 .W95__List .W95__ListItem:hover {
-  padding-left: 2px;
-  line-height: 36px;
-  border: 2px dotted #000;
-}
+    padding-left: 2px;
+    line-height: 36px;
+    border: 2px dotted #000; }
 
 .W95__List .W95__ListItem.m-selected {
-  padding-left: 2px;
-  line-height: 36px;
-  background-color: var(--blue);
-  color: var(--white);
-  border: 2px dotted yellow;
-}
+    padding-left: 2px;
+    line-height: 36px;
+    background-color: var(--blue);
+    color: var(--white);
+    border: 2px dotted yellow; }
 
 .W95__ButtonStyling, .W95__Button, .W95__WindowCloseButton, .W95__TinyButton {
   background-color: var(--bg);
@@ -784,45 +716,38 @@ body {
   border-top: 2px solid #fff;
   border-left: 2px solid #fff;
   border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-}
+  border-bottom: 2px solid #000; }
 
 .W95__ButtonStyling .W95__ButtonBG, .W95__Button .W95__ButtonBG, .W95__WindowCloseButton .W95__ButtonBG, .W95__TinyButton .W95__ButtonBG {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-right: 2px solid #878a8e;
-  border-bottom: 2px solid #878a8e;
-}
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-right: 2px solid #878a8e;
+    border-bottom: 2px solid #878a8e; }
 
 .W95__ButtonStyling .W95__Button__Text, .W95__Button .W95__Button__Text, .W95__WindowCloseButton .W95__Button__Text, .W95__TinyButton .W95__Button__Text {
-  display: inline-block;
-}
+    display: inline-block; }
 
 .W95__ButtonStyling:focus, .W95__Button:focus, .W95__WindowCloseButton:focus, .W95__TinyButton:focus {
-  outline: 0;
-}
+    outline: 0; }
 
 .W95__ButtonStyling:active, .W95__Button:active, .W95__WindowCloseButton:active, .W95__TinyButton:active {
-  border-top: 2px solid #000;
-  border-left: 2px solid #000;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #000;
-}
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000; }
 
 .W95__ButtonStyling:active .W95__Button__Text, .W95__Button:active .W95__Button__Text, .W95__WindowCloseButton:active .W95__Button__Text, .W95__TinyButton:active .W95__Button__Text {
-  -webkit-transform: translate(2px, 2px);
-          transform: translate(2px, 2px);
-}
+      -webkit-transform: translate(2px, 2px);
+              transform: translate(2px, 2px); }
 
 .W95__ButtonStyling:active .W95__ButtonBG, .W95__Button:active .W95__ButtonBG, .W95__WindowCloseButton:active .W95__ButtonBG, .W95__TinyButton:active .W95__ButtonBG {
-  border-top: 2px solid #878a8e;
-  border-left: 2px solid #878a8e;
-  border-right: 2px solid #878a8e;
-  border-bottom: 2px solid #878a8e;
-}
+      border-top: 2px solid #878a8e;
+      border-left: 2px solid #878a8e;
+      border-right: 2px solid #878a8e;
+      border-bottom: 2px solid #878a8e; }
 
 .W95__Button {
   min-width: 44px;
@@ -835,41 +760,33 @@ body {
   margin-top: 12px;
   margin-right: 12px;
   margin-bottom: 12px;
-  font-size: 18px;
-}
+  font-size: 18px; }
 
 .W95__Button:last-child {
-  margin-right: 0;
-}
+    margin-right: 0; }
 
 .W95__Button.m-block {
-  display: block;
-}
+    display: block; }
 
 .W95__Button.m-absolute {
-  position: absolute;
-}
+    position: absolute; }
 
 .W95__WindowCloseButton, .W95__TinyButton {
   margin: 6px;
   width: 30px;
   line-height: 22px;
   height: 26px;
-  text-align: center;
-}
+  text-align: center; }
 
 .W95__WindowCloseButton svg, .W95__TinyButton svg {
-  -webkit-transform: translate(0, 3px);
-          transform: translate(0, 3px);
-}
+    -webkit-transform: translate(0, 3px);
+            transform: translate(0, 3px); }
 
 .W95__WindowCloseButton {
-  float: right;
-}
+  float: right; }
 
 .W95__ScrollingText h1, .W95__ScrollingText h2, .W95__ScrollingText h3 {
-  text-align: center;
-}
+  text-align: center; }
 
 .W95__ScrollingText .W95__ScrollingText__Content {
   position: absolute;
@@ -879,5 +796,4 @@ body {
   left: 2px;
   padding: 4px;
   overflow: scroll;
-  font-family: "Times New Roman", Times, serif;
-}
+  font-family: 'Times New Roman', Times, serif; }
