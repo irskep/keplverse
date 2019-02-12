@@ -4,21 +4,17 @@ import tracery from 'tracery-grammar';
 const grammar = tracery.createGrammar({
 	'starname': [
 		'#greek# #numseq#',
-		'#greek#-#numseq#',
 		'#letters# #numseq#',
-		'#letters# #greek#',
-		'#letters# #greek# #numseq# #letters#',
+		'#letterorletters# #greek# #numseq#',
 	],
 
 	'numseq': [
 		'#numbers#', '#numbers#', '#numbers#',
-		'#letters#', '#letters#',	'#letters#',
 
 		'#numbers# #letter#',
 		'#numbers#-#letterorletters#',
 		'#letterorletters# #numbers#',
 		'#numbers##numbers#',
-		'#letterorletters##letterorletters#',
 		'#numbers#-#letter##number#',
 		'#numbers#-#number#',
 	],
