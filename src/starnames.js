@@ -5,6 +5,8 @@ const grammar = tracery.createGrammar({
 	'starname': [
 		'#greek# #numseq#',
 		'#greek# #numseq#',
+		'#numbers# #greek#',
+		'#numbers# #greek#',
 		'#letters# #numseq#',
 		'#numbers# #greek# #numseq#',
 	],
