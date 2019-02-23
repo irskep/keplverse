@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Button from './ui/Button';
-import TextInput from './ui/TextInput';
+import { Button, TextInput } from 'ninetyfive';
 
 export default function SeedNavigator({baseSeed, onSeedFound}) {
   const [inputSeed, setInputSeed] = useState("" + baseSeed);

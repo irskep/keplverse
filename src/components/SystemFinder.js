@@ -1,8 +1,5 @@
 import React from 'react';
-import Group from './ui/Group';
-import Button from './ui/Button';
-import Checkbox from './ui/Checkbox';
-import TextInput from './ui/TextInput';
+import { Button, Checkbox, Group, TextInput } from 'ninetyfive';
 import { StarSystem } from 'stellardream';
 
 const defer = (fn) => {

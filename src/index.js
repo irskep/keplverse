@@ -5,10 +5,7 @@ import KeyHandler, { KEYPRESS } from 'react-key-handler';
 import __ from "./normalize.css";
 import ___ from "./style.scss";
 
-import MovableWindow from './components/ui/MovableWindow';
-import StaticWindow from './components/ui/StaticWindow';
-import Group from './components/ui/Group';
-import TinyButton from './components/ui/TinyButton';
+import { MovableWindow, StaticWindow, Group, TinyButton } from 'ninetyfive';
 
 import URLStorage from './URLStorage';
 import KStarSystem from "./KStarSystem";
@@ -58,11 +55,11 @@ function Meta() {
       <StaticWindow
           title="Keplverse Telescope Software 1.0"
           titleExtra={(
-            <TinyButton style={{float: 'right'}} onClick={setIsAboutOpen.bind(this, true)}>
+            <TinyButton key="button" style={{float: 'right'}} onClick={setIsAboutOpen.bind(this, true)}>
               ?
             </TinyButton>
           )}>
-        <div className="W95__HorzFlex">
+        <div className="W95__HorzFlex" key="top">
           <Group title="Star System Info">
             <p>Auto name: {kss.name}</p>
             <p>Seed: {seed}</p>
@@ -72,7 +69,7 @@ function Meta() {
           </Group>
           <SystemFinder baseSeed={seed} onSeedFound={setSeed} />
         </div>
-        <BodyListAndPanZoomer kss={kss} key={seed} />
+        <BodyListAndPanZoomer key="bottom" kss={kss} key={seed} />
       </StaticWindow>
 
       <MovableWindow

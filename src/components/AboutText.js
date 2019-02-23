@@ -1,5 +1,5 @@
 import React from 'react';
-import ScrollingText from './ui/ScrollingText';
+import { ScrollingText } from 'ninetyfive';
 
 export default function AboutText() {
 

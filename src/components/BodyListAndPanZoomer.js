@@ -3,7 +3,7 @@ import PanZoomer from './PanZoomer';
 import StarSystem from './StarSystem';
 import StarInfo from './StarInfo';
 import PlanetInfo from './PlanetInfo';
-import List from './ui/List';
+import { List } from 'ninetyfive';
 import romanNumerals from '../romanNumerals';
 import getPlanetInfo from '../getPlanetInfo';
 

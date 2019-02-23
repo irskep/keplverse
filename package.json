@@ -7,6 +7,7 @@
   "dependencies": {
     "alea": "^1.0.0",
     "greek": "^0.2.0",
+    "ninetyfive": "^0.1.0",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
