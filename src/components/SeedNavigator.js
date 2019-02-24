@@ -13,7 +13,7 @@ export default function SeedNavigator({baseSeed, onSeedFound}) {
       <div>
         <TextInput value={inputSeed} onChange={onChange} />
         {" "}
-        <Button onClick={onSeedFound.bind(this, parseInt(inputSeed, 10))}>
+        <Button style={{width: '5rem', minWidth: 0}} onClick={onSeedFound.bind(this, parseInt(inputSeed, 10))}>
           Go
         </Button>
       </div>

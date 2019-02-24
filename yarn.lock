@@ -3806,10 +3806,12 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-ninetyfive@^0.1.0:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ninetyfive/-/ninetyfive-0.1.6.tgz#6ce79b08fe048dc60c4f22a918f83927a89ff646"
-  integrity sha512-7P74s7nQxtChGxfGUbEpnA0NN6dAZVGLPEddsRea3JWQpnO/2FZu8rH/YO9oOPR4LZiAK0mMycaMwhGZi2yIPw==
+ninetyfive@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/ninetyfive/-/ninetyfive-0.1.8.tgz#33029634f144694ff90f3346e05367ad20154fca"
+  integrity sha512-fQNzTM73AaRucMY+hCTNMcMSmHWVdnL/0TF9Sg5CKCQANcCfJFEt9dA9urRv6FZpqEvHBcMJ2aslejYwp7iMfQ==
+  dependencies:
+    react-dom "^16.8.3"
 
 node-addon-api@^1.6.0:
   version "1.6.1"
@@ -5109,7 +5111,7 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^16.8.1:
+react-dom@^16.8.1, react-dom@^16.8.3:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.3.tgz#ae236029e66210783ac81999d3015dfc475b9c32"
   integrity sha512-ttMem9yJL4/lpItZAQ2NTFAbV7frotHk5DZEHXUOws2rMmrsvh1Na7ThGT0dTzUIl6pqTOi5tYREfL8AEna3lA==
